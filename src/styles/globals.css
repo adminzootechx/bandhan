@@ -16,6 +16,48 @@ body {
   overflow-wrap: anywhere;
 }
 
+/* The campaign poster contains its own lettering. Small screens show the
+   scenery with live copy alongside it; desktop keeps the complete poster. */
+.japan-hero-artwork {
+  height: clamp(15rem, 65vw, 21rem);
+}
+
+.japan-hero-image {
+  width: 200%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+}
+
+@media (min-width: 640px) {
+  .japan-hero-artwork {
+    height: 100%;
+    min-height: 22rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .japan-hero-layout {
+    /* Fit short PC displays and ultrawide monitors without cropping the
+       headline or booking button. vh is the fallback for older browsers. */
+    max-width: min(120rem, calc((100vh - 11rem) * 3200 / 1358));
+    max-width: min(120rem, calc((100svh - 11rem) * 3200 / 1358));
+  }
+
+  .japan-hero-artwork {
+    height: auto;
+    min-height: 0;
+  }
+
+  .japan-hero-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
 ::selection {
   background: rgba(254, 209, 79, 0.32);
 }

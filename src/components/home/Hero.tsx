@@ -141,24 +141,38 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
   if (isJapanBanner) {
     return (
       <section className="relative z-20 w-full bg-white pt-[88px] sm:pt-[104px]" aria-label="Japan holidays">
-        <h1 className="sr-only">Discover Japan with Bandhan Tours</h1>
-        <Link
-          href="/packages?search=Japan"
-          aria-label="Discover Japan — explore tours and book now"
-          className="block focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#e82e63]"
-        >
-          <Image
-            src={japanBannerImage}
-            alt="Discover Japan. Cherry blossoms, timeless culture, and unforgettable journeys. Experience historic temples, Mount Fuji, local culture and cuisine. Book now."
-            width={3200}
-            height={1358}
-            sizes="100vw"
-            quality={90}
-            preload
-            className="block h-auto w-full"
-          />
-        </Link>
-        <Container className="relative z-20 mt-4 sm:-mt-8">
+        <div className="bg-[#fff5f8]">
+          <div className="japan-hero-layout mx-auto grid sm:grid-cols-2 lg:block">
+            <Link
+              href="/packages?search=Japan"
+              aria-label="Discover Japan — explore tours and book now"
+              className="japan-hero-artwork relative block overflow-hidden focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#e82e63]"
+            >
+              <Image
+                src={japanBannerImage}
+                alt="Discover Japan. Cherry blossoms, timeless culture, and unforgettable journeys. Experience historic temples, Mount Fuji, local culture and cuisine. Book now."
+                width={3200}
+                height={1358}
+                sizes="(min-width: 1920px) 1920px, (min-width: 640px) and (max-width: 1023px) 100vw, (max-width: 639px) 200vw, 100vw"
+                quality={90}
+                preload
+                className="japan-hero-image block"
+              />
+            </Link>
+            <div className="flex flex-col items-start justify-center px-5 py-7 sm:px-7 sm:py-9 lg:sr-only">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#b72150]">Cherry blossom journeys</p>
+              <h1 className="mt-2 font-heading text-4xl font-bold leading-tight tracking-tight text-primary sm:text-5xl">Discover <span className="text-[#e82e63]">Japan</span></h1>
+              <p className="mt-3 max-w-md text-sm leading-6 text-primary/75 sm:text-base sm:leading-7">Cherry blossoms, timeless culture, and unforgettable journeys. Experience historic temples, Mount Fuji, local culture and cuisine.</p>
+              <Link
+                href="/packages?search=Japan"
+                className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#e82e63] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#cf2354] lg:hidden"
+              >
+                Explore Japan <ArrowRight size={17} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </div>
+        <Container className="relative z-20 mt-4 lg:-mt-8">
           <div className="mx-auto max-w-4xl">{searchPanel}</div>
         </Container>
       </section>
