@@ -4,8 +4,6 @@ import React from "react";
 import Image from "@/components/ui/SiteImage";
 import {
   ArrowUpRight,
-  Calendar,
-  CheckCircle2,
   MapPin,
   Quote,
   Star,
@@ -23,16 +21,12 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
   const {
     name,
-    city,
     tour,
     destination,
     rating,
     review,
     shortReview,
-    profileImage,
     tripImages,
-    travelMonth,
-    isVerified,
   } = testimonial;
 
   const displayReview = shortReview || review;
@@ -51,7 +45,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
             alt={`${tour} trip memory`}
             fill
             sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.035]"
+            className="object-contain"
             priority={false}
           />
         ) : (
@@ -110,40 +104,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         </div>
 
         <footer className="mt-6 border-t border-white/[0.08] pt-5">
-          <div className="flex flex-wrap items-center justify-between gap-5">
-            <div className="flex min-w-0 items-center gap-3.5">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-gold/45 ring-4 ring-gold/[0.05]">
-                <Image
-                  src={profileImage}
-                  alt=""
-                  fill
-                  sizes="40px"
-                  className="object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <h3 className="truncate font-devanagari text-sm font-semibold text-white">
-                    {name}
-                  </h3>
-                  {isVerified && (
-                    <span title="Verified Bandhan traveller">
-                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 flex flex-wrap items-center gap-2 text-[0.7rem] text-white/45">
-                  <span>{city}</span>
-                  <span aria-hidden="true">•</span>
-                  <span className="inline-flex items-center gap-1">
-                    <Calendar className="h-3 w-3" aria-hidden="true" />
-                    {travelMonth}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
+          <h3 className="font-devanagari text-sm font-semibold text-white">{name}</h3>
         </footer>
       </div>
     </article>

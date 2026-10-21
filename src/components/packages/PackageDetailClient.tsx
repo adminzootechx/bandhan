@@ -229,7 +229,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                     alt={pkg.gallery[0]?.caption || pkg.title}
                     fill
                     sizes="(max-width: 1023px) 100vw, 70vw"
-                    className="object-cover"
+                    className="object-contain"
                   />
                   <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-deep/85 to-transparent px-5 pb-5 pt-16 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">
                     {pkg.gallery[0]?.caption || pkg.title}
@@ -287,7 +287,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                           </div>
                           {showImage && (
                             <div className="relative order-first h-52 overflow-hidden bg-sand-dark md:order-none md:h-auto md:min-h-full">
-                              <Image src={image!} alt={galleryItem?.caption || day.title} fill sizes="(max-width: 768px) 100vw, 240px" className="object-cover" />
+                              <Image src={image!} alt={galleryItem?.caption || day.title} fill sizes="(max-width: 768px) 100vw, 240px" className="object-contain" />
                             </div>
                           )}
                         </div>
@@ -363,7 +363,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                         alt={item.caption}
                         fill
                         sizes="(max-width: 640px) 50vw, 25vw"
-                        className="object-cover transition-transform duration-700 ease-premium group-hover:scale-[1.06]"
+                        className="object-contain"
                       />
                       <div className="pointer-events-none absolute inset-0 bg-ink-deep/50 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100" />
                       <span
@@ -413,14 +413,8 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                           {item.isVerified ? <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-emerald-700"><CheckCircle2 size={12} /> Verified traveller</span> : null}
                         </div>
                         <blockquote className="relative mt-5 text-base leading-7 text-foreground-muted sm:text-lg sm:leading-8">“{item.shortReview || item.review}”</blockquote>
-                        <div className="relative mt-6 flex items-center gap-3 border-t border-primary/10 pt-5">
-                          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full bg-sand-dark">
-                            <Image src={item.profileImage} alt="" fill sizes="44px" className="object-cover" />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-bold text-primary">{item.name}</p>
-                            <p className="truncate text-[10px] uppercase tracking-[0.12em] text-foreground-muted">{item.tour} · {item.travelMonth}</p>
-                          </div>
+                        <div className="relative mt-6 border-t border-primary/10 pt-5">
+                          <p className="text-sm font-bold text-primary">{item.name}</p>
                         </div>
                       </article>
                     ))}
@@ -613,7 +607,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                       alt={related.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
+                      className="object-contain"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6">

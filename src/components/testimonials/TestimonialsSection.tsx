@@ -2,7 +2,6 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "@/components/ui/SiteImage";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Compass, MessageSquarePlus, ShieldCheck, Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -126,18 +125,10 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
                   </div>
                 </div>
               </div>
-              <div className="mt-6 flex items-center">
-                {testimonials.slice(0, 5).map((testimonial, index) => (
-                  <Image
-                    key={testimonial.id}
-                    src={testimonial.profileImage}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className={`h-10 w-10 rounded-full border-2 border-[#102c47] object-cover ${index ? "-ml-2" : ""}`}
-                  />
+              <div className="mt-6 flex flex-wrap gap-x-3 gap-y-2 text-xs font-semibold text-white/75">
+                {testimonials.slice(0, 3).map((testimonial) => (
+                  <span key={testimonial.id}>{testimonial.name}</span>
                 ))}
-                <span className="-ml-2 flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#102c47] bg-white/10 text-[10px] font-bold text-white/75">25K+</span>
               </div>
               <p className="mt-4 text-xs text-white/45">And many more stories still being written.</p>
             </div>

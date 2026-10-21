@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "@/components/ui/SiteImage";
 import { AnimatePresence, motion } from "framer-motion";
-import { Calendar, Camera, CheckCircle2, MapPin, Quote, Star, X } from "lucide-react";
+import { Camera, MapPin, Quote, Star, X } from "lucide-react";
 import { TestimonialItem } from "@/data/testimonialData";
 
 interface ReviewModalProps {
@@ -40,7 +40,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
 
   if (!isOpen || !testimonial) return null;
 
-  const { name, city, tour, destination, rating, review, profileImage, tripImages, travelMonth, isVerified } = testimonial;
+  const { name, tour, destination, rating, review, tripImages } = testimonial;
   const heroImage = tripImages?.[0];
 
   return createPortal(
@@ -84,7 +84,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                     alt={`${tour} memory`}
                     fill
                     sizes="(min-width: 1024px) 55vw, 100vw"
-                    className="object-cover transition-transform duration-[1400ms] hover:scale-105"
+                    className="object-contain"
                     priority
                   />
                 ) : (
@@ -110,20 +110,8 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                   </div>
                   <span className="text-sm font-semibold text-white/70">{rating}.0 rating</span>
                 </div>
-                <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-6">
-                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-gold/60">
-                    <Image src={profileImage} alt="" fill sizes="48px" className="object-cover" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <h3 className="truncate font-devanagari text-base font-semibold text-white">{name}</h3>
-                      {isVerified && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" aria-label="Verified traveller" />}
-                    </div>
-                    <p className="mt-1 flex flex-wrap items-center gap-2 text-xs text-white/50">
-                      <span>{city}</span><span aria-hidden="true">•</span>
-                      <span className="inline-flex items-center gap-1"><Calendar className="h-3 w-3 text-gold/80" aria-hidden="true" />{travelMonth}</span>
-                    </p>
-                  </div>
+                <div className="mt-8 border-t border-white/10 pt-6">
+                  <h3 className="font-devanagari text-base font-semibold text-white">{name}</h3>
                 </div>
               </div>
             </div>
@@ -152,7 +140,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                         className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 transition-colors hover:border-gold/70"
                         aria-label={`Open ${tour} photo ${index + 1}`}
                       >
-                        <Image src={image} alt={`${tour} photo ${index + 1}`} fill sizes="140px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <Image src={image} alt={`${tour} photo ${index + 1}`} fill sizes="140px" className="object-contain" />
                         <span className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-transparent" />
                       </button>
                     ))}

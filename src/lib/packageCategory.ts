@@ -161,3 +161,8 @@ export function homepagePackages(packages: TourPackage[], category: CategoryTab,
     .sort((a, b) => (Date.parse(b.createdAt || "") || 0) - (Date.parse(a.createdAt || "") || 0))
     .slice(0, limit);
 }
+
+/** Group journeys have their own homepage section, even when also customizable. */
+export function homepageCuratedPackages(packages: TourPackage[], category: CategoryTab, limit = 6) {
+  return homepagePackages(packages.filter((pkg) => !isGroupTour(pkg)), category, limit);
+}

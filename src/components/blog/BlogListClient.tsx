@@ -128,7 +128,7 @@ export const BlogListClient: React.FC = () => {
                         alt={post.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="bg-sand object-contain"
                       />
                       {post.category && (
                         <span className="absolute top-4 left-4 bg-gold text-primary text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">

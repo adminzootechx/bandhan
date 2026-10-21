@@ -57,6 +57,30 @@ test("new active tours lead the homepage and drafts stay hidden", () => {
   assert.equal(old[0].id, "old-0");
 });
 
+test("curated homepage trips never repeat group tours, including overlapping and inferred membership", () => {
+  const groups = [
+    { ...trip, id: "group-category", category: "Group Tours" },
+    { ...trip, id: "group-style", travelStyles: ["group"] },
+    { ...trip, id: "group-and-custom", travelStyles: ["group", "customized"] },
+    { ...trip, id: "legacy-group", travelStyles: undefined, groupSize: "Group departures" },
+  ].map((pkg) => ({ ...pkg, createdAt: "2026-10-20T00:00:00Z" }));
+  const privateTrips = Array.from({ length: 7 }, (_, index) => ({ ...trip, id: `private-${index}` }));
+  const international = { ...trip, id: "international", category: "International" };
+  const northEast = { ...trip, id: "north-east", category: "North East" };
+  const draft = { ...trip, id: "draft", status: "draft" };
+  const packages = [...groups, ...privateTrips, international, northEast, draft];
+  const groupIds = new Set(category.homepagePackages(packages, "group-tours").map((pkg) => pkg.id));
+  assert.equal(groupIds.size, groups.length);
+  for (const tab of ["all", "domestic", "international", "north-east"]) {
+    const curated = category.homepageCuratedPackages(packages, tab);
+    assert.equal(curated.some((pkg) => groupIds.has(pkg.id) || pkg.status === "draft"), false);
+  }
+  assert.equal(category.homepageCuratedPackages(packages, "all").length, 6);
+  assert.deepEqual(plain(category.homepageCuratedPackages(packages, "international").map((pkg) => pkg.id)), [international.id]);
+  assert.deepEqual(plain(category.homepageCuratedPackages(packages, "north-east").map((pkg) => pkg.id)), [northEast.id]);
+  assert.equal(category.homepageCuratedPackages(groups, "all").length, 0);
+});
+
 function storeWith(fetch, channelType) {
   const window = new EventTarget();
   const document = Object.assign(new EventTarget(), { visibilityState: "visible" });

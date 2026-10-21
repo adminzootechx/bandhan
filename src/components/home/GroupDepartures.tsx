@@ -107,7 +107,7 @@ function getDepartureVisual(destination: string) {
 
 export const GroupDepartures: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
-  const groupPackages = homepagePackages(packages, "group-tours", Number.POSITIVE_INFINITY);
+  const groupPackages = homepagePackages(packages, "group-tours");
   const [groupDepartures, setGroupDepartures] = useState<GroupDeparture[]>([]);
   const [selected, setSelected] = useState<GroupDeparture | null>(null);
 
@@ -123,7 +123,7 @@ export const GroupDepartures: React.FC = () => {
   return (
     <section
       id="group-departures"
-      className="relative z-10 bg-sand-light py-16 sm:py-24"
+      className="relative z-10 border-y border-primary/10 bg-[#edf2f5] py-16 sm:py-24"
     >
       <Container>
         <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -147,8 +147,8 @@ export const GroupDepartures: React.FC = () => {
 
         {groupPackages.length > 0 ? (
           <div className="mb-10">
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {groupPackages.map((pkg) => <PackageCard key={pkg.id} pkg={pkg} />)}
+            <div className="grid gap-5 lg:grid-cols-2">
+              {groupPackages.map((pkg) => <PackageCard key={pkg.id} pkg={pkg} layout="group" />)}
             </div>
             <Link href="/packages?category=group-tours" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-accent">Browse all group tours <ArrowRight size={16} /></Link>
           </div>
@@ -179,7 +179,7 @@ export const GroupDepartures: React.FC = () => {
                       alt={`Scenic view from ${departure.destination}`}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-105"
+                      className="bg-primary object-contain"
                     />
                     <div className="absolute inset-0 bg-ink-deep/45" />
 

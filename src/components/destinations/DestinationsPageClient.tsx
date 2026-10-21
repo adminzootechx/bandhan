@@ -42,7 +42,7 @@ export default function DestinationsPageClient() {
                   alt={dest.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-contain"
                 />
                 <div className="absolute inset-0 bg-ink-deep/50 opacity-85 transition-opacity duration-300 group-hover:opacity-95" />
                 {dest.tag && (
