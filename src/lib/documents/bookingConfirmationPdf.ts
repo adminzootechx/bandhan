@@ -1,3 +1,4 @@
+import { withTaxMark } from "@/lib/priceLabel";
 import { BRAND, COMPANY } from "@/lib/email/company";
 import { BOOKING_STATUS_LABELS } from "@/lib/bookings/types";
 import {
@@ -382,12 +383,12 @@ export async function renderBookingConfirmationPdf(
 
   // ---- Payment summary ----
   const paymentRows: Array<{ label: string; value: string; emphasis?: boolean }> = [];
-  if (priceAmount) paymentRows.push({ label: "Total Package Cost", value: priceAmount });
-  if (amountPaid) paymentRows.push({ label: "Advance Received", value: amountPaid });
+  if (priceAmount) paymentRows.push({ label: "Total Package Cost", value: withTaxMark(priceAmount) });
+  if (amountPaid) paymentRows.push({ label: "Advance Received", value: withTaxMark(amountPaid) });
   if (balanceDue) {
     paymentRows.push({
       label: paymentDueNote ? `Balance Due (${paymentDueNote})` : "Balance Due",
-      value: balanceDue,
+      value: withTaxMark(balanceDue),
       emphasis: true,
     });
   }

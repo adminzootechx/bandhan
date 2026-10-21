@@ -18,7 +18,7 @@ import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import PackageServiceDetails from "./PackageServiceDetails";
 import PackageDepartureDates from "./PackageDepartureDates";
 import { upcomingPackageDates } from "@/lib/packageDates";
-import { TAX_NOTE, withTaxMark } from "@/lib/priceLabel";
+import { TAX_NOTE, formatPriceText, withTaxMark } from "@/lib/priceLabel";
 
 interface PackageDetailClientProps {
   pkg: FullPackage;
@@ -317,7 +317,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                           className="flex items-start gap-3 text-sm leading-6 text-foreground-muted"
                         >
                           <CheckIcon className="text-emerald-500 mt-0.5" />
-                          <span>{item}</span>
+                          <span>{formatPriceText(item)}</span>
                         </li>
                       ))}
                     </ul>
@@ -332,7 +332,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                           className="flex items-start gap-3 text-sm leading-6 text-foreground-muted"
                         >
                           <CrossIcon className="text-accent mt-0.5" />
-                          <span>{item}</span>
+                          <span>{formatPriceText(item)}</span>
                         </li>
                       ))}
                     </ul>
@@ -463,7 +463,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                         >
                           <div className="overflow-hidden">
                             <p className="w-full pb-6 pr-8 text-sm leading-7 text-foreground-muted">
-                              {faq.answer}
+                              {formatPriceText(faq.answer)}
                             </p>
                           </div>
                         </div>
@@ -483,7 +483,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                 <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
                   Starting From
                 </span>
-                <div className="mt-2.5 flex items-baseline gap-2">
+                <div className="mt-2.5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                   <span className="tabular font-heading text-[2.5rem] font-extrabold leading-none tracking-[-0.03em]">
                     {withTaxMark(pkg.price)}
                   </span>
@@ -504,7 +504,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                   {sidebarHighlights.map((item) => (
                     <li key={item} className="flex items-start gap-2.5 text-xs leading-5 text-foreground-muted">
                       <CheckIcon className="mt-0.5 text-emerald-500" />
-                      <span>{item}</span>
+                      <span>{formatPriceText(item)}</span>
                     </li>
                   ))}
                 </ul>

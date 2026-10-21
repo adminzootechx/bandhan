@@ -3,6 +3,7 @@ import PackageRouteClient from "@/components/packages/PackageRouteClient";
 import { getFullPackageForPackage } from "@/data/packageDetails";
 import { getPublishedPackage } from "@/lib/content/packages";
 import { notFound } from "next/navigation";
+import { withTaxMark } from "@/lib/priceLabel";
 
 interface PackagePageProps {
   params: Promise<{ id: string }>;
@@ -21,7 +22,7 @@ export async function generateMetadata({
   const pkg = getFullPackageForPackage(live);
   return {
     title: `${pkg.title} | Bandhan Tours`,
-    description: `${pkg.duration} · from ${pkg.price} — ${pkg.tagline}`,
+    description: `${pkg.duration} · from ${withTaxMark(pkg.price)} — ${pkg.tagline}`,
     openGraph: {
       title: pkg.title,
       description: pkg.tagline,

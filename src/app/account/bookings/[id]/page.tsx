@@ -1,5 +1,6 @@
 "use client";
 
+import { withTaxMark } from "@/lib/priceLabel";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -161,7 +162,7 @@ export default function AccountBookingDetailPage() {
     ? [
         ["Travel date", booking.travel_date || "TBC"],
         ["Travellers", String(booking.travellers_count ?? "—")],
-        ["Price", booking.price_amount || "Pending quote"],
+        ["Price", withTaxMark(booking.price_amount) || "Pending quote"],
         ["Payment", booking.payment_status, true],
       ]
     : [];

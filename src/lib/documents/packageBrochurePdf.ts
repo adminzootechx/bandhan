@@ -1,6 +1,6 @@
 import type { FullPackage } from "@/data/packageDetails";
 import { COMPANY } from "@/lib/email/company";
-import { TAX_NOTE, withTaxMark } from "@/lib/priceLabel";
+import { TAX_NOTE, formatPriceText, withTaxMark } from "@/lib/priceLabel";
 import { CONTENT_WIDTH, MARGIN, PdfDoc } from "./pdf/layout";
 import { drawImageCover, loadProposalImage } from "./pdf/images";
 import {
@@ -200,9 +200,9 @@ export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8A
     splitLists(
       doc,
       "Inclusions",
-      pkg.inclusions?.length ? pkg.inclusions : ["Confirmed with your consultant"],
+      pkg.inclusions?.length ? pkg.inclusions.map(formatPriceText) : ["Confirmed with your consultant"],
       "Exclusions",
-      pkg.exclusions?.length ? pkg.exclusions : ["Anything not listed as included"]
+      pkg.exclusions?.length ? pkg.exclusions.map(formatPriceText) : ["Anything not listed as included"]
     );
   }
 

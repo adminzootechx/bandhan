@@ -11,14 +11,13 @@ import type { Banner, CollectionKey, WithId } from "@/lib/admin/types";
 const defaultBanners: Banner[] = [
   {
     id: "homepage-primary",
-    title: "Explore Beyond",
-    highlightedTitle: "Boundaries",
-    badge: "Where Colours Come Alive",
+    title: "Discover",
+    highlightedTitle: "Japan",
+    badge: "Experience the Beauty of Japan",
     description:
-      "Thoughtfully designed holidays, seamless planning, and journeys that stay with you.",
-    image:
-      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=90&w=3200",
-    primaryLabel: "Explore Tours",
+      "Cherry blossoms, timeless culture, and unforgettable journeys.",
+    image: "/images/japan-hero.webp",
+    primaryLabel: "Explore Japan",
     secondaryLabel: "Plan My Trip",
     isActive: true,
   },

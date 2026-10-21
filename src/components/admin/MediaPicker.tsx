@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
-import { imageLinkProblem, uploadImages } from "@/lib/admin/imageLinks";
+import { IMAGE_ACCEPT, MAX_IMAGES_PER_UPLOAD, imageLinkProblem, uploadImages } from "@/lib/admin/imageLinks";
 import { useCollection } from "@/lib/admin/store";
 import type { GalleryItem } from "@/data/mockData";
 
@@ -12,15 +12,12 @@ interface MediaPickerProps {
   label?: string;
 }
 
-const fieldClass = "w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-accent font-medium text-sm transition-colors text-primary bg-slate-50/50";
-
 export default function MediaPicker({ value, onChange, multiple = false, label }: MediaPickerProps) {
   const { items: gallery } = useCollection<GalleryItem>("gallery");
   const inputRef = useRef<HTMLInputElement>(null);
   const [showLibrary, setShowLibrary] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
-  const [urlInput, setUrlInput] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [brokenUrls, setBrokenUrls] = useState<string[]>([]);
   const selected = useMemo(() => (Array.isArray(value) ? value : value ? [value] : []), [value]);
@@ -41,8 +38,9 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
     setError("");
     setUploading(true);
     try {
-      const urls = await uploadImages(files, multiple ? 10 : 1);
-      update(multiple ? [...selected, ...urls] : urls);
+      const urls = await uploadImages(files, multiple ? MAX_IMAGES_PER_UPLOAD : 1);
+      if (!urls.length) setError("Choose a JPG, PNG, WEBP or GIF photo.");
+      else update(multiple ? [...selected, ...urls] : urls);
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "Upload failed. Try again.");
     } finally {
@@ -51,16 +49,9 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
     }
   };
 
-  const urlProblem = imageLinkProblem(multiple ? urlInput : typeof value === "string" ? value : "");
+  // Older records may still hold pasted links; flag the ones that can't work so they get replaced.
   const selectedProblem = selected.map(imageLinkProblem).find(Boolean)
-    || (selected.some((url) => brokenUrls.includes(url)) ? "An image link above didn't load — it may be a web page or a deleted file. Remove it and upload the photo instead." : "");
-
-  const addUrl = () => {
-    const url = urlInput.trim();
-    if (!url || imageLinkProblem(url)) return;
-    update(multiple ? [...selected, url] : [url]);
-    setUrlInput("");
-  };
+    || (selected.some((url) => brokenUrls.includes(url)) ? "An image above didn't load — it may be a web page or a deleted file. Remove it and upload the photo instead." : "");
 
   return (
     <div className="space-y-3">
@@ -77,7 +68,7 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
             <img src={url} alt={`Selected media ${index + 1}`} onError={() => setBrokenUrls((current) => (current.includes(url) ? current : [...current, url]))} className="w-full h-full object-cover" />
             {brokenUrls.includes(url) && <span className="absolute inset-0 flex items-center justify-center bg-accent/85 p-1 text-center text-[10px] font-bold text-white">Not an image</span>}
             {multiple && index === 0 && <span className="absolute left-1 bottom-1 px-1.5 py-0.5 rounded bg-primary/85 text-white text-[9px] font-bold uppercase">Cover</span>}
-            <button type="button" onClick={() => remove(url)} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-primary/80 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove image">×</button>
+            <button type="button" onClick={() => remove(url)} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-primary/80 text-white text-xs transition-opacity sm:opacity-0 sm:group-hover:opacity-100 sm:focus:opacity-100" aria-label="Remove image">×</button>
           </div>
         ))}
         {selected.length === 0 && <div className="w-full rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm text-foreground-muted">No media selected yet.</div>}
@@ -88,24 +79,21 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
           <div><p className="text-sm font-semibold text-primary">Add travel photos</p><p className="text-[11px] text-foreground-muted mt-0.5">Drag images here, choose from your gallery, or upload from your device.</p></div>
           <div className="flex flex-wrap gap-2">
             <button type="button" onClick={() => setShowLibrary((open) => !open)} className="px-3.5 py-2 rounded-full border border-primary/15 text-xs font-bold text-primary hover:border-primary hover:bg-primary hover:text-white transition-colors">{showLibrary ? "Hide gallery" : "Choose from gallery"}</button>
-            <button type="button" onClick={() => inputRef.current?.click()} disabled={uploading} className="px-3.5 py-2 rounded-full bg-accent text-white text-xs font-bold hover:bg-accent-dark disabled:opacity-60 transition-colors">{uploading ? "Uploading..." : multiple ? "Upload images" : "Upload image"}</button>
-            <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple={multiple} onChange={(event) => void upload(event.target.files)} className="hidden" />
+            <button type="button" onClick={() => inputRef.current?.click()} disabled={uploading} className="px-3.5 py-2 rounded-full bg-accent text-white text-xs font-bold hover:bg-accent-dark disabled:opacity-60 transition-colors">{uploading ? "Uploading..." : multiple ? "Upload images" : selected.length ? "Replace image" : "Upload image"}</button>
+            <input ref={inputRef} type="file" accept={IMAGE_ACCEPT} multiple={multiple} onChange={(event) => void upload(event.target.files)} className="hidden" />
           </div>
         </div>
       </div>
 
       {showLibrary && <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 rounded-2xl border border-slate-100 bg-sand/60 p-3 max-h-56 overflow-y-auto">{gallery.map((item) => { const active = selected.includes(item.image); return <button key={item.id} type="button" onClick={() => toggleLibraryItem(item.image)} className={`relative aspect-square rounded-xl overflow-hidden border-2 ${active ? "border-accent" : "border-transparent"}`} title={item.title}>
-        {/* Admins may paste media from hosts not known at build time. */}
+        {/* Older gallery items may be links on hosts not known at build time. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
         {active && <span className="absolute inset-0 bg-accent/35 flex items-center justify-center text-white text-xl">✓</span>}
       </button>; })}{gallery.length === 0 && <p className="col-span-full py-4 text-xs text-foreground-muted">Add images in Gallery first, or upload new media.</p>}</div>}
 
-      {/* Plain text, not type="url": site paths such as /logo.svg are valid media but fail
-          the browser's absolute-URL check, which silently blocks the whole form submit. */}
-      <div className="flex gap-2"><input type="text" inputMode="url" autoComplete="off" value={multiple ? urlInput : (typeof value === "string" ? value : "")} onChange={(event) => multiple ? setUrlInput(event.target.value) : onChange(event.target.value)} onKeyDown={(event) => { if (multiple && event.key === "Enter") { event.preventDefault(); addUrl(); } }} placeholder={multiple ? "Paste an image URL" : "Or paste an image URL"} className={fieldClass} />{multiple && <button type="button" onClick={addUrl} className="px-4 rounded-xl border border-slate-200 text-xs font-bold text-primary hover:bg-slate-50 whitespace-nowrap">Add URL</button>}</div>
-      <p className="text-[11px] text-foreground-light">JPG, PNG, WEBP, or GIF up to 8MB. Click Create/Save after uploading to attach the media.</p>
-      {(urlProblem || selectedProblem) && <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent-dark">{urlProblem || selectedProblem}</div>}
+      <p className="text-[11px] text-foreground-light">JPG, PNG or WEBP (large photos are resized automatically), or GIF up to 8MB.{multiple ? ` Up to ${MAX_IMAGES_PER_UPLOAD} at a time.` : ""} Click Create/Save after uploading to attach the media.</p>
+      {selectedProblem && <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent-dark">{selectedProblem}</div>}
       {error && <div className="rounded-xl border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent-dark">{error}</div>}
     </div>
   );

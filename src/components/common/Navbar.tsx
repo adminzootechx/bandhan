@@ -66,6 +66,8 @@ function useSearchSuggestions(query: string, limit = 6): Suggestion[] {
 
 interface NavbarProps {
   onEnquiryClick?: () => void;
+  /** Pair the homepage campaign with a floating navy navigation bar. */
+  campaignNavigation?: boolean;
   /**
    * Paint the bar solid before any scrolling. Pages that open on a light
    * surface rather than a dark hero need this for the links to stay legible.
@@ -111,7 +113,7 @@ const PACKAGE_GROUPS = [
   },
 ];
 
-export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forceSolid = false }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forceSolid = false, campaignNavigation = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPackagesOpen, setIsPackagesOpen] = useState(false);
@@ -265,17 +267,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
     setIsMobileProfileOpen((prev) => !prev);
   };
 
+  // A soft blossom accent ties the navy campaign header to the Japan banner.
+  const navigationColors = {
+    "--nav-highlight": campaignNavigation ? "#f78aaa" : "var(--color-gold)",
+  } as React.CSSProperties;
+
   return (
     <>
       <nav
-        className="fixed left-0 top-0 z-[45] w-full px-3 sm:px-4"
+        style={navigationColors}
+        className={`fixed left-0 top-0 z-[45] w-full px-3 ${campaignNavigation ? "sm:px-6" : "sm:px-4"}`}
       >
         <Container
           clean
-          className={`mt-3 flex max-w-[92rem] items-center justify-between rounded-xl border px-4 py-3 transition-all duration-300 sm:px-5 ${
-            isScrolled || solidAtTop
-              ? "border-white/10 bg-primary/95 shadow-[0_14px_40px_-22px_rgba(3,12,23,0.8)] backdrop-blur-xl"
-              : "border-white/15 bg-ink-deep/40 shadow-[0_14px_40px_-26px_rgba(3,12,23,0.75)] backdrop-blur-md"
+          className={`flex max-w-[92rem] items-center justify-between px-4 transition-all duration-300 ${
+            campaignNavigation
+              ? "relative z-50 mt-3 h-16 rounded-2xl border border-white/15 bg-[#102544]/95 shadow-[0_12px_32px_-18px_rgba(16,37,68,0.55),inset_0_1px_0_rgba(247,138,170,0.12)] backdrop-blur-xl sm:mt-4 sm:h-[72px] sm:px-6"
+              : `mt-3 rounded-xl border py-3 sm:px-5 ${isScrolled || solidAtTop
+                ? "border-white/10 bg-primary/95 shadow-[0_14px_40px_-22px_rgba(3,12,23,0.8)] backdrop-blur-xl"
+                : "border-white/15 bg-ink-deep/40 shadow-[0_14px_40px_-26px_rgba(3,12,23,0.75)] backdrop-blur-md"}`
           }`}
         >
           {/* Logo */}
@@ -303,8 +313,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
             {/* Home Link */}
             <Link
               href="/"
-              className="text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
+              aria-current={pathname === "/" ? "page" : undefined}
+              className="text-sm font-medium tracking-wide text-white/85 hover:text-[color:var(--nav-highlight)] transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[var(--nav-highlight)] hover:after:w-full after:transition-all after:duration-300"
             >
+              {campaignNavigation && pathname === "/" && (
+                <span aria-hidden="true" className="absolute -left-3 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[#f78aaa]" />
+              )}
               Home
             </Link>
 
@@ -322,10 +336,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                 onClick={() => setIsPackagesOpen((open) => !open)}
                 aria-expanded={isPackagesOpen}
                 aria-haspopup="true"
-                className={`flex items-center gap-1.5 text-sm font-medium tracking-wide transition-colors duration-300 focus:outline-none relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-gold after:transition-all after:duration-300 ${
+                className={`flex items-center gap-1.5 text-sm font-medium tracking-wide transition-colors duration-300 focus:outline-none relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-[var(--nav-highlight)] after:transition-all after:duration-300 ${
                   isPackagesOpen
-                    ? "text-gold after:w-full"
-                    : "text-white/85 hover:text-gold after:w-0 hover:after:w-full"
+                    ? "text-[color:var(--nav-highlight)] after:w-full"
+                    : "text-white/85 hover:text-[color:var(--nav-highlight)] after:w-0 hover:after:w-full"
                 }`}
               >
                 Packages
@@ -340,7 +354,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className={`transition-transform duration-300 ${
-                    isPackagesOpen ? "rotate-180 text-gold" : ""
+                    isPackagesOpen ? "rotate-180 text-[color:var(--nav-highlight)]" : ""
                   }`}
                 >
                   <polyline points="6 9 12 15 18 9" />
@@ -424,7 +438,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
               <a
                 key={link.label}
                 href={link.href}
-                className="whitespace-nowrap text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold hover:after:w-full after:transition-all after:duration-300"
+                className="whitespace-nowrap text-sm font-medium tracking-wide text-white/85 hover:text-[color:var(--nav-highlight)] transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[var(--nav-highlight)] hover:after:w-full after:transition-all after:duration-300"
               >
                 {link.label}
               </a>
@@ -492,7 +506,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                   setIsSearchOpen((prev) => !prev);
                 }}
                 aria-label={isSearchOpen ? "Close search" : "Open search"}
-                className="p-2 text-white/85 hover:text-gold transition-colors duration-300 focus:outline-none"
+                className="p-2 text-white/85 hover:text-[color:var(--nav-highlight)] transition-colors duration-300 focus:outline-none"
               >
                 {isSearchOpen ? <X size={19} /> : <Search size={19} />}
               </button>
@@ -556,7 +570,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                           runSearch(searchQuery);
                           setIsSearchOpen(false);
                         }}
-                        className="w-full flex items-center justify-between gap-2 px-3 py-2.5 mt-1 rounded-xl text-sm font-semibold text-gold hover:bg-white/10 transition-all duration-150 border-t border-white/10"
+                        className="w-full flex items-center justify-between gap-2 px-3 py-2.5 mt-1 rounded-xl text-sm font-semibold text-[color:var(--nav-highlight)] hover:bg-white/10 transition-all duration-150 border-t border-white/10"
                       >
                         View all results for &ldquo;{searchQuery.trim()}&rdquo;
                         <ArrowRight size={14} />
@@ -584,7 +598,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                       <button
                         type="button"
                         onClick={clearRecentSearches}
-                        className="text-[11px] font-semibold text-white/50 hover:text-gold transition-colors"
+                        className="text-[11px] font-semibold text-white/50 hover:text-[color:var(--nav-highlight)] transition-colors"
                       >
                         Clear
                       </button>
@@ -633,7 +647,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                     <p className="text-[11px] text-white/50 font-semibold uppercase tracking-wider">
                       Logged In As
                     </p>
-                    <p className="text-sm font-bold text-gold truncate mt-0.5">
+                    <p className="text-sm font-bold text-[color:var(--nav-highlight)] truncate mt-0.5">
                       Hi, {user.name || "User"}
                     </p>
                   </div>
@@ -663,7 +677,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
             ) : (
               <Link
                 href="/signin"
-                className="text-sm font-medium tracking-wide text-white/85 hover:text-gold transition-colors duration-300"
+                className="text-sm font-medium tracking-wide text-white/85 hover:text-[color:var(--nav-highlight)] transition-colors duration-300"
               >
                 Sign In
               </Link>
@@ -706,7 +720,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                     <p className="text-[10px] text-white/50 font-semibold uppercase tracking-wider">
                       Logged In As
                     </p>
-                    <p className="text-sm font-bold text-gold truncate">
+                    <p className="text-sm font-bold text-[color:var(--nav-highlight)] truncate">
                       Hi, {user.name || "User"}
                     </p>
                   </div>
@@ -885,7 +899,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                         setIsMobileMenuOpen(false);
                         runSearch(item.label);
                       }}
-                      className="px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white/75 hover:text-gold hover:border-gold/40 transition-colors"
+                      className="px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white/75 hover:text-[color:var(--nav-highlight)] hover:border-gold/40 transition-colors"
                     >
                       {item.label}
                     </button>
@@ -898,7 +912,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
             <Link
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
+              className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-[color:var(--nav-highlight)]"
             >
               Home
             </Link>
@@ -907,7 +921,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
             <div className="flex flex-col items-stretch">
               <button
                 onClick={() => setIsMobilePackagesOpen(!isMobilePackagesOpen)}
-                className="flex min-h-11 w-full items-center justify-between rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold focus:outline-none"
+                className="flex min-h-11 w-full items-center justify-between rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-[color:var(--nav-highlight)] focus:outline-none"
                 aria-expanded={isMobilePackagesOpen}
                 aria-controls="mobile-package-links"
                 type="button"
@@ -924,7 +938,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className={`transition-transform duration-300 ${
-                    isMobilePackagesOpen ? "rotate-180 text-gold" : ""
+                    isMobilePackagesOpen ? "rotate-180 text-[color:var(--nav-highlight)]" : ""
                   }`}
                 >
                   <polyline points="6 9 12 15 18 9" />
@@ -948,7 +962,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                     >
                       <h3
                         id={`mobile-package-group-${groupIndex}`}
-                        className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-gold"
+                        className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[color:var(--nav-highlight)]"
                       >
                         {group.heading}
                       </h3>
@@ -958,7 +972,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                             key={item.label}
                             href={item.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="flex min-h-10 items-center rounded-lg px-2 py-2 text-sm font-medium leading-5 text-white/75 transition-colors hover:bg-white/[0.07] hover:text-gold"
+                            className="flex min-h-10 items-center rounded-lg px-2 py-2 text-sm font-medium leading-5 text-white/75 transition-colors hover:bg-white/[0.07] hover:text-[color:var(--nav-highlight)]"
                           >
                             {item.label}
                           </Link>
@@ -983,7 +997,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
                 key={link.label}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
+                className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-[color:var(--nav-highlight)]"
               >
                 {link.label}
               </a>
@@ -994,7 +1008,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
               <Link
                 href="/signin"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-gold"
+                className="flex min-h-11 items-center rounded-xl px-4 font-heading text-xl font-bold text-white/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-[color:var(--nav-highlight)]"
               >
                 Sign In
               </Link>

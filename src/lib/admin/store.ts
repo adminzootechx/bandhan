@@ -3,6 +3,7 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { seedForCollection } from "@/lib/content/seeds";
 import type { CollectionKey, Enquiry, WithId } from "./types";
+import { adminFetch } from "./session";
 
 const listeners = new Map<CollectionKey, Set<() => void>>();
 const snapshots = new Map<CollectionKey, WithId[]>();
@@ -105,7 +106,7 @@ async function mutate(
   body?: Record<string, unknown>,
   id?: string
 ) {
-  const response = await fetch(
+  const response = await adminFetch(
     `/api/content/${key}${method === "DELETE" ? `?id=${encodeURIComponent(id || "")}` : ""}`,
     {
       method,

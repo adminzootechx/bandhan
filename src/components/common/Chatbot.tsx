@@ -10,7 +10,7 @@ import { fuzzySearchScored } from "@/lib/fuzzySearch";
 import { formatMoney, parseMoney } from "@/lib/bookings/pricing";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { packageGroupSize } from "@/lib/packageCategory";
-import { withTaxMark } from "@/lib/priceLabel";
+import { formatPriceText, withTaxMark } from "@/lib/priceLabel";
 import { WHATSAPP_HREF, WHATSAPP_LABEL } from "@/lib/contact";
 
 /**
@@ -2222,7 +2222,7 @@ export const Chatbot: React.FC = () => {
                         : "border border-primary/10 bg-white text-foreground shadow-[0_8px_24px_rgba(7,32,60,0.07)]"
                     }`}
                   >
-                    {m.text}
+                    {formatPriceText(m.text)}
                   </div>
                 </div>
 

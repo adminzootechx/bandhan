@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+The Bandhan Tours website and admin are a single application in this project root. Run `npm run dev` here and open [http://localhost:3000](http://localhost:3000). Pages and components live in `src`, and the Japan hero artwork is in `public/images/japan-hero.webp`.
 
 ## Getting Started
 

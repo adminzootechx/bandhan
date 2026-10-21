@@ -21,7 +21,7 @@ import { useCollection } from "@/lib/admin/store";
 import NotFoundView from "@/components/notFound/NotFoundView";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Lightbox } from "@/components/ui/Lightbox";
-import { TAX_NOTE, withTaxMark } from "@/lib/priceLabel";
+import { TAX_NOTE, formatPriceText, withTaxMark } from "@/lib/priceLabel";
 
 type GuideProfile = {
   duration: string;
@@ -486,7 +486,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                     {destination.faqs.map((faq) => (
                       <details key={faq.question} className="group py-5">
                         <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-sm font-bold text-primary">{faq.question}<span className="text-xl font-light text-gold-dark transition-transform group-open:rotate-45">+</span></summary>
-                        <p className="max-w-3xl pt-4 text-sm leading-7 text-foreground-muted">{faq.answer}</p>
+                        <p className="max-w-3xl pt-4 text-sm leading-7 text-foreground-muted">{formatPriceText(faq.answer)}</p>
                       </details>
                     ))}
                   </div>

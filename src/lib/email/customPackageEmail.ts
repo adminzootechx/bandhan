@@ -1,3 +1,4 @@
+import { withTaxMark } from "@/lib/priceLabel";
 import { BRAND, COMPANY, escapeHtml } from "./company";
 
 /**
@@ -21,7 +22,7 @@ export interface CustomPackageEmailInput {
   travelDate?: string | null;
   durationLabel?: string | null;
   travellersCount?: number | null;
-  /** Quoted price, already formatted, e.g. "₹1,24,000". */
+  /** Quoted price, already formatted, e.g. "124000/-*". */
   priceAmount?: string | null;
   /** File name of the attached PDF, shown in the attachment chip. */
   pdfFileName?: string;
@@ -108,7 +109,7 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
   if (durationLabel) rows.push(summaryRow("Duration", durationLabel));
   if (travellersCount != null) rows.push(summaryRow("Travellers", String(travellersCount)));
   rows.push(summaryRow("Booking Reference", bookingCode));
-  if (priceAmount) rows.push(summaryRow("Quoted Price", priceAmount));
+  if (priceAmount) rows.push(summaryRow("Quoted Price", withTaxMark(priceAmount)));
 
   const ctaButtons = [
     portalUrl ? button("View in My Account", portalUrl, { fill: BRAND.primary, text: BRAND.white }) : "",
@@ -296,7 +297,7 @@ export function buildCustomPackageEmail(input: CustomPackageEmailInput): EmailCo
     durationLabel ? `- Duration: ${durationLabel}` : "",
     travellersCount != null ? `- Travellers: ${travellersCount}` : "",
     `- Booking Reference: ${bookingCode}`,
-    priceAmount ? `- Quoted Price: ${priceAmount}` : "",
+    priceAmount ? `- Quoted Price: ${withTaxMark(priceAmount)}` : "",
     validityNote ? `\n${validityNote}` : "",
     pdfUrl ? `\nDownload the brochure: ${pdfUrl}` : "",
     secondaryPdfUrl ? `Download the quotation: ${secondaryPdfUrl}` : "",

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { BedDouble, BusFront, Camera, Plane, Stamp, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import type { PackageServiceDetails, PackageServiceKey } from "@/data/mockData";
+import { formatPriceText } from "@/lib/priceLabel";
 
 const SERVICES: { kind: PackageServiceKey; label: string; icon: LucideIcon }[] = [
   { kind: "hotel", label: "Stay", icon: BedDouble },
@@ -59,7 +60,7 @@ export default function PackageServiceDetails({ details, showVisa = true }: { de
           <ul className="grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
             {items.map((item, index) => (
               <li key={`${item}-${index}`} className="flex gap-3 border-t border-primary/10 pt-4 text-sm leading-6 text-foreground-muted">
-                <span className="mt-2.5 h-px w-4 shrink-0 bg-gold-dark" /><span>{item}</span>
+                <span className="mt-2.5 h-px w-4 shrink-0 bg-gold-dark" /><span>{formatPriceText(item)}</span>
               </li>
             ))}
           </ul>

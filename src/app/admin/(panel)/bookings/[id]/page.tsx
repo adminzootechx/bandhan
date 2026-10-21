@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, CalendarDays, CircleDollarSign, FileText, Mail, 
 import BookingPartyPanel from "@/components/booking/BookingPartyPanel";
 import { uploadFiles } from "@/lib/uploadthing";
 import { formatMoney, parseMoney, type RoomConfiguration, type TravellerBreakdown } from "@/lib/bookings/pricing";
+import { withTaxMark } from "@/lib/priceLabel";
 import { BOOKING_STATUS_LABELS, BOOKING_STATUS_PIPELINE } from "@/lib/bookings/types";
 import type { BookingDetail, DocumentType, NotificationChannel } from "@/lib/bookings/types";
 import type { PublicAgent } from "@/lib/auth/agents";
@@ -426,7 +427,7 @@ export default function AdminBookingDetailPage() {
             <Info label="Departure city" value={booking.departure_city || "TBC"} />
             <Info label="Traveller names" value={booking.traveller_names || "Pending"} />
             <Info label="Rooms" value={`${booking.room_configuration?.singleRooms || 0} single · ${booking.room_configuration?.doubleRooms || 0} double · ${booking.room_configuration?.tripleRooms || 0} triple`} />
-            {booking.budget ? <Info label="Budget" value={booking.budget} /> : null}
+            {booking.budget ? <Info label="Budget" value={withTaxMark(booking.budget)} /> : null}
             {booking.special_requirements ? <div className="sm:col-span-2 lg:col-span-3"><Info label="Special requirements" value={booking.special_requirements} /></div> : null}
           </div>
         )}

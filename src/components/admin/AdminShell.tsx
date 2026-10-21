@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, ExternalLink, LogOut, Menu, Plane, X } from "lucide-react";
 import { adminNavGroups } from "./adminNav";
+import AdminSessionDialog from "./AdminSessionDialog";
+import { cancelAdminSignIn, startAdminSessionMonitor, stopAdminSessionMonitor } from "@/lib/admin/session";
+import { clearPackageEditorDraft } from "@/lib/admin/packageDraft";
 
 const isActive = (pathname: string, href: string) =>
   href === "/admin" ? pathname === href : pathname.startsWith(href);
@@ -16,8 +19,13 @@ export const AdminShell: React.FC<{ children: React.ReactNode }> = ({ children }
   const [loggingOut, setLoggingOut] = useState(false);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
+  useEffect(() => startAdminSessionMonitor(), []);
+
   const handleLogout = async () => {
     setLoggingOut(true);
+    stopAdminSessionMonitor();
+    cancelAdminSignIn();
+    clearPackageEditorDraft();
     await fetch("/api/admin/logout", { method: "POST" });
     router.replace("/admin/login");
     router.refresh();
@@ -111,6 +119,7 @@ export const AdminShell: React.FC<{ children: React.ReactNode }> = ({ children }
 
   return (
     <div className="min-h-screen bg-[#f4f6f8] text-foreground">
+      <AdminSessionDialog />
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-[248px] lg:block">{sidebar}</aside>
 
       {mobileOpen && (

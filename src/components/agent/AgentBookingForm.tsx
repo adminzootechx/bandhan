@@ -1,5 +1,6 @@
 "use client";
 
+import { withTaxMark } from "@/lib/priceLabel";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BedDouble, Briefcase, CalendarDays, Check, CircleDollarSign, MapPinned, Sparkles, Users } from "lucide-react";
@@ -417,7 +418,7 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
                     <option value="">Select a package…</option>
                     {activePackages.map((item) => (
                       <option key={item.id} value={item.id}>
-                        {item.title} — {item.duration} — {item.price}
+                        {item.title} — {item.duration} — {withTaxMark(item.price)}
                       </option>
                     ))}
                   </Select>
@@ -428,7 +429,7 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
                     <option value="">Select a destination…</option>
                     {activeDestinations.map((item) => (
                       <option key={item.id} value={item.id}>
-                        {item.name} — starting {item.price}
+                        {item.name} — starting {withTaxMark(item.price)}
                       </option>
                     ))}
                   </Select>
@@ -501,7 +502,7 @@ export default function AgentBookingForm({ mode = "agent" }: { mode?: "agent" | 
                     value={budget}
                     onChange={(event) => setBudget(event.target.value)}
                     className={fieldClass}
-                    placeholder="e.g. ₹75,000 per person"
+                    placeholder="e.g. 75000/-* per person"
                   />
                 </Field>
               ) : null}

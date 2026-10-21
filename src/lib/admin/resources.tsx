@@ -38,7 +38,7 @@ export const destinationsResource: ResourceConfig<Destination> = {
   ],
   fields: [
     { name: "name", label: "Name", type: "text", required: true, placeholder: "e.g. Kashmir" },
-    { name: "price", label: "Starting Price", type: "text", placeholder: "e.g. ₹34,500" },
+    { name: "price", label: "Starting Price", type: "text", placeholder: "e.g. 34500/-*" },
     { name: "tag", label: "Tag", type: "text", placeholder: "e.g. Romantic" },
     { name: "image", label: "Cover image", type: "media", fullWidth: true, placeholder: "https://…" },
     { name: "description", label: "Description", type: "textarea", fullWidth: true, required: true },
@@ -102,7 +102,7 @@ export const packagesResource: ResourceConfig<TourPackage> = {
       ],
     },
     { name: "duration", label: "Duration", type: "text", placeholder: "e.g. 6 Nights / 7 Days" },
-    { name: "price", label: "Price", type: "text", placeholder: "e.g. ₹38,000" },
+    { name: "price", label: "Price", type: "text", placeholder: "e.g. 38000/-*" },
     { name: "isPopular", label: "Popular", type: "boolean", help: "Show a 'Popular' badge" },
     { name: "image", label: "Cover image", type: "media", fullWidth: true, placeholder: "https://…" },
     { name: "highlights", label: "Highlights", type: "tags", fullWidth: true, placeholder: "Dal Lake, Gulmarg, …" },

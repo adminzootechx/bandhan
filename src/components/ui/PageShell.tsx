@@ -21,6 +21,8 @@ interface PageShellProps {
    * pages that open straight into content instead of a `PageHero`.
    */
   offsetTop?: boolean;
+  /** Give the homepage campaign its own floating navy navigation treatment. */
+  campaignNavigation?: boolean;
   onEnquiryClick?: () => void;
   className?: string;
   mainClassName?: string;
@@ -35,6 +37,7 @@ export const PageShell: React.FC<PageShellProps> = ({
   children,
   tone = "sand",
   offsetTop = false,
+  campaignNavigation = false,
   onEnquiryClick,
   className = "",
   mainClassName = "",
@@ -42,7 +45,7 @@ export const PageShell: React.FC<PageShellProps> = ({
   // `overflow-x-clip`, not `hidden`: hidden makes this a scroll container and
   // breaks `position: sticky` for every descendant.
   <div className={`flex min-h-screen flex-col overflow-x-clip ${TONES[tone]} ${className}`}>
-    <Navbar onEnquiryClick={onEnquiryClick} solidAtTop={offsetTop} />
+    <Navbar onEnquiryClick={onEnquiryClick} solidAtTop={offsetTop} campaignNavigation={campaignNavigation} />
     <main className={`flex-1 ${offsetTop ? "pt-28 sm:pt-32" : ""} ${mainClassName}`}>
       {children}
     </main>

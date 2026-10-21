@@ -125,7 +125,7 @@ export default function AdminDeparturesPage() {
             name="price"
             value={form.price}
             onChange={handleChange}
-            placeholder="Price, e.g. ₹42,500"
+            placeholder="Price, e.g. 42500/-*"
             className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
           />
           <select

@@ -3,6 +3,16 @@ import crypto from "node:crypto";
 export const ADMIN_COOKIE = "bandhan_admin_session";
 export const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
 
+export function adminSessionCookieOptions() {
+  return {
+    httpOnly: true,
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: SESSION_MAX_AGE,
+    secure: process.env.NODE_ENV === "production",
+  };
+}
+
 // Fallbacks let the panel work out-of-the-box in dev; override in .env.local.
 const DEFAULT_PASSWORD = "bandhan@admin";
 const DEFAULT_SECRET = "bandhan-admin-session-secret";

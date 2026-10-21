@@ -1,5 +1,6 @@
 "use client";
 
+import { withTaxMark } from "@/lib/priceLabel";
 import React, { useMemo, useState } from "react";
 import { store, useCollection } from "@/lib/admin/store";
 import type { FieldConfig, ResourceConfig, WithId } from "@/lib/admin/types";
@@ -338,7 +339,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
                   <tr key={item.id} className="hover:bg-sand/40 transition-colors">
                     {config.columns.map((c) => (
                       <td key={c.key} className={`px-4 py-3 align-middle ${c.className || "text-foreground"}`}>
-                        {c.render ? c.render(item) : String((item as Record<string, unknown>)[c.key] ?? "—")}
+                        {c.render ? c.render(item) : c.key === "price" ? withTaxMark(String((item as Record<string, unknown>)[c.key] ?? "—")) : String((item as Record<string, unknown>)[c.key] ?? "—")}
                       </td>
                     ))}
                     <td className="px-4 py-3 text-right whitespace-nowrap">
@@ -421,7 +422,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
 };
 
 /** Small helper to render a thumbnail inside a table cell.
- *  Uses a plain <img> so admins can paste image URLs from any host. */
+ *  Uses a plain <img> so older records with pasted links on any host still show. */
 export function Thumb({ src, alt }: { src?: string; alt: string }) {
   if (!src) return <span className="text-foreground-light">—</span>;
   return (

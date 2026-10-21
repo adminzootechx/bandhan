@@ -5,6 +5,7 @@ import type {
   TourPackage,
 } from "@/data/mockData";
 import { packageDestinationLabel, packageGroupSize } from "@/lib/packageCategory";
+import { withTaxMark } from "@/lib/priceLabel";
 
 export type BookingSource = "package" | "destination" | "custom";
 
@@ -109,11 +110,7 @@ export function parseMoney(value?: string | number | null): number {
 }
 
 export function formatMoney(value: number): string {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(Math.round(value));
+  return withTaxMark(Math.round(value));
 }
 
 export function pricingForStartingPrice(

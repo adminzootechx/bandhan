@@ -1,3 +1,4 @@
+import { withTaxMark } from "@/lib/priceLabel";
 import { BRAND, COMPANY, escapeHtml } from "@/lib/email/company";
 import type { Booking, BookingStatus } from "@/lib/bookings/types";
 import { BOOKING_STATUS_LABELS } from "@/lib/bookings/types";
@@ -31,11 +32,11 @@ export interface BookingConfirmationInput {
   customerPhone: string;
 
   status?: BookingStatus;
-  /** Total price, already formatted, e.g. "₹1,24,000". */
+  /** Total price, already formatted, e.g. "124000/-*". */
   priceAmount?: string | null;
-  /** Formatted advance already received, e.g. "₹30,000". */
+  /** Formatted advance already received, e.g. "30000/-*". */
   amountPaid?: string | null;
-  /** Formatted balance still due, e.g. "₹94,000". */
+  /** Formatted balance still due, e.g. "94000/-*". */
   balanceDue?: string | null;
   paymentStatus?: "pending" | "received";
   /** When the balance must be settled, e.g. "by 20 Aug 2026". */
@@ -177,19 +178,19 @@ export function buildBookingConfirmationDocument(input: BookingConfirmationInput
   const paymentRows: string[] = [];
   if (priceAmount) {
     paymentRows.push(
-      `<tr><td>Total Package Cost</td><td class="amount">${escapeHtml(priceAmount)}</td></tr>`
+      `<tr><td>Total Package Cost</td><td class="amount">${escapeHtml(withTaxMark(priceAmount))}</td></tr>`
     );
   }
   if (amountPaid) {
     paymentRows.push(
-      `<tr><td>Advance Received</td><td class="amount">${escapeHtml(amountPaid)}</td></tr>`
+      `<tr><td>Advance Received</td><td class="amount">${escapeHtml(withTaxMark(amountPaid))}</td></tr>`
     );
   }
   if (balanceDue) {
     paymentRows.push(
       `<tr class="due"><td>Balance Due${
         paymentDueNote ? ` <span class="due-note">${escapeHtml(paymentDueNote)}</span>` : ""
-      }</td><td class="amount">${escapeHtml(balanceDue)}</td></tr>`
+      }</td><td class="amount">${escapeHtml(withTaxMark(balanceDue))}</td></tr>`
     );
   }
   paymentRows.push(

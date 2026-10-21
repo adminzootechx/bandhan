@@ -61,6 +61,7 @@ function storeWith(fetch, channelType) {
   const window = new EventTarget();
   const document = Object.assign(new EventTarget(), { visibilityState: "visible" });
   const store = load("src/lib/admin/store.ts", {
+    "./session": { adminFetch: fetch },
     "@/lib/content/seeds": { seedForCollection: () => [trip] },
     react: { useCallback: (fn) => fn, useSyncExternalStore: () => {} },
   }, { fetch, window, document, BroadcastChannel: channelType, console: { error: () => {} } });
@@ -162,6 +163,8 @@ test("the admin renders group-tour creation, draft publishing and category-movin
     "./MediaPicker": () => null, "./TourPackagePreview": () => null,
     "./TourDatesEditor": () => null,
     "@/lib/packageDates": load("src/lib/packageDates.ts"),
+    "@/lib/priceLabel": load("src/lib/priceLabel.ts"),
+    "@/lib/admin/packageDraft": { usePackageEditorDraft: () => [null, () => {}] },
   });
   const html = renderToStaticMarkup(React.createElement(Manager));
   assert.match(html, /New group tour/);

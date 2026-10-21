@@ -8,15 +8,17 @@
  * depending on where you ran it.
  */
 
+import { withTaxMark } from "@/lib/priceLabel";
+
 export type BudgetKey = "all" | "under-30k" | "30k-60k" | "60k-1l" | "above-1l";
 export type DurationKey = "all" | "up-to-7" | "8-10" | "11-plus";
 
 export const BUDGET_RANGES: { key: BudgetKey; label: string; test: (price: number) => boolean }[] = [
   { key: "all", label: "Any Budget", test: () => true },
-  { key: "under-30k", label: "Under ₹30,000", test: (p) => p < 30000 },
-  { key: "30k-60k", label: "₹30,000 – ₹60,000", test: (p) => p >= 30000 && p < 60000 },
-  { key: "60k-1l", label: "₹60,000 – ₹1,00,000", test: (p) => p >= 60000 && p < 100000 },
-  { key: "above-1l", label: "Above ₹1,00,000", test: (p) => p >= 100000 },
+  { key: "under-30k", label: `Under ${withTaxMark(30000)}`, test: (p) => p < 30000 },
+  { key: "30k-60k", label: `${withTaxMark(30000)} – ${withTaxMark(60000)}`, test: (p) => p >= 30000 && p < 60000 },
+  { key: "60k-1l", label: `${withTaxMark(60000)} – ${withTaxMark(100000)}`, test: (p) => p >= 60000 && p < 100000 },
+  { key: "above-1l", label: `Above ${withTaxMark(100000)}`, test: (p) => p >= 100000 },
 ];
 
 export const DURATION_RANGES: { key: DurationKey; label: string; test: (days: number) => boolean }[] = [

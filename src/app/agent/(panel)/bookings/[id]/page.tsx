@@ -1,5 +1,6 @@
 "use client";
 
+import { withTaxMark } from "@/lib/priceLabel";
 import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -211,7 +212,7 @@ export default function AgentBookingDetailPage() {
           {booking.budget && (
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-foreground-muted block">Budget</span>
-              <span className="font-semibold">{booking.budget}</span>
+              <span className="font-semibold">{withTaxMark(booking.budget)}</span>
             </div>
           )}
         </div>
@@ -292,7 +293,7 @@ export default function AgentBookingDetailPage() {
               type="text"
               value={priceInput}
               onChange={(e) => setPriceInput(e.target.value)}
-              placeholder="E.g. ₹42,000"
+              placeholder="E.g. 42000/-*"
               className="px-3 py-2 rounded-xl border border-slate-200 text-sm"
             />
           </div>

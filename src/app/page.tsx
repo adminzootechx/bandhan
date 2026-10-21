@@ -24,6 +24,7 @@ export default function Home() {
   return (
     <PageShell
       tone="custom"
+      campaignNavigation
       className="home-page bg-sand-light selection:bg-accent/20 selection:text-accent-dark"
       mainClassName="flex flex-col"
       onEnquiryClick={() => handleEnquire("")}

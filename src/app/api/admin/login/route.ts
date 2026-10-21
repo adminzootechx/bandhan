@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   ADMIN_COOKIE,
-  SESSION_MAX_AGE,
+  adminSessionCookieOptions,
   getAdminPassword,
   isAdminConfigured,
   sessionToken,
@@ -27,12 +27,6 @@ export async function POST(request: Request) {
   }
 
   const response = NextResponse.json({ ok: true });
-  response.cookies.set(ADMIN_COOKIE, sessionToken(), {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_MAX_AGE,
-    secure: process.env.NODE_ENV === "production",
-  });
+  response.cookies.set(ADMIN_COOKIE, sessionToken(), adminSessionCookieOptions());
   return response;
 }
