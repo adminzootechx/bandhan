@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
-import { listPublicContent } from "@/lib/content/db";
+import { listCachedPublicContent } from "@/lib/content/cache";
 import { featuredPackages, type Destination, type TourPackage } from "@/data/mockData";
 import {
   getFullPackageForDestination,
@@ -27,13 +27,13 @@ interface RouteParams {
 async function findTrip(id: string): Promise<FullPackage | null> {
   if (isDbConfigured()) {
     try {
-      const packages = await listPublicContent<TourPackage>("packages");
+      const packages = await listCachedPublicContent<TourPackage>("packages");
       const match = packages.find((item) => item.id === id);
       if (match) return getFullPackageForPackage(match);
 
       const destinationId = id.startsWith("destination-") ? id.slice("destination-".length) : null;
       if (destinationId) {
-        const destinations = await listPublicContent<Destination>("destinations");
+        const destinations = await listCachedPublicContent<Destination>("destinations");
         const destination = destinations.find((item) => item.id === destinationId);
         if (destination) return getFullPackageForDestination(destination);
       }

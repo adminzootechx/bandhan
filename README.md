@@ -57,6 +57,22 @@ them between categories.
 Run `npm run test:tour-publishing` for the publishing checks and
 `npm run test:tour-dates` for date validation, persistence and booking-link checks.
 
+Public content reads share a one-hour Next.js Data Cache across the content API,
+package pages, metadata and brochures. Successful admin create, update and delete
+requests expire the affected collection immediately. Admin reads and customer
+records are never placed in this cache. Announcements remain uncached so their
+scheduled start/end times are checked on every request. Direct SQL edits outside
+the admin API become visible after cache revalidation; switching `DATABASE_URL`
+automatically uses a separate cache.
+
+Browser collection reads are reused for five minutes on the public website and
+30 seconds in admin. Focus and navigation only refresh expired reads; same-browser
+admin save notifications invalidate other tabs immediately. Saves use the returned
+record instead of refetching the entire collection. Chatbot knowledge loads when
+opened, and blog search data loads when a visitor starts searching. Failed reads
+retain the last loaded content and back off for 30 seconds. These changes reduce
+future Neon transfer; they cannot lift an already exhausted Neon quota.
+
 Run `npm run db:migrate` after pulling booking-engine changes. To deliver emails
 directly, configure `RESEND_API_KEY` and `EMAIL_FROM` in `.env.local`. Without a
 mail provider the system opens a prepared email draft and keeps PDF download and

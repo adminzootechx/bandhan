@@ -20,7 +20,20 @@ export function isCollectionKey(value: string): value is CollectionKey {
   return COLLECTIONS.includes(value as CollectionKey);
 }
 
-async function ensureSeeded(key: CollectionKey) {
+const seeding = new Map<CollectionKey, Promise<void>>();
+
+function ensureSeeded(key: CollectionKey): Promise<void> {
+  const existing = seeding.get(key);
+  if (existing) return existing;
+  const pending = seedCollection(key).catch((error) => {
+    seeding.delete(key);
+    throw error;
+  });
+  seeding.set(key, pending);
+  return pending;
+}
+
+async function seedCollection(key: CollectionKey) {
   const seeds = seedForCollection(key);
   if (seeds.length === 0) return;
   const sql = getSql();

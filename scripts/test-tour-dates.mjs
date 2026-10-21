@@ -62,6 +62,7 @@ function routes() {
     "@/lib/db": { isDbConfigured: () => true },
     "@/lib/admin/auth": { requireAdmin: () => true },
     "@/lib/packageDates": dates,
+    "@/lib/content/cache": { invalidatePublicContent: () => {} },
     "@/lib/content/db": {
       isCollectionKey: (key) => key === "packages",
       createContentItem: async (_, item) => { writes.push(item); return item; },

@@ -2,11 +2,11 @@ import "server-only";
 import { cache } from "react";
 import { featuredPackages, type TourPackage } from "@/data/mockData";
 import { isDbConfigured } from "@/lib/db";
-import { listPublicContent } from "./db";
+import { listCachedPublicContent } from "./cache";
 
-// Metadata and the page share a single live read within the request.
+// Metadata and the page share the same cached public catalogue as the JSON API.
 const publishedPackages = cache(async () => isDbConfigured()
-  ? listPublicContent<TourPackage>("packages")
+  ? listCachedPublicContent<TourPackage>("packages")
   : featuredPackages.filter((pkg) => pkg.status !== "draft"));
 
 export async function getPublishedPackage(id: string) {

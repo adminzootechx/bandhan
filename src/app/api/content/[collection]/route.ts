@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin/auth";
 import { normalizePackageDates, PackageDateError } from "@/lib/packageDates";
+import { invalidatePublicContent, listCachedPublicContent } from "@/lib/content/cache";
 import {
   createContentItem,
   deleteContentItem,
   isCollectionKey,
   listContent,
-  listPublicContent,
   updateContentItem,
 } from "@/lib/content/db";
 
@@ -38,7 +38,7 @@ export async function GET(request: Request, { params }: RouteParams) {
   try {
     const items = requireAdmin(request)
       ? await listContent(collection)
-      : await listPublicContent(collection as Exclude<typeof collection, "enquiries">);
+      : await listCachedPublicContent(collection as Exclude<typeof collection, "enquiries">);
     return NextResponse.json({ ok: true, items }, { headers: noStore });
   } catch (error) {
     console.error("list content error:", error);
@@ -65,6 +65,7 @@ export async function POST(request: Request, { params }: RouteParams) {
       ? { ...body, departureDates: normalizePackageDates(body.departureDates) }
       : body;
     const item = await createContentItem(collection, { ...fields, id });
+    invalidatePublicContent(collection);
     return NextResponse.json({ ok: true, item }, { status: 201 });
   } catch (error) {
     if (error instanceof PackageDateError) return NextResponse.json({ ok: false, error: error.message }, { status: 400 });
@@ -94,6 +95,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       : body.patch;
     const item = await updateContentItem(collection, body.id, patch);
     if (!item) return NextResponse.json({ ok: false, error: "Item not found." }, { status: 404 });
+    invalidatePublicContent(collection);
     return NextResponse.json({ ok: true, item });
   } catch (error) {
     if (error instanceof PackageDateError) return NextResponse.json({ ok: false, error: error.message }, { status: 400 });
@@ -115,6 +117,7 @@ export async function DELETE(request: Request, { params }: RouteParams) {
   if (!id) return NextResponse.json({ ok: false, error: "Missing item id." }, { status: 400 });
   try {
     const removed = await deleteContentItem(collection, id);
+    if (removed) invalidatePublicContent(collection);
     return NextResponse.json({ ok: true, removed });
   } catch (error) {
     console.error("delete content error:", error);

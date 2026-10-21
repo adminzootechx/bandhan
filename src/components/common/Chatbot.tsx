@@ -1860,9 +1860,10 @@ const MilesAvatar = ({ className = "" }: { className?: string }) => (
 
 export const Chatbot: React.FC = () => {
   const pathname = usePathname();
-  const { items: allPackages } = useCollection<TourPackage>("packages");
-  const { items: allPosts } = useCollection<BlogPost>("blog");
-  const { items: allDestinations } = useCollection<Destination>("destinations");
+  const [open, setOpen] = useState(false);
+  const { items: allPackages } = useCollection<TourPackage>("packages", { enabled: open });
+  const { items: allPosts } = useCollection<BlogPost>("blog", { enabled: open });
+  const { items: allDestinations } = useCollection<Destination>("destinations", { enabled: open });
   const knowledge: KnowledgeContext = useMemo(
     () => ({
       packages: allPackages.filter((p) => p.status !== "draft"),
@@ -1871,7 +1872,6 @@ export const Chatbot: React.FC = () => {
     }),
     [allPackages, allPosts, allDestinations]
   );
-  const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { id: 1, from: "bot", text: GREETING, chips: GREETING_CHIPS },
   ]);

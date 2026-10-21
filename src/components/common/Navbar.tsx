@@ -25,7 +25,7 @@ interface Suggestion {
 
 function useSearchSuggestions(query: string, limit = 6): Suggestion[] {
   const { items: packages } = useCollection<TourPackage>("packages");
-  const { items: posts } = useCollection<BlogPost>("blog");
+  const { items: posts } = useCollection<BlogPost>("blog", { enabled: Boolean(query.trim()) });
 
   return useMemo(() => {
     const trimmed = query.trim();
