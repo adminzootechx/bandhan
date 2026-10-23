@@ -51,7 +51,7 @@ export default function HeroCarousel() {
       if (document.visibilityState === "visible") {
         setActiveIndex((index) => (index + 1) % slides.length);
       }
-    }, 6000);
+    }, 4000);
     return () => window.clearInterval(timer);
   }, [activeIndex, isPaused]);
 
@@ -111,7 +111,7 @@ export default function HeroCarousel() {
               href={slide.href}
               tabIndex={index === activeIndex ? 0 : -1}
               aria-label={`Explore ${slide.title}`}
-              className="relative block h-full w-full focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-[#e82e63]"
+              className="relative block h-full w-full focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-navy"
               draggable={false}
             >
               <Image
@@ -140,7 +140,7 @@ export default function HeroCarousel() {
               onClick={() => setActiveIndex(index)}
               className="flex h-11 w-8 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary sm:w-10"
             >
-              <span className={`h-2 rounded-full transition-all motion-reduce:transition-none ${index === activeIndex ? "w-6 bg-blue-600" : "w-2 bg-primary/25"}`} />
+              <span className={`h-2 rounded-full transition-all motion-reduce:transition-none ${index === activeIndex ? "w-6 bg-navy dark:bg-slate-200" : "w-2 bg-primary/25 dark:bg-white/25"}`} />
             </button>
           ))}
         </div>

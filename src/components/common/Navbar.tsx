@@ -13,6 +13,7 @@ import { useCollection } from "@/lib/admin/store";
 import type { TourPackage } from "@/data/mockData";
 import type { BlogPost } from "@/lib/admin/types";
 import { fuzzySearch, PACKAGE_SEARCH_KEYS } from "@/lib/fuzzySearch";
+import ThemeToggle from "./ThemeToggle";
 
 interface Suggestion {
   key: string;
@@ -282,7 +283,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
           clean
           className={`flex max-w-[92rem] items-center justify-between px-4 transition-all duration-300 ${
             campaignNavigation
-              ? "relative z-50 mt-3 h-16 rounded-2xl border border-white/15 bg-[#102544]/95 shadow-[0_12px_32px_-18px_rgba(16,37,68,0.55),inset_0_1px_0_rgba(247,138,170,0.12)] backdrop-blur-xl sm:mt-4 sm:h-[72px] sm:px-6"
+              ? "relative z-50 mt-3 h-16 rounded-2xl border border-white/15 bg-navy/95 shadow-[0_12px_32px_-18px_rgba(16,37,68,0.55),inset_0_1px_0_rgba(247,138,170,0.12)] backdrop-blur-xl sm:mt-4 sm:h-[72px] sm:px-6"
               : `mt-3 rounded-xl border py-3 sm:px-5 ${isScrolled || solidAtTop
                 ? "border-white/10 bg-primary/95 shadow-[0_14px_40px_-22px_rgba(3,12,23,0.8)] backdrop-blur-xl"
                 : "border-white/15 bg-ink-deep/40 shadow-[0_14px_40px_-26px_rgba(3,12,23,0.75)] backdrop-blur-md"}`
@@ -309,7 +310,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-4 xl:flex 2xl:gap-7">
+          <div className="hidden items-center gap-4 min-[1440px]:flex 2xl:gap-7">
             {/* Home Link */}
             <Link
               href="/"
@@ -446,7 +447,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
           </div>
 
           {/* Call to action & account */}
-          <div className="hidden shrink-0 items-center gap-3 xl:flex 2xl:gap-4">
+          <div className="hidden shrink-0 items-center gap-3 min-[1440px]:flex 2xl:gap-4">
+            <ThemeToggle />
             {/* Quick search */}
             <div className="relative flex items-center" ref={searchRef}>
               <div
@@ -693,7 +695,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
           </div>
 
           {/* Mobile Actions Container (Avatar & Hamburger) */}
-          <div className="relative z-50 flex items-center gap-3 xl:hidden">
+          <div className="relative z-50 flex items-center gap-3 min-[1440px]:hidden">
+            <ThemeToggle />
             {user && (
               <div className="relative" ref={mobileProfileRef}>
                 <button
@@ -802,7 +805,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquiryClick, solidAtTop: forc
         <div
           id="mobile-navigation"
           aria-hidden={!isMobileMenuOpen}
-          className={`fixed inset-0 z-40 flex h-[100dvh] flex-col overflow-hidden bg-primary/98 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(5.5rem,calc(4.5rem+env(safe-area-inset-top)))] transition-all duration-300 ease-out xl:hidden ${
+          className={`fixed inset-0 z-40 flex h-[100dvh] flex-col overflow-hidden bg-primary/98 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(5.5rem,calc(4.5rem+env(safe-area-inset-top)))] transition-all duration-300 ease-out min-[1440px]:hidden ${
             isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
           }`}
         >

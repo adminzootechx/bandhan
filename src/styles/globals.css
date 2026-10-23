@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -127,6 +132,8 @@ textarea {
 }
 
 @theme {
+  --color-navy: #102544;
+  --color-navy-light: #1b3a63;
   --color-primary: #07203c;
   --color-primary-light: #123358;
   --color-primary-dark: #031020;
@@ -175,6 +182,65 @@ textarea {
      reveals, hover lifts. Linear and `ease` both read as mechanical at the
      durations this site uses. Exposed as `ease-premium`. */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Public pages share their theme; brand buttons, photography and dark bands
+   retain their own colors. Admin tools keep their existing palette. */
+@layer utilities {
+  html[data-theme="dark"] body {
+    background-color: #080f1b;
+  }
+
+  html[data-theme="dark"] .site-shell {
+    --color-sand: #111d2c;
+    --color-sand-light: #0c1624;
+    --color-sand-dark: #223044;
+    --color-sand-bg: #101b2a;
+    --color-foreground: #e7edf5;
+    --color-foreground-muted: #b1bfd0;
+    --color-foreground-light: #95a6bd;
+    background-color: #0c1624;
+    color: var(--color-foreground);
+  }
+
+  html[data-theme="dark"] .site-shell :where(.bg-white, .bg-slate-50, .bg-gray-50) {
+    background-color: #142133;
+  }
+
+  html[data-theme="dark"] .site-shell :where(.bg-slate-100, .bg-gray-100) {
+    background-color: #1b2b40;
+  }
+
+  html[data-theme="dark"] .site-shell :where(.text-primary, .text-slate-900, .text-slate-800, .text-gray-900) {
+    color: #e7edf5;
+  }
+
+  html[data-theme="dark"] .site-shell :where(.text-slate-700, .text-slate-600, .text-gray-700, .text-gray-600) {
+    color: #b1bfd0;
+  }
+
+  html[data-theme="dark"] .site-shell :where(.text-primary\/75, .text-primary\/70) { color: #bdc9da; }
+  html[data-theme="dark"] .site-shell :where(.text-primary\/60, .text-primary\/55, .text-primary\/50, .text-primary\/45) { color: #a0b0c5; }
+  html[data-theme="dark"] .site-shell .placeholder\:text-primary\/45::placeholder { color: #a0b0c5; }
+
+  html[data-theme="dark"] .site-shell :where(.border-primary, .border-primary\/10, .border-primary\/15, .border-primary\/20, .border-primary\/25, .border-slate-100, .border-slate-200) {
+    border-color: #33445c;
+  }
+
+  html[data-theme="dark"] .site-shell :where(.bg-primary\/10, .bg-primary\/25) {
+    background-color: #647a98;
+  }
+
+  /* Gold pills and badges need navy text in either theme. */
+  html[data-theme="dark"] .site-shell :where(.bg-gold, .bg-gold-light, .bg-gold-dark, .bg-accent) .text-primary,
+  html[data-theme="dark"] .site-shell :where(.bg-gold, .bg-gold-light, .bg-gold-dark, .bg-accent).text-primary {
+    color: #07203c;
+  }
+
+  html[data-theme="dark"] .site-shell .hover\:text-primary:hover { color: #e7edf5; }
+  html[data-theme="dark"] .site-shell .hover\:bg-gold:hover { color: #07203c; }
+  html[data-theme="dark"] .site-shell .hover\:text-navy:hover { color: #cfdbeb; }
+  html[data-theme="dark"] .site-shell .hover\:bg-navy\/5:hover { background-color: #20324a; }
 }
 
 /* The assistant enters as a bottom sheet on touch-sized screens and as a

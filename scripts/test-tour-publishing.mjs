@@ -91,6 +91,68 @@ test("North East and other destination tabs show published group tours without e
   assert.deepEqual(plain(category.homepageCuratedPackages(packages, "domestic").map((pkg) => pkg.id)), [domestic.id]);
 });
 
+test("homepage journey filters change cards in place, filter before the cutoff, and expand without navigation", () => {
+  const React = require("react");
+  let items = [
+    ...Array.from({ length: 8 }, (_, index) => ({ ...trip, id: `custom-${index}`, createdAt: "2026-10-20" })),
+    { ...trip, id: "group", travelStyles: ["group"] },
+    { ...trip, id: "seasonal", travelStyles: ["seasonal"] },
+    { ...trip, id: "special", travelStyles: ["special-departure"] },
+    { ...trip, id: "draft", travelStyles: ["group", "seasonal"], status: "draft", createdAt: "2026-10-22" },
+  ];
+  const state = [];
+  let cursor = 0;
+  const passthrough = ({ children }) => children;
+  const PackageCard = () => null;
+  const { default: GroupDepartures } = load("src/components/home/GroupDepartures.tsx", {
+    react: { ...React, useEffect: () => {}, useState: (initial) => {
+      const index = cursor++;
+      if (!(index in state)) state[index] = initial;
+      return [state[index], (value) => { state[index] = typeof value === "function" ? value(state[index]) : value; }];
+    } },
+    "@/lib/admin/store": { useCollection: () => ({ ready: true, items }) },
+    "@/lib/packageCategory": category,
+    "@/lib/departures/types": load("src/lib/departures/types.ts"),
+    "@/lib/priceLabel": load("src/lib/priceLabel.ts"),
+    "@/components/home/FeaturedPackages": { PackageCard },
+    "@/components/ui/SiteImage": () => null,
+    "@/components/ui/Container": { Container: passthrough },
+    "@/components/ui/SectionTitle": { SectionTitle: () => null },
+    "@/components/ui/PrimaryButton": { PrimaryButton: () => null },
+    "@/components/ui/Stagger": { Stagger: passthrough, StaggerItem: passthrough },
+    "@/components/packages/BookingModal": () => null,
+    "next/link": () => { throw new Error("Homepage filters must not navigate"); },
+    "next/navigation": { useRouter: () => { throw new Error("Homepage filters must not navigate"); } },
+  });
+  const flatten = (node) => !node ? [] : Array.isArray(node) ? node.flatMap(flatten) : typeof node === "object" ? [node, ...flatten(node.props?.children)] : [];
+  const render = () => { cursor = 0; return flatten(GroupDepartures()); };
+  const cards = (nodes) => nodes.filter((node) => node.type === PackageCard).map((node) => node.props.pkg.id);
+  const button = (nodes, label) => nodes.find((node) => node.type === "button" && flatten(node.props.children).length === 0 && node.props.children === label);
+  let nodes = render();
+  assert.deepEqual(plain(cards(nodes)), ["group"], "a group tour beyond the initial six published records still appears");
+  for (const [label, expected] of [["Customizable", "custom-0"], ["Seasonal", "seasonal"], ["Special departures", "special"], ["Group tours", "group"]]) {
+    button(nodes, label).props.onClick();
+    nodes = render();
+    assert.equal(button(nodes, label).props["aria-pressed"], true);
+    assert.equal(cards(nodes)[0], expected);
+    assert.equal(cards(nodes).includes("draft"), false);
+  }
+  button(nodes, "Every journey").props.onClick();
+  nodes = render();
+  assert.equal(cards(nodes).length, 6);
+  nodes.find((node) => node.type === "button" && Array.isArray(node.props.children) && node.props.children[0] === "Show more tours ").props.onClick();
+  nodes = render();
+  assert.equal(cards(nodes).length, 11);
+  button(nodes, "Seasonal").props.onClick();
+  items = items.filter((pkg) => pkg.id !== "seasonal");
+  nodes = render();
+  assert.equal(cards(nodes).length, 0);
+  button(nodes, "Show every journey").props.onClick();
+  nodes = render();
+  assert.equal(cards(nodes).length, 6, "changing styles resets the visible count");
+  assert.equal(button(nodes, "Every journey").props["aria-pressed"], true);
+});
+
 function storeWith(fetch, channelType, clock = { now: Date.now() }) {
   const window = new EventTarget();
   const document = Object.assign(new EventTarget(), { visibilityState: "visible" });

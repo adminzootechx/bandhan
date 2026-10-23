@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/common/WhatsAppButton";
 import { siteUrl } from "@/lib/siteConfig";
 import { AuthProvider } from "@/lib/auth/useAuth";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -42,9 +43,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${poppins.variable} ${devanagari.variable} h-full antialiased`}
     >
+      <head>
+        <script id="bandhan-theme" dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body
         suppressHydrationWarning
         className="min-h-full flex flex-col bg-white text-foreground font-sans selection:bg-gold/30"
