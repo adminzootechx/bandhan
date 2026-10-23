@@ -8,7 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import type { TourPackage } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
-import { CATEGORY_TABS, homepageCuratedPackages, packageGroupSize, type CategoryTab } from "@/lib/packageCategory";
+import { CATEGORY_TABS, homepageCuratedPackages, homepagePackages, packageGroupSize, type CategoryTab } from "@/lib/packageCategory";
 import { withTaxMark } from "@/lib/priceLabel";
 
 export function PackageCard({ pkg, layout = "standard" }: { pkg: TourPackage; layout?: "standard" | "group" }) {
@@ -42,7 +42,7 @@ export const FeaturedPackages: React.FC = () => {
   const visiblePackages = homepageCuratedPackages(packages, activeTab);
   const curatedTabs = CATEGORY_TABS.filter((tab) => tab.key !== "group-tours");
 
-  if (homepageCuratedPackages(packages, "all", 1).length === 0) return null;
+  if (homepagePackages(packages, "all", 1).length === 0) return null;
 
   return (
     <section id="international-tours" className="relative z-10 bg-sand-light py-16 sm:py-24">

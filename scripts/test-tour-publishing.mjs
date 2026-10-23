@@ -57,7 +57,7 @@ test("new active tours lead the homepage and drafts stay hidden", () => {
   assert.equal(old[0].id, "old-0");
 });
 
-test("curated homepage trips never repeat group tours, including overlapping and inferred membership", () => {
+test("the default curated homepage selection excludes group tours while destination tabs include them", () => {
   const groups = [
     { ...trip, id: "group-category", category: "Group Tours" },
     { ...trip, id: "group-style", travelStyles: ["group"] },
@@ -71,14 +71,24 @@ test("curated homepage trips never repeat group tours, including overlapping and
   const packages = [...groups, ...privateTrips, international, northEast, draft];
   const groupIds = new Set(category.homepagePackages(packages, "group-tours").map((pkg) => pkg.id));
   assert.equal(groupIds.size, groups.length);
-  for (const tab of ["all", "domestic", "international", "north-east"]) {
-    const curated = category.homepageCuratedPackages(packages, tab);
-    assert.equal(curated.some((pkg) => groupIds.has(pkg.id) || pkg.status === "draft"), false);
-  }
+  const curated = category.homepageCuratedPackages(packages, "all");
+  assert.equal(curated.some((pkg) => groupIds.has(pkg.id) || pkg.status === "draft"), false);
   assert.equal(category.homepageCuratedPackages(packages, "all").length, 6);
   assert.deepEqual(plain(category.homepageCuratedPackages(packages, "international").map((pkg) => pkg.id)), [international.id]);
   assert.deepEqual(plain(category.homepageCuratedPackages(packages, "north-east").map((pkg) => pkg.id)), [northEast.id]);
   assert.equal(category.homepageCuratedPackages(groups, "all").length, 0);
+});
+
+test("North East and other destination tabs show published group tours without exposing drafts", () => {
+  const northEast = { ...trip, id: "three-sisters", category: "North East", travelStyles: ["group"] };
+  const international = { ...trip, id: "japan-group", category: "International", travelStyles: ["group", "customized"] };
+  const domestic = { ...trip, id: "ayodhya-group", travelStyles: ["group"] };
+  const draft = { ...northEast, id: "draft-northeast", status: "draft" };
+  const packages = [northEast, international, domestic, draft];
+  assert.equal(category.homepageCuratedPackages(packages, "all").length, 0);
+  assert.deepEqual(plain(category.homepageCuratedPackages(packages, "north-east").map((pkg) => pkg.id)), [northEast.id]);
+  assert.deepEqual(plain(category.homepageCuratedPackages(packages, "international").map((pkg) => pkg.id)), [international.id]);
+  assert.deepEqual(plain(category.homepageCuratedPackages(packages, "domestic").map((pkg) => pkg.id)), [domestic.id]);
 });
 
 function storeWith(fetch, channelType, clock = { now: Date.now() }) {

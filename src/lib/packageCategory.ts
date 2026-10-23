@@ -162,7 +162,7 @@ export function homepagePackages(packages: TourPackage[], category: CategoryTab,
     .slice(0, limit);
 }
 
-/** Group journeys have their own homepage section, even when also customizable. */
+/** Keep the default selection distinct from Group Tours, but show every matching trip in a destination tab. */
 export function homepageCuratedPackages(packages: TourPackage[], category: CategoryTab, limit = 6) {
-  return homepagePackages(packages.filter((pkg) => !isGroupTour(pkg)), category, limit);
+  return homepagePackages(category === "all" ? packages.filter((pkg) => !isGroupTour(pkg)) : packages, category, limit);
 }
