@@ -140,7 +140,7 @@ export default function HeroCarousel() {
               onClick={() => setActiveIndex(index)}
               className="flex h-11 w-8 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary sm:w-10"
             >
-              <span className={`h-2 rounded-full transition-all motion-reduce:transition-none ${index === activeIndex ? "w-6 bg-[#e82e63]" : "w-2 bg-primary/25"}`} />
+              <span className={`h-2 rounded-full transition-all motion-reduce:transition-none ${index === activeIndex ? "w-6 bg-blue-600" : "w-2 bg-primary/25"}`} />
             </button>
           ))}
         </div>

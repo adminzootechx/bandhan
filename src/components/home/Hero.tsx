@@ -86,11 +86,11 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
         role="search"
         aria-label="Find a holiday"
         className={isJapanBanner
-          ? "flex items-center gap-3 rounded-2xl border border-[#eee5e9] bg-white p-3 shadow-[0_12px_40px_-18px_rgba(70,30,48,0.24)] transition-[border-color,box-shadow] duration-300 focus-within:border-[#e82e63]/35 focus-within:shadow-[0_14px_46px_-16px_rgba(232,46,99,0.2)] sm:gap-5 sm:p-3.5 sm:pl-5"
+          ? "flex items-center gap-3 rounded-2xl border border-blue-100 bg-white p-3 shadow-[0_12px_40px_-18px_rgba(30,58,138,0.24)] transition-[border-color,box-shadow] duration-300 focus-within:border-blue-600/35 focus-within:shadow-[0_14px_46px_-16px_rgba(37,99,235,0.2)] sm:gap-5 sm:p-3.5 sm:pl-5"
           : "flex flex-col gap-3 rounded-xl bg-white p-3 shadow-[0_18px_50px_-20px_rgba(3,12,23,0.65)] sm:flex-row sm:items-center sm:p-4"}
       >
         <div className="flex min-w-0 flex-1 items-center gap-3">
-          <span className={`shrink-0 items-center justify-center ${isJapanBanner ? "hidden size-11 rounded-full bg-[#fff1f5] text-[#d92b5b] sm:flex" : "flex size-10 text-accent"}`}>
+          <span className={`shrink-0 items-center justify-center ${isJapanBanner ? "hidden size-11 rounded-full bg-blue-50 text-blue-600 sm:flex" : "flex size-10 text-accent"}`}>
             <MapPin size={20} strokeWidth={1.7} aria-hidden="true" />
           </span>
           <div className="min-w-0 flex-1 px-1 py-1">
@@ -112,10 +112,10 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
         </div>
         <PrimaryButton
           type="submit"
-          variant="coral"
+          variant={isJapanBanner ? "navy" : "coral"}
           size="md"
           className={isJapanBanner
-            ? "h-12 shrink-0 !rounded-xl !bg-[#e82e63] !px-4 !shadow-none hover:!bg-[#cf2354] hover:!shadow-none sm:h-14 sm:!px-7"
+            ? "h-12 shrink-0 !rounded-xl !bg-blue-600 !px-4 !shadow-none hover:!bg-blue-700 hover:!shadow-none focus:!ring-blue-500 sm:h-14 sm:!px-7"
             : "h-12 shrink-0 whitespace-nowrap !rounded-lg px-6"}
           leftIcon={<Search size={17} aria-hidden="true" />}
         >
