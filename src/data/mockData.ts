@@ -245,7 +245,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "bali-island-dreams",
     title: "Bali – The Island of Dreams (4N Kuta | 2N Ubud)",
-    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1633820313053-fa030b13ef94?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹61,900",
     highlights: [
@@ -272,14 +272,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "4N Kuta | 2N Ubud · 6N/7D · Fixed Departures from Sep to Apr",
     overview:
       "Explore the best of Bali across 4 nights in Kuta and 2 nights in Ubud. Highlights include water sports at Tanjung Benoa, Uluwatu sunset with Kecak Fire Dance, a full-day speedboat excursion to West Nusa Penida (Kelingking Beach, Broken Beach, Angel's Billabong & Crystal Bay), North & West Bali sightseeing (Ulun Danu Beratan, Handara Gate, Tanah Lot), Tirth Ganga Temple, Mount Batur viewpoint at Kintamani, Tegenungan Waterfall, and the Bali Jungle Swing.\n\nTour Departure Dates: Sep 17, 21 | Oct 7, 22 | Nov 6 | Feb 2, 16 | Mar 4, 24, 26 | Apr 1, 18.",
-    heroImage: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1633820313053-fa030b13ef94?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to April",
     startingPoint: "Ngurah Rai International Airport (DPS), Denpasar (Expected arrival time: 16:40 PM)",
     groupSize: "Min 25 pax for quoted rate",
     themes: ["Beach", "Culture", "Adventure"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=85&w=1800", caption: "Kuta and Ubud, Bali" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Island-hopping to Nusa Penida" },
+      { image: "https://images.unsplash.com/photo-1578490264471-807b49c9a41f?auto=format&fit=crop&q=85&w=1800", caption: "Gates of Heaven, Lempuyang Temple" },
+      { image: "https://images.pexels.com/photos/33630890/pexels-photo-33630890.jpeg", caption: "Island-hopping to Nusa Penida" },
     ],
     itinerary: [
       {
@@ -392,7 +392,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "3-sisters-tour",
     title: "3 Sisters Tour (Assam • Meghalaya • Arunachal Pradesh)",
-    image: "/pdf-assets/kanchenjunga-darjeeling.jpg",
+    image: "https://images.unsplash.com/photo-1521437620269-f477f5437820?auto=format&fit=crop&q=85&w=1800",
     duration: "11 Nights / 12 Days",
     price: "₹57,000",
     highlights: [
@@ -419,14 +419,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Guwahati 1N – Shillong 3N – Kaziranga 2N – Dirang 1N – Tawang 2N – Bomdila 1N – Guwahati 1N · 11N/12D",
     overview:
       "A magnificent 11 Nights / 12 Days journey across Assam, Meghalaya, and Arunachal Pradesh. Experience sacred temples, misty hill stations, Asia's cleanest village, living root bridges, wildlife safaris in Kaziranga National Park, high-altitude mountain passes including Sela Pass and Bumla Pass, iconic monasteries, cascading waterfalls, and a sunset cruise on the Brahmaputra River.\n\nDeparture Dates: Sep 24, 28 | Oct 01, 04, 12, 21, 24 | Nov 01, 04, 14, 18, 22, 26 | Dec 02, 06, 12, 18, 22.",
-    heroImage: "/pdf-assets/kanchenjunga-darjeeling.jpg",
+    heroImage: "https://images.unsplash.com/photo-1521437620269-f477f5437820?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to December",
     startingPoint: "Guwahati Airport (18km / 30 min transfer)",
     groupSize: "Group departures",
     themes: ["Mountains", "Culture", "Wildlife"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan foothills of Arunachal Pradesh" },
-      { image: "https://images.unsplash.com/photo-1609920658906-8223bd289001?auto=format&fit=crop&q=85&w=1800", caption: "Misty mornings in Meghalaya" },
+      { image: "https://images.unsplash.com/photo-1776834831114-77b5616f09cb?auto=format&fit=crop&q=85&w=1800", caption: "Tawang Monastery, Arunachal Pradesh" },
+      { image: "https://images.unsplash.com/photo-1675296098616-53e3d4a1dd57?auto=format&fit=crop&q=85&w=1800", caption: "One-horned rhinos, Kaziranga" },
+      { image: "https://images.unsplash.com/photo-1609276804051-8c5e906cc430?auto=format&fit=crop&q=85&w=1800", caption: "Waterfalls of Cherrapunjee, Meghalaya" },
     ],
     itinerary: [
       {
@@ -571,7 +572,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "4-sisters-tour",
     title: "4 Sisters Tour (Nagaland • Manipur • Tripura • Mizoram)",
-    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1712055196088-9bc6da4ffbce?auto=format&fit=crop&q=85&w=1800",
     duration: "09 Nights / 10 Days",
     price: "₹59,999",
     highlights: [
@@ -591,14 +592,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Kohima 2N – Imphal 2N – Agartala 2N – Kumarghat 1N – Aizawl 2N · 9N/10D",
     overview:
       "An adventurous 9 Nights / 10 Days journey through four captivating North Eastern sister states: Nagaland, Manipur, Tripura, and Mizoram. Explore WWII history and Khonoma green village in Kohima, the floating islands of Loktak Lake and vibrant Ima Keithel women's market in Imphal, the lakeside majesty of Neermahal and sacred temples of Agartala, ancient rock sculptures at Unakoti, and the scenic mountain vistas of Aizawl.\n\nDeparture Dates: Sep 24 | Oct 01, 08, 15, 22, 29 | Nov 05, 12, 19, 24, 26 | Dec 01, 03, 10, 17, 24.",
-    heroImage: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1712055196088-9bc6da4ffbce?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to December",
     startingPoint: "Dimapur Airport (Approx. 70 KM / 2.5 hrs to Kohima)",
     groupSize: "Group departures",
     themes: ["Culture", "Heritage", "Off the beaten path"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&q=85&w=1800", caption: "Hills of Nagaland and Manipur" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Heritage sites of Tripura" },
+      { image: "https://images.unsplash.com/photo-1542708993627-b6e5bbae43c4?auto=format&fit=crop&q=85&w=1800", caption: "Misty hills of Nagaland" },
+      { image: "https://images.unsplash.com/photo-1674722612663-c34ad2c24648?auto=format&fit=crop&q=85&w=1800", caption: "Loktak Lake, Manipur" },
+      { image: "https://images.unsplash.com/photo-1754162161390-2c458b3a6e55?auto=format&fit=crop&q=85&w=1800", caption: "Aizawl, Mizoram" },
     ],
     itinerary: [
       {
@@ -729,7 +731,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "amazing-thailand",
     title: "Amazing Thailand — 2N Pattaya | 2N Bangkok",
-    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1613672803979-a6edfc5a179b?auto=format&fit=crop&q=85&w=1800",
     duration: "4 Nights / 5 Days",
     price: "₹34,900",
     highlights: [
@@ -749,14 +751,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "2N Pattaya | 2N Bangkok · 4N/5D · Fixed Departures from Sep to Apr",
     overview:
       "A vibrant 4 Nights / 5 Days journey across Pattaya and Bangkok. Experience Pattaya's beaches, water sports at Koh Larn Coral Island, and the world-famous Alcazar Cabaret Show, paired with Bangkok's cultural landmarks including the Golden Buddha Temple (Wat Traimit), Marble Buddha Temple (Wat Benchamabophit), Gems Gallery, and a full day at Safari World & Marine Park.\n\nTour Departure Dates: Sep 1, 22 | Oct 6, 20 | Nov 2, 17 | Dec 1, 8 | Jan 1, 17 | Feb 8, 16 | Mar 8, 17 | Apr 8, 18.",
-    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1613672803979-a6edfc5a179b?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to April",
     startingPoint: "Bangkok Airport (Expected Arrival Time: 10:50 AM)",
     groupSize: "Min 25 pax for quoted rate",
     themes: ["Beach", "City", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Pattaya coastline" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Coral Island day trip" },
+      { image: "https://images.unsplash.com/photo-1625492206717-61c584a8b11e?auto=format&fit=crop&q=85&w=1800", caption: "Pattaya coastline" },
+      { image: "https://images.unsplash.com/photo-1620374710130-51526b5200f7?auto=format&fit=crop&q=85&w=1800", caption: "Coral Island (Koh Larn)" },
     ],
     itinerary: [
       {
@@ -850,7 +852,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "andaman-tour",
     title: "Andaman Tour (5 Nights / 6 Days)",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1586359716568-3e1907e4cf9f?auto=format&fit=crop&q=85&w=1800",
     duration: "5 Nights / 6 Days",
     price: "₹33,499",
     highlights: [
@@ -872,14 +874,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Port Blair 2N – Havelock Island 2N – Neil Island 1N · 5N/6D · Fixed Departures",
     overview:
       "A tropical 5 Nights / 6 Days getaway across the Andaman Islands. Relive India's freedom struggle at the historic Cellular Jail with its stirring Light & Sound show, cruise turquoise waters to Havelock Island to stroll the powdery sands of world-renowned Radhanagar Beach, enjoy complimentary snorkeling amidst vibrant reefs at Elephanta Beach, explore Neil Island's natural rock bridge, and walk through colonial ruins on Ross Island.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 09, 21 | Nov 12, 27 | Dec 02, 10, 18, 25 (2026).",
-    heroImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1586359716568-3e1907e4cf9f?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to May",
     startingPoint: "Port Blair Airport (IXZ) (Arrival before 12:00 PM)",
     groupSize: "Group departures",
     themes: ["Beach", "Island", "History"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Radhanagar Beach, Havelock Island" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Snorkeling off Elephanta Beach" },
+      { image: "https://images.unsplash.com/photo-1721231564051-3b44b8058a9e?auto=format&fit=crop&q=85&w=1800", caption: "Cellular Jail, Port Blair" },
+      { image: "https://images.unsplash.com/photo-1593202232429-549625b8660d?auto=format&fit=crop&q=85&w=1800", caption: "White-sand beaches of the Andamans" },
     ],
     itinerary: [
       {
@@ -982,7 +984,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "andaman-baratang-tour",
     title: "Andaman with Baratang Tour (6 Nights / 7 Days)",
-    image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.pexels.com/photos/37949155/pexels-photo-37949155.jpeg",
     duration: "6 Nights / 7 Days",
     price: "₹38,499",
     highlights: [
@@ -1006,14 +1008,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Port Blair 3N – Havelock Island 2N – Neil Island 1N · 6N/7D · Fixed Departures",
     overview:
       "A comprehensive 6 Nights / 7 Days expedition across the Andaman archipelago including the pristine wilderness of Baratang Island. Highlights include Cellular Jail's sound and light spectacle, luxury inter-island cruise to Havelock's Radhanagar Beach, complimentary coral snorkeling at Elephanta Beach, Neil Island's natural rock formation bridge, Ross Island's peacocks and colonial history, plus an early morning jungle safari across the Jarawa Reserve to Baratang for thrilling mangrove boat rides, limestone caves, and India's only active mud volcano.\n\nDeparture Dates: Sep 06, 26 | Oct 02, 09, 21 | Nov 12, 18, 25 | Dec 02, 18, 25 (2026).",
-    heroImage: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.pexels.com/photos/37949155/pexels-photo-37949155.jpeg",
     bestTime: "October to May",
     startingPoint: "Port Blair Airport (IXZ) (Arrival before 12:00 PM)",
     groupSize: "Group departures",
     themes: ["Beach", "Island", "Nature", "Adventure"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Baratang Mangrove Creek" },
-      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Radhanagar Beach, Havelock" },
+      { image: "https://images.unsplash.com/photo-1643276715928-f0210284bea8?auto=format&fit=crop&q=85&w=1800", caption: "Mangrove creek, Andaman Islands" },
+      { image: "https://images.unsplash.com/photo-1721231537806-98e58320eefc?auto=format&fit=crop&q=85&w=1800", caption: "Cellular Jail, Port Blair" },
     ],
     itinerary: [
       {
@@ -1125,7 +1127,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "ayodhya-varanasi",
     title: "Ayodhya – Varanasi Spiritual Tour (6 Nights / 7 Days)",
-    image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1706186839147-0d708602587b?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹33,499",
     highlights: [
@@ -1150,14 +1152,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Ayodhya 1N – Chitrakoot 1N – Varanasi 3N – Bodhgaya 1N · 6N/7D · Fixed Departures",
     overview:
       "A sacred 6 Nights / 7 Days pilgrimage through India's holiest spiritual destinations. Bow before the divine deity at Ayodhya's grand Shri Ram Janmabhoomi Mandir, walk the sacred grounds of Lord Rama's exile in Chitrakoot, take a holy dip at Prayagraj's Triveni Sangam, meditate under the sacred Bodhi Tree where the Buddha attained enlightenment in Bodhgaya, cruise the holy Ganga at sunrise in Varanasi, receive VIP darshan at the Kashi Vishwanath Jyotirlinga, and witness the captivating evening Ganga Aarti at Dashashwamedh Ghat.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 09, 21 | Nov 12, 27 | Dec 02, 10, 18, 25 (2026).",
-    heroImage: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1706186839147-0d708602587b?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to March",
     startingPoint: "Lucknow Airport / Railway Station (Approx. 140 km / 3 hrs to Ayodhya)",
     groupSize: "Group departures",
     themes: ["Spiritual", "Heritage", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&q=85&w=1800", caption: "Ganga Aarti, Dashashwamedh Ghat" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Varanasi Riverfront" },
+      { image: "https://images.unsplash.com/photo-1652059468424-249066e3a98f?auto=format&fit=crop&q=85&w=1800", caption: "Ram Ki Paidi on the Saryu, Ayodhya" },
+      { image: "https://images.unsplash.com/photo-1599831069477-b2acdc0bcb91?auto=format&fit=crop&q=85&w=1800", caption: "Evening Ganga Aarti" },
     ],
     itinerary: [
       {
@@ -1268,7 +1270,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "singapore-malaysia-best",
     title: "Best of Singapore Malaysia",
-    image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=90&w=3200",
     duration: "5 Nights / 6 Days",
     price: "₹91,900",
     highlights: [
@@ -1301,8 +1303,8 @@ const packageCatalogue: TourPackage[] = [
     groupSize: "Min 25 pax for quoted rate",
     themes: ["City", "Family", "Theme Park"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&q=85&w=1800", caption: "Sentosa Island, Singapore" },
-      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800", caption: "Singapore skyline" },
+      { image: "https://images.unsplash.com/photo-1597148543182-830ef7bbb904?auto=format&fit=crop&q=85&w=1800", caption: "Petronas Twin Towers, Kuala Lumpur" },
+      { image: "https://images.pexels.com/photos/18662417/pexels-photo-18662417.jpeg", caption: "Singapore skyline" },
     ],
     itinerary: [
       {
@@ -1409,7 +1411,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "bhutan-tour",
     title: "Bhutan Tour",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1553351234-d0eb4feecb93?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹47,000",
     highlights: [
@@ -1430,14 +1432,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Phuentsholing 1N – Thimphu 3N – Paro 2N – Lataguri 1N · 7N/8D · Fixed Departures",
     overview:
       "A breathtaking 7 Nights / 8 Days journey exploring the Kingdom of Bhutan and the Dooars. Experience Phuentsholing, Thimphu's cultural landmarks, Dochula Pass, Punakha Dzong and Suspension Bridge, Chele La Pass, the legendary hike to Taktsang Monastery (Tiger's Nest), and a morning Jeep Safari at Gorumara National Park in Lataguri.\n\nDeparture Dates: Sep 04, 12, 16, 20 | Oct 02, 09, 21, 24 | Nov 04, 12, 19, 23 | Dec 02, 06, 16, 23.",
-    heroImage: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1553351234-d0eb4feecb93?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to December",
     startingPoint: "Bagdogra Airport (IXB) / New Jalpaiguri (NJP)",
     groupSize: "Group departures",
     themes: ["Mountains", "Culture", "Spiritual"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Himalayan valleys of Bhutan" },
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Prayer flags and mountain passes" },
+      { image: "https://images.pexels.com/photos/28641113/pexels-photo-28641113.jpeg", caption: "Himalayan valleys of Bhutan" },
+      { image: "https://images.unsplash.com/photo-1761048804017-caa6ed93b8d1?auto=format&fit=crop&q=85&w=1800", caption: "108 chortens at Dochula Pass" },
     ],
     itinerary: [
       {
@@ -1553,7 +1555,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "eastern-europe-highlights",
     title: "Eastern Europe Highlights",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1600623471616-8c1966c91ff6?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹1,90,400",
     highlights: [
@@ -1572,14 +1574,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Austria, Hungary, Slovakia, Czech Republic & Germany · 7N/8D · Departure: 16 Oct",
     overview:
       "A magnificent 7 Nights / 8 Days journey traversing Austria, Hungary, Slovakia, Czech Republic, and Germany. Experience guided tours of Vienna, Budapest, Prague, and Salzburg, visit Schönbrunn Palace, cruise the Danube River, discover picturesque Szentendre, explore Bratislava's Old Town, witness Prague Castle's Viewing Gallery and historic Kutná Hora, visit the postcard village of Hallstatt, ascend Dachstein Glacier by cable car, and conclude in vibrant Munich.\n\nDeparture Date: 16 Oct.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1600623471616-8c1966c91ff6?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October",
     startingPoint: "Vienna Airport (VIE) (Landing between 08:00 AM – 02:00 PM)",
     groupSize: "Group departure: 16 Oct",
     themes: ["Heritage", "City", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Historic architecture of Central Europe" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Castles and old towns" },
+      { image: "https://images.unsplash.com/photo-1616432902940-b7a1acbc60b3?auto=format&fit=crop&q=85&w=1800", caption: "Hungarian Parliament, Budapest" },
+      { image: "https://images.unsplash.com/photo-1785739126002-40508d654e74?auto=format&fit=crop&q=85&w=1800", caption: "Salzburg and Hohensalzburg Fortress" },
     ],
     itinerary: [
       {
@@ -1693,7 +1695,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "grand-tour-europe",
     title: "Grand Tour of Europe",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1761777773044-f76c0fe5114d?auto=format&fit=crop&q=85&w=1800",
     duration: "15 Nights / 16 Days",
     price: "₹4,13,700",
     highlights: [
@@ -1724,14 +1726,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "UK, France, Belgium, Netherlands, Germany, Swiss, Austria, Italy & Vatican · 15N/16D",
     overview:
       "The ultimate 15 Nights / 16 Days European grand voyage spanning 10 countries: UK, France, Belgium, The Netherlands, Germany, Switzerland, Liechtenstein, Austria, Italy, and Vatican City. Highlights include London landmarks, Lord's Cricket Ground, high-speed Eurostar to Paris, Eiffel Tower (3rd Level), Versailles Palace, Disneyland® Paris, Brussels Grand Place & Mini Europe, Keukenhof Gardens / traditional Dutch village, Amsterdam canal cruise, Black Forest & Rhine Falls, Jungfraujoch (Top of Europe), Mount Titlis, Vaduz mini train, Swarovski Crystal Worlds in Innsbruck, Venetian Gondola ride, Florence Duomo & Leaning Tower of Pisa, and the Sistine Chapel & Colosseum in Rome.\n\nDeparture dates: 12 Oct & 01 Nov.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1761777773044-f76c0fe5114d?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October & November",
     startingPoint: "London Heathrow Airport (LHR) (Landing between 08:00 AM – 02:00 PM)",
     groupSize: "Group departures: 12 Oct & 01 Nov",
     themes: ["Heritage", "City", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Iconic landmarks across Europe" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Historic old towns" },
+      { image: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&q=85&w=1800", caption: "Amsterdam's canals" },
+      { image: "https://images.unsplash.com/photo-1773997777550-ed4f71c8499f?auto=format&fit=crop&q=85&w=1800", caption: "Jungfraujoch – Top of Europe" },
+      { image: "https://images.unsplash.com/photo-1545157000-85f257f7b040?auto=format&fit=crop&q=85&w=1800", caption: "Grand Canal, Venice" },
     ],
     itinerary: [
       {
@@ -1922,7 +1925,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "kerala-kanyakumari",
     title: "Kerala with Kanyakumari – 7 Nights / 8 Days",
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1593693411515-c20261bcad6e?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹39,999",
     highlights: [
@@ -1950,15 +1953,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Munnar · Thekkady · Varkala · Kovalam · Kanyakumari · Alleppey · 7N/8D",
     overview:
       "A grand 7 Nights / 8 Days Kerala and Kanyakumari holiday spanning misty hills, coastal cliffs, sacred temples, and tranquil backwaters. Highlights include Munnar's sprawling tea gardens and Eravikulam National Park, spice plantations and cultural shows in Thekkady, the monumental Jatayu Earth's Center cable car ride, Varkala's red cliffs, Trivandrum's Sree Padmanabhaswamy Temple with VIP Darshan, a full-day excursion to India's southernmost tip at Kanyakumari and Vivekananda Rock Memorial, concluding with an authentic overnight houseboat cruise through the backwaters of Alleppey.\n\nTour Departure Dates: Sep 07, 28 | Oct 02, 12, 23 | Nov 01, 12, 20, 27 | Dec 07, 21, 25.",
-    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1593693411515-c20261bcad6e?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to March",
     startingPoint: "Cochin International Airport (COK) / Ernakulam Railway Station",
     groupSize: "2+ guests",
     themes: ["Backwaters", "Hill Station", "Coastal", "Temple Heritage"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Alleppey Houseboat Backwaters" },
-      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800", caption: "Munnar Tea Plantations" },
-      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Kovalam and Varkala Beaches" },
+      { image: "https://images.unsplash.com/photo-1491497895121-1334fc14d8c9?auto=format&fit=crop&q=85&w=1800", caption: "Tea gardens of Munnar" },
+      { image: "https://images.unsplash.com/photo-1760828329500-00b474db9330?auto=format&fit=crop&q=85&w=1800", caption: "Vivekananda Rock and Thiruvalluvar Statue, Kanyakumari" },
     ],
     itinerary: [
       {
@@ -2080,7 +2082,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "mesmerizing-vietnam",
     title: "Mesmerizing Vietnam (Ho Chi Minh 2N | Da Nang 3N | Hanoi 1N | Halong Cruise 1N)",
-    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1675111066042-9baa4c343157?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹78,900",
     highlights: [
@@ -2105,14 +2107,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Ho Chi Minh 2N | Da Nang 3N | Hanoi 1N | Halong Cruise 1N · 7N/8D · Fixed Departures from Sep to Apr",
     overview:
       "A stunning 7 Nights / 8 Days journey across Vietnam featuring Ho Chi Minh City (2N), Da Nang (3N), Hanoi (1N), and an overnight cruise in Ha Long Bay (1N). Highlights include the Mekong Delta river cruise, Cu Chi Tunnels, domestic flights, Marble Mountains, UNESCO-listed Hoi An Ancient Town, Ba Na Hills with the world-famous Golden Bridge, a half-day Hanoi city tour, and cruising emerald waters among limestone karsts in Ha Long Bay.\n\nTour Departure Dates: Sep 12, 27 | Oct 3, 23 | Nov 3, 16 | Dec 10, 24 | Jan 4, 20 | Feb 12, 20 | Mar 12, 21 | Apr 12, 22.",
-    heroImage: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1675111066042-9baa4c343157?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to April",
     startingPoint: "Tan Son Nhat International Airport, Ho Chi Minh City",
     groupSize: "Min 25 pax for quoted rate",
     themes: ["Culture", "Scenic", "Cruise"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Golden Bridge, Ba Na Hills" },
-      { image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=85&w=1800", caption: "Ha Long Bay limestone islands" },
+      { image: "https://images.pexels.com/photos/36839006/pexels-photo-36839006.jpeg?auto=compress&cs=tinysrgb&w=1800", caption: "Golden Bridge, Ba Na Hills" },
+      { image: "https://images.unsplash.com/photo-1772867342647-6e6d87a0b014?auto=format&fit=crop&q=85&w=1800", caption: "Overnight cruise on Ha Long Bay" },
     ],
     itinerary: [
       {
@@ -2233,7 +2235,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "rajasthan-marwad",
     title: "Rajasthan Marwad – 7 Nights / 8 Days",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1759498059971-2f08746a2197?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹34,999",
     highlights: [
@@ -2255,14 +2257,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Jaipur – Khatu Shyam Ji 1N – Bikaner 2N – Jaisalmer 2N – Jodhpur 2N · 7N/8D",
     overview:
       "A grand 7 Nights / 8 Days journey through the vibrant heritage and desert landscapes of Marwad, Rajasthan. Seek divine blessings at Khatu Shyam Ji and Salasar Balaji, witness the royal opulence of Bikaner's Junagarh Fort and Deshnok's Karni Mata Temple, discover the Golden City of Jaisalmer, journey to the historic border posts of Tanot Mata and Longewala, sleep near the Sam Sand Dunes with cultural folk performances, and explore the majestic forts and palaces of the Blue City, Jodhpur.\n\nDeparture Dates: Sep 02, 26 | Oct 02, 21 | Nov 01, 14, 27 | Dec 07, 21.",
-    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1759498059971-2f08746a2197?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to March",
     startingPoint: "Jaipur (Approx. 90 KM / 2 hrs to Khatu Shyam Ji)",
     groupSize: "Group departures",
     themes: ["Heritage", "Culture", "Desert"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Mehrangarh Fort, Jodhpur" },
-      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Sam Sand Dunes, Jaisalmer" },
+      { image: "https://images.pexels.com/photos/15774210/pexels-photo-15774210.png", caption: "Forts of Rajasthan" },
+      { image: "https://images.pexels.com/photos/11862548/pexels-photo-11862548.jpeg", caption: "Sam Sand Dunes desert safari" },
     ],
     itinerary: [
       {
@@ -2382,7 +2384,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "singapore-malaysia-thailand",
     title: "Singapore Malaysia Thailand (2N Pattaya | 2N Bangkok | 2N Kuala Lumpur | 3N Singapore)",
-    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1534008897995-27a23e859048?auto=format&fit=crop&q=85&w=1800",
     duration: "9 Nights / 10 Days",
     price: "₹1,05,000",
     highlights: [
@@ -2407,15 +2409,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "2N Pattaya | 2N Bangkok | 2N Kuala Lumpur | 3N Singapore · 9N/10D Grand Tri-Nation Tour",
     overview:
       "A grand 9 Nights / 10 Days tri-nation Southeast Asian holiday spanning Thailand, Malaysia, and Singapore. Experience Pattaya's vibrant Alcazar show and Coral Island speedboat trip, Bangkok's revered Golden & Marble Buddha temples and full-day Safari World, Kuala Lumpur's iconic skyline, Batu Caves and Genting Highlands cable car, followed by a scenic coach transfer to Singapore for the Night Safari, Sentosa Island, Gardens by the Bay, Marina Bay Sands, and a thrilling day at Universal Studios Singapore.",
-    heroImage: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1534008897995-27a23e859048?auto=format&fit=crop&q=90&w=3200",
     bestTime: "Year-round",
     startingPoint: "Bangkok Suvarnabhumi Airport (BKK) / Don Mueang (DMK)",
     groupSize: "Min 25 pax for group departures",
     themes: ["Theme Parks", "City & Culture", "Family Holiday", "Tropical Beaches"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800", caption: "Singapore Marina Bay skyline and Gardens by the Bay" },
-      { image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=85&w=1800", caption: "Wat Arun and Grand Palace, Bangkok" },
-      { image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&q=85&w=1800", caption: "Petronas Twin Towers, Kuala Lumpur" },
+      { image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&q=85&w=1800", caption: "Singapore skyline" },
+      { image: "https://images.unsplash.com/photo-1760256995594-387bb28d7960?auto=format&fit=crop&q=85&w=1800", caption: "Petronas Twin Towers, Kuala Lumpur" },
     ],
     itinerary: [
       {
@@ -2557,7 +2558,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "sampurna-karnataka",
     title: "Sampurna Karnataka – 7 Nights / 8 Days",
-    image: "https://images.unsplash.com/photo-1600100397608-f010f443b773?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1722934804353-0d9f6a55ab5e?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹40,499",
     highlights: [
@@ -2582,14 +2583,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Hubli 2N – Hampi 2N – Gokarna 1N – Murudeshwar 1N – Udupi 1N · 7N/8D",
     overview:
       "An exhilarating 7 Nights / 8 Days journey exploring the golden heritage, spiritual bastions, and dramatic coastlines of Karnataka. Explore ancient rock-cut caves in Badami, walk through the awe-inspiring Vijayanagara empire ruins at UNESCO World Heritage Hampi, float along the Tungabhadra in a traditional coracle, marvel at the roaring cascades of Jog Falls, pray before the Atmalinga in Gokarna and the gigantic cliffside Shiva statue at Murudeshwar, receive blessings at Sringeri and Udupi Sri Krishna Temple, and take a ferry to the volcanic basalt pillars of St. Mary's Island.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 21 | Nov 10, 25 | Dec 01, 25.",
-    heroImage: "https://images.unsplash.com/photo-1600100397608-f010f443b773?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1722934804353-0d9f6a55ab5e?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to March",
     startingPoint: "Hubli Airport / Railway Station (Arrival before 1:00 PM)",
     groupSize: "Group departures",
     themes: ["Heritage", "Spiritual", "Nature", "Coastal"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1600100397608-f010f443b773?auto=format&fit=crop&q=85&w=1800", caption: "Hampi Stone Chariot" },
-      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Murudeshwar Shiva Statue" },
+      { image: "https://images.pexels.com/photos/14496561/pexels-photo-14496561.jpeg", caption: "Hampi's ancient ruins" },
+      { image: "https://images.pexels.com/photos/15240243/pexels-photo-15240243.jpeg", caption: "Temples and coastline of Karnataka" },
     ],
     itinerary: [
       {
@@ -2737,8 +2738,8 @@ const packageCatalogue: TourPackage[] = [
     groupSize: "Group departures",
     themes: ["Mountains", "Culture", "Scenic"],
     gallery: [
-      { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Kanchenjunga range from Darjeeling" },
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Tsomgo Lake, Sikkim" },
+      { image: "https://images.unsplash.com/photo-1615874226138-b37fcf3d75b2?auto=format&fit=crop&q=85&w=1800", caption: "Tsomgo Lake" },
+      { image: "https://images.unsplash.com/photo-1671711847762-b8308b444a42?auto=format&fit=crop&q=85&w=1800", caption: "Darjeeling Himalayan Railway" },
     ],
     itinerary: [
       {
@@ -2868,8 +2869,8 @@ const packageCatalogue: TourPackage[] = [
     groupSize: "2+ guests",
     themes: ["Himalayan Valleys", "High-Altitude Lakes", "Alpine Flowers", "Heritage Monasteries"],
     gallery: [
-      { image: "/pdf-assets/yumthang-valley-sikkim.jpg", caption: "Yumthang Valley - Valley of Flowers, North Sikkim" },
-      { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Sunrise over Mount Kanchenjunga from Tiger Hill" },
+      { image: "https://images.unsplash.com/photo-1615874226138-b37fcf3d75b2?auto=format&fit=crop&q=85&w=1800", caption: "Tsomgo Lake" },
+      { image: "https://images.unsplash.com/photo-1590256518627-c9f8a6855185?auto=format&fit=crop&q=85&w=1800", caption: "Kanchenjunga at sunrise" },
     ],
     itinerary: [
       {
@@ -2998,7 +2999,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "south-india-temple-tour",
     title: "South India Temple Tour – 5 Nights / 6 Days",
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.pexels.com/photos/37726647/pexels-photo-37726647.jpeg",
     duration: "5 Nights / 6 Days",
     price: "₹28,599",
     highlights: [
@@ -3025,14 +3026,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Madurai 1N – Rameshwaram 2N – Kanyakumari 1N – Trivandrum 1N · 5N/6D",
     overview:
       "An inspiring 5 Nights / 6 Days spiritual and cultural journey across Tamil Nadu and Kerala. Experience the towering gopurams of Madurai's Meenakshi Amman Temple, drive across the engineering marvel of Pamban Bridge to Rameshwaram, take holy dips in the 22 Teerthams, visit the land's end at Dhanushkodi, witness the confluence of three oceans at Kanyakumari, and receive VIP darshan at the legendary Sree Padmanabhaswamy Temple in Trivandrum.\n\nDeparture Dates: Sep 06 | Oct 02, 14, 22 | Nov 12, 18, 25 | Dec 02, 16, 24 (2026).",
-    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.pexels.com/photos/37726647/pexels-photo-37726647.jpeg",
     bestTime: "September to March",
     startingPoint: "Madurai Airport / Railway Station (Arrival before 10:00 AM)",
     groupSize: "Group departures",
     themes: ["Spiritual", "Heritage", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Meenakshi Amman Temple gopurams" },
-      { image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=85&w=1800", caption: "Vivekananda Rock Memorial, Kanyakumari" },
+      { image: "https://images.unsplash.com/photo-1692173248120-59547c3d4653?auto=format&fit=crop&q=85&w=1800", caption: "Meenakshi Amman Temple, Madurai" },
+      { image: "https://images.pexels.com/photos/28464762/pexels-photo-28464762.jpeg", caption: "Kanyakumari's coastline" },
     ],
     itinerary: [
       {
@@ -3137,7 +3138,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "special-kerala",
     title: "Special Kerala – 6 Nights / 7 Days",
-    image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1782580358831-647066d75f5a?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹36,450",
     highlights: [
@@ -3164,14 +3165,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Munnar 2N – Thekkady 1N – Varkala 1N – Kovalam 1N – Alleppey Houseboat 1N · 6N/7D",
     overview:
       "A magical 6 Nights / 7 Days journey through God's Own Country. Experience the lush tea plantations and waterfalls of Munnar, endangered Nilgiri Tahr at Eravikulam, Kathakali and Kalaripayattu cultural performances in Thekkady, the gigantic bird sculpture at Jatayu Earth's Center, cliffside beaches of Varkala, royal heritage and VIP darshan in Trivandrum, and an unforgettable overnight stay on a traditional houseboat cruising Alleppey's backwaters.\n\nDeparture Dates: Sep 07, 28 | Oct 02, 12, 23 | Nov 01, 12, 20, 27 | Dec 07, 21, 25.",
-    heroImage: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1782580358831-647066d75f5a?auto=format&fit=crop&q=90&w=3200",
     bestTime: "September to March",
     startingPoint: "Cochin Airport / Railway Station (Approx. 130 KM / 4 hrs to Munnar)",
     groupSize: "Group departures",
     themes: ["Backwaters", "Nature", "Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&q=85&w=1800", caption: "Alleppey backwaters and houseboats" },
-      { image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=85&w=1800", caption: "Tea hills of Munnar" },
+      { image: "https://images.pexels.com/photos/34588372/pexels-photo-34588372.jpeg", caption: "Kerala's backwaters" },
+      { image: "https://images.pexels.com/photos/19743480/pexels-photo-19743480.jpeg", caption: "Alleppey backwater cruising" },
     ],
     itinerary: [
       {
@@ -3285,7 +3286,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "swiss-paris-highlights",
     title: "Swiss & Paris Highlights",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1546597431-a793960fe9bb?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹1,99,999",
     highlights: [
@@ -3307,14 +3308,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "France & Switzerland · 7N/8D · Departures: 10, 23 Oct & 06, 20 Nov",
     overview:
       "A breathtaking 7 Nights / 8 Days journey across France and Switzerland. Discover the magic of Paris with a guided city tour, Eiffel Tower (3rd level), Palace of Versailles, Seine River Cruise, Paris by Night tour, and a full day at Disneyland® Paris. Continue through Switzerland with an orientation of Geneva, Jungfraujoch (Top of Europe), Mount Titlis with Rotair revolving cable car and Cliff Walk, Lake Lucerne cruise, Bern orientation, Rhine Falls boat ride, and the Lindt Home of Chocolate in Zurich.\n\nDeparture Dates: 10, 23 Oct & 06, 20 Nov.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1546597431-a793960fe9bb?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October & November",
     startingPoint: "Paris CDG Airport (Flight landing time: 08:00 AM – 02:00 PM)",
     groupSize: "Group departures: 10, 23 Oct & 06, 20 Nov",
     themes: ["City", "Mountains", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris landmarks" },
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Swiss Alps" },
+      { image: "https://images.pexels.com/photos/16785486/pexels-photo-16785486.png", caption: "Paris landmarks" },
+      { image: "https://images.pexels.com/photos/35047590/pexels-photo-35047590.jpeg", caption: "Swiss Alps" },
     ],
     itinerary: [
       {
@@ -3568,7 +3569,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "classic-italy",
     title: "Classic Italy (1N Milan | 1N Venice | 2N Florence | 2N Rome)",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1776377231754-d36928e6ee4d?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,82,999",
     highlights: [
@@ -3586,14 +3587,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "1N Milan | 1N Venice | 2N Florence | 2N Rome · 6N/7D · Valid till 31st Oct 2026",
     overview:
       "A classic 6 Nights / 7 Days Italian journey linking Milan (1N), Venice (1N), Florence (2N), and Rome (2N) via scenic high-speed trains. Enjoy a private water taxi and romantic gondola ride in Venice, Florence's Renaissance treasures, a picturesque full-day excursion through the Tuscan countryside to Pisa, Siena, and San Gimignano, and a comprehensive guided tour of Ancient Rome including the Colosseum, Roman Forum, and Palatine Hill.\n\nRates are valid for travel until 31st October 2026 (not applicable during peak/festival periods).",
-    heroImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1776377231754-d36928e6ee4d?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October (Valid till 31st Oct 2026)",
     startingPoint: "Milan Airport",
     groupSize: "2+ guests",
     themes: ["Heritage", "City", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Canals of Venice" },
-      { image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?auto=format&fit=crop&q=85&w=1800", caption: "Ancient Rome" },
+      { image: "https://images.pexels.com/photos/35101864/pexels-photo-35101864.jpeg", caption: "Canals of Venice" },
+      { image: "https://images.pexels.com/photos/29322786/pexels-photo-29322786.jpeg", caption: "Ancient Rome" },
     ],
     itinerary: [
       {
@@ -3701,7 +3702,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "london-edinburgh-bliss",
     title: "London & Edinburgh Bliss (4N London | 3N Edinburgh)",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1599676603816-0f92b2d713d2?auto=format&fit=crop&q=85&w=1800",
     duration: "7 Nights / 8 Days",
     price: "₹1,95,999",
     highlights: [
@@ -3722,14 +3723,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "4N London | 3N Edinburgh · 7N/8D · Valid till 31st Oct 2026",
     overview:
       "A scenic 7 Nights / 8 Days UK journey spanning London (4N) and Edinburgh (3N). Discover London's famous landmarks with a 48-hour Hop-On Hop-Off pass, the London Eye, Madame Tussauds, a Thames cruise, the Tower of London, and a full-day excursion through Oxford's university colleges and the idyllic honey-stone villages of the Cotswolds. Then journey north by rail to explore Edinburgh Castle, the Royal Mile, and Scotland's historic capital.\n\nRates are valid for travel until 31st October 2026 (not applicable during peak/festival periods).",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1599676603816-0f92b2d713d2?auto=format&fit=crop&q=90&w=3200",
     bestTime: "May to October (Valid till 31st Oct 2026)",
     startingPoint: "London Heathrow Airport (LHR)",
     groupSize: "2+ guests",
     themes: ["City", "Heritage", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "London landmarks" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Edinburgh's historic streets" },
+      { image: "https://images.unsplash.com/photo-1772339059405-7516188e8a0c?auto=format&fit=crop&q=85&w=1800", caption: "Big Ben and the Houses of Parliament" },
+      { image: "https://images.pexels.com/photos/22204003/pexels-photo-22204003.jpeg", caption: "Edinburgh's historic streets" },
     ],
     itinerary: [
       {
@@ -3848,7 +3849,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "paris-swiss-delights",
     title: "Paris & Swiss Delights (3N Paris | 3N Zurich)",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,94,999",
     highlights: [
@@ -3868,14 +3869,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "3N Paris | 3N Zurich · 6N/7D · Valid till 31st Oct 2026",
     overview:
       "A scenic 6 Nights / 7 Days European escape pairing Paris (3N) and Zurich (3N). Admire Parisian icons with a 48-hour Hop-On Hop-Off pass, Eiffel Tower second-level entry, a Seine River cruise, and the treasures of the Louvre Museum with audio guide. Connect to Switzerland by high-speed rail and use your 3-day Swiss Travel Pass for unlimited exploration including a mountain ascent of Mount Titlis via Engelberg and the roaring waters of Rhine Falls at Schaffhausen.\n\nRates are valid for travel until 31st October 2026 (not applicable during peak/festival periods).",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October (Valid till 31st Oct 2026)",
     startingPoint: "Paris Charles de Gaulle Airport (CDG)",
     groupSize: "2+ guests",
     themes: ["City", "Mountains", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris and Eiffel Tower" },
-      { image: "https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&q=85&w=1800", caption: "Swiss Alps & Lakes" },
+      { image: "https://images.pexels.com/photos/14763491/pexels-photo-14763491.jpeg", caption: "Eiffel Tower, Paris" },
+      { image: "https://images.pexels.com/photos/38557808/pexels-photo-38557808.jpeg", caption: "Swiss Alps near Engelberg" },
     ],
     itinerary: [
       {
@@ -3985,7 +3986,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "splendid-germany",
     title: "Splendid Germany (3N Munich | 1N Stuttgart | 2N Frankfurt)",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1609237756221-88c4a93846b2?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,47,999",
     highlights: [
@@ -4004,14 +4005,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "3N Munich | 1N Stuttgart | 2N Frankfurt · 6N/7D · Valid till 31st Oct 2026",
     overview:
       "Explore three of Germany's most vibrant cities: Munich (3N), Stuttgart (1N), and Frankfurt (2N). Highlights include a 1-day Munich Hop-On Hop-Off tour, an excursion to the fairytale Neuschwanstein Castle and King Ludwig II's Linderhof Palace, 2nd-class scenic rail journeys, a 24-hour Stuttgart Hop-On Hop-Off tour, Frankfurt Grand Tour with a 1-hour River Main panorama cruise, and seamless private transfers throughout.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1609237756221-88c4a93846b2?auto=format&fit=crop&q=90&w=3200",
     bestTime: "May to October (Valid till 31st Oct 2026)",
     startingPoint: "Munich Airport",
     groupSize: "2+ guests",
     themes: ["City", "Heritage", "Scenic"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Bavarian castles" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Frankfurt's riverside skyline" },
+      { image: "https://images.unsplash.com/photo-1649609765902-254a227dc960?auto=format&fit=crop&q=85&w=1800", caption: "Marienplatz and the Frauenkirche, Munich" },
+      { image: "https://images.pexels.com/photos/12742508/pexels-photo-12742508.jpeg?auto=compress&cs=tinysrgb&w=1800", caption: "Frankfurt's riverside skyline" },
     ],
     itinerary: [
       {
@@ -4147,9 +4148,10 @@ const packageCatalogue: TourPackage[] = [
     groupSize: "Min 2 travellers",
     themes: ["Ancient Heritage", "Fairy Chimney Landscapes", "Mediterranean Coast", "Cultural Exploration"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&q=85&w=1800", caption: "The Blue Mosque, Istanbul" },
-      { image: "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&q=85&w=1800", caption: "Hagia Sophia Grand Mosque" },
-      { image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&q=85&w=1800", caption: "Hot air balloons rising over Cappadocia" },
+      { image: "https://images.unsplash.com/photo-1623621534850-d325a1980c7e?auto=format&fit=crop&q=85&w=1800", caption: "Hagia Sophia, Istanbul" },
+      { image: "https://images.unsplash.com/photo-1623613229313-5e59f698526f?auto=format&fit=crop&q=85&w=1800", caption: "Galata Tower above the Istanbul skyline" },
+      { image: "https://images.unsplash.com/photo-1604156789095-3348604c0f43?auto=format&fit=crop&q=85&w=1800", caption: "Hot-air balloons over Cappadocia" },
+      { image: "https://images.unsplash.com/photo-1770122969341-8dbdcbacf305?auto=format&fit=crop&q=85&w=1800", caption: "Pamukkale's travertine terraces" },
     ],
     itinerary: [
       {
@@ -4246,7 +4248,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "south-african-delights",
     title: "South Africa (3N Cape Town | 2N Sun City | 1N Johannesburg)",
-    image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1580644906000-6e953181e153?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹1,42,999",
     highlights: [
@@ -4264,15 +4266,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Cape Town's coastal splendor, Table Mountain, Boulders Beach penguins, and Sun City resort fun.",
     overview:
       "Discover the extraordinary diversity of South Africa on a 6-night, 7-day tour. Spend 3 nights in breathtaking Cape Town taking in the vibrant Bo-Kaap, Table Mountain cable car, and a full-day Cape Peninsula excursion to the Cape of Good Hope and Boulders Beach penguins. Continue with 2 nights at the glamorous Sun City Resort with options for a Big Five safari in Pilanesberg, concluding with 1 night in Johannesburg visiting Gold Reef City.",
-    heroImage: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1580644906000-6e953181e153?auto=format&fit=crop&q=90&w=3200",
     bestTime: "October to April",
     startingPoint: "Cape Town International Airport (CPT)",
     groupSize: "Min 2 travellers",
     themes: ["Wildlife & Safari", "Coastal Wonders", "Resort Living", "City & Culture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Table Mountain overlooking Cape Town" },
-      { image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=85&w=1800", caption: "African sunset over the bushveld" },
-      { image: "https://images.unsplash.com/photo-1576485290814-1c72aa4bbb8e?auto=format&fit=crop&q=85&w=1800", caption: "African penguins at Boulders Beach" },
+      { image: "https://images.unsplash.com/photo-1730234350694-1f8716098f8a?auto=format&fit=crop&q=85&w=1800", caption: "Cape Town's Atlantic seaboard" },
+      { image: "https://images.unsplash.com/photo-1751473681036-fa181075d22d?auto=format&fit=crop&q=85&w=1800", caption: "Table Mountain Aerial Cableway" },
+      { image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&q=85&w=1800", caption: "Sunset over the bushveld" },
     ],
     itinerary: [
       {
@@ -4363,7 +4365,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "japan-autumn-delights",
     title: "Japan Autumn Delights – 9 Nights / 10 Days",
-    image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&q=85&w=1800",
     duration: "9 Nights / 10 Days",
     price: "₹2,84,999",
     highlights: [
@@ -4391,14 +4393,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Tokyo – Mt. Fuji – Nagoya – Nara – Kyoto – Kobe – Hiroshima – Okayama – Osaka · 9N/10D",
     overview:
       "An unforgettable 9 Nights / 10 Days autumn voyage through the Land of the Rising Sun. Experience the ultra-modern pulse of Tokyo with teamLab Planets and Tokyo Skytree, panoramic views of Mount Fuji with a sumo wrestling experience, Nagoya's Toyota museum and Nabana no Sato illuminations, sacred Nara with friendly deer and giant Buddha, timeless Kyoto temples and the Sagano Romantic train, Himeji Castle, the resilient spirit of Hiroshima and Miyajima's floating torii gate, high-speed Shinkansen bullet train rides, and vibrant Osaka food and shopping.\n\nDeparture Date: 16 Nov 2026.",
-    heroImage: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&q=90&w=3200",
     bestTime: "November",
     startingPoint: "Narita International Airport (NRT), Tokyo",
     groupSize: "Group departure: 16 Nov 2026",
     themes: ["Culture", "City", "Scenic", "Heritage"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=85&w=1800", caption: "Mount Fuji in Autumn" },
-      { image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=85&w=1800", caption: "Kyoto Golden Pavilion" },
+      { image: "https://images.unsplash.com/photo-1624253321171-1be53e12f5f4?auto=format&fit=crop&q=85&w=1800", caption: "Historic streets of Kyoto" },
+      { image: "https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&q=85&w=1800", caption: "Chureito Pagoda and Mount Fuji" },
+      { image: "https://images.unsplash.com/photo-1580167227251-be70f01b0c51?auto=format&fit=crop&q=85&w=1800", caption: "Sensō-ji, Tokyo" },
     ],
     itinerary: [
       {
@@ -4523,7 +4526,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "scandinavia-northern-lights",
     title: "Highlights of Scandinavia with Northern Lights (8 Nights / 9 Days)",
-    image: "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1735646915790-6071fecfb369?auto=format&fit=crop&q=85&w=1800",
     duration: "8 Nights / 9 Days",
     price: "₹4,73,999",
     highlights: [
@@ -4545,14 +4548,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Oslo – Stockholm – Baltic Cruise – Helsinki – Tallinn – Rovaniemi · 8N/9D",
     overview:
       "A once-in-a-lifetime 8 Nights / 9 Days Arctic and Scandinavian winter wonderland journey spanning Norway, Sweden, Finland, and Estonia. Sail the Oslo Fjord, explore Stockholm's cobbled streets, cruise the Baltic Sea to Helsinki, ferry across to medieval Tallinn, cross the Arctic Circle on the Santa Claus Express sleeper train, meet polar bears at Ranua Wildlife Park, hunt the magical Northern Lights (Aurora Borealis) in the night sky, meet Santa Claus at his official village in Rovaniemi, and mush Siberian huskies through snow-draped forests.\n\nDeparture Date: 07 Dec 2026.",
-    heroImage: "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1735646915790-6071fecfb369?auto=format&fit=crop&q=90&w=3200",
     bestTime: "December (Departure: 07 Dec 2026)",
     startingPoint: "Oslo Airport (OSL) / Return from Rovaniemi Airport (RVN)",
     groupSize: "Group departure: 07 Dec 2026",
     themes: ["Snow", "Northern Lights", "Cruise", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&q=85&w=1800", caption: "Northern Lights in Lapland" },
-      { image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=85&w=1800", caption: "Santa Claus Village, Rovaniemi" },
+      { image: "https://images.unsplash.com/photo-1775503297743-79cbf6aca396?auto=format&fit=crop&q=85&w=1800", caption: "Gamla Stan, Stockholm" },
+      { image: "https://images.unsplash.com/photo-1494321073944-c25b2270df2a?auto=format&fit=crop&q=85&w=1800", caption: "Husky safari in Lapland" },
     ],
     itinerary: [
       {
@@ -4674,7 +4677,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "best-of-georgia",
     title: "Best of Georgia - 6 Nights & 7 Days (4N Tbilisi | 2N Batumi)",
-    image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1784889760780-4a1aa7de9251?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹64,999",
     highlights: [
@@ -4692,15 +4695,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Tbilisi's old town, Batumi's Black Sea waterfront and the Caucasus road to Kazbegi.",
     overview:
       "Experience the soul of the Caucasus on a 6-night, 7-day tour through Georgia. Spend 4 nights in Tbilisi taking in the Mtatsminda Funicular, Narikala Cable Car, the spiritual sanctuary of Mtskheta, and the majestic Caucasus vistas of Gudauri and Kazbegi along the Georgian Military Highway. Spend 2 nights in coastal Batumi exploring its vibrant seaside boulevard, Piazza Square, moving Ali & Nino statue, the subterranean stalactites of Prometheus Cave, and Martvili Canyon.",
-    heroImage: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1784889760780-4a1aa7de9251?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October",
     startingPoint: "Tbilisi International Airport (TBS)",
     groupSize: "Min 2 travellers",
     themes: ["Caucasus Mountains", "Black Sea Coast", "Ancient Christian Heritage", "Scenic Gorges"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1565008576549-57569a49371d?auto=format&fit=crop&q=85&w=1800", caption: "Tbilisi old town and Narikala Fortress at dusk" },
-      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800", caption: "Caucasus peaks along the Georgian Military Highway" },
-      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Batumi seaside boulevard and Black Sea waterfront" },
+      { image: "https://images.unsplash.com/photo-1563284223-333497472e88?auto=format&fit=crop&q=85&w=1800", caption: "Gergeti Trinity Church, Kazbegi" },
+      { image: "https://images.unsplash.com/photo-1643792412669-f7900db4e0c1?auto=format&fit=crop&q=85&w=1800", caption: "Batumi's Black Sea waterfront" },
     ],
     itinerary: [
       {
@@ -4798,7 +4800,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "best-of-europe-2027",
     title: "Best of Europe (10 Nights / 11 Days)",
-    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1779542417210-1c8db254241c?auto=format&fit=crop&q=85&w=1800",
     duration: "10 Nights / 11 Days",
     price: "₹2,99,376",
     highlights: [
@@ -4821,14 +4823,15 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Paris – Geneva – Central Swiss – Innsbruck – Venice – Tuscany – Rome · 10N/11D",
     overview:
       "A magnificent 10 Nights / 11 Days classical European voyage spanning France, Switzerland, Liechtenstein, Austria, and Italy. Highlights include Paris icons, Eiffel Tower 3rd level, Versailles Palace, Disneyland® Paris, Geneva, the alpine wonderland of Jungfraujoch (Top of Europe) and Mount Titlis, Rhine Falls boat ride, Vaduz mini train, Swarovski Crystal Worlds in Innsbruck, a romantic Venetian Gondola ride, Renaissance Florence and the Leaning Tower of Pisa, concluding in the Eternal City of Rome with the Vatican and Colosseum.\n\nDeparture Dates: 8, 16 & 27 March 2027.",
-    heroImage: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1779542417210-1c8db254241c?auto=format&fit=crop&q=90&w=3200",
     bestTime: "March 2027 (Departures: 8, 16 & 27 March 2027)",
     startingPoint: "Paris CDG Airport (Flight landing time: 08:00 AM – 02:00 PM)",
     groupSize: "Group departures: 8, 16 & 27 March 2027",
     themes: ["City", "Mountains", "Heritage", "Family"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=85&w=1800", caption: "Paris and Eiffel Tower" },
-      { image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=85&w=1800", caption: "Rome Colosseum" },
+      { image: "https://images.unsplash.com/photo-1431274172761-fca41d930114?auto=format&fit=crop&q=85&w=1800", caption: "The Eiffel Tower, Paris" },
+      { image: "https://images.unsplash.com/photo-1514890547357-a9ee288728e0?auto=format&fit=crop&q=85&w=1800", caption: "Venice's Grand Canal" },
+      { image: "https://images.unsplash.com/photo-1610655769765-be8a0dd9627a?auto=format&fit=crop&q=85&w=1800", caption: "St. Peter's Basilica, Vatican City" },
     ],
     itinerary: [
       {
@@ -4972,7 +4975,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "azerbaijan-highlights",
     title: "Azerbaijan Highlights – 6 Nights & 7 Days (5N Baku | 1N Gabala)",
-    image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1785608150289-99a740c68e4f?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹51,999",
     highlights: [
@@ -4990,15 +4993,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Baku's futuristic Flame Towers, ancient petroglyphs, burning fires & Caucasus mountain resorts.",
     overview:
       "Embark on an unforgettable journey through Azerbaijan, the enchanting Land of Fire. Spend 5 nights in Baku exploring the UNESCO-listed Icherisheher Old City, Zaha Hadid's Heydar Aliyev Center, the eternal fires of Ateshgah and Yanardag, and the prehistoric petroglyphs of Gobustan. Head into the Greater Caucasus Mountains for an overnight in Gabala with the Tufandag cable car and Nohur Lake, followed by a full-day adventure at Shahdag Mountain Resort.",
-    heroImage: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1785608150289-99a740c68e4f?auto=format&fit=crop&q=90&w=3200",
     bestTime: "April to October & Winter for Shahdag Skiing",
     startingPoint: "Heydar Aliyev International Airport (GYD), Baku",
     groupSize: "Min 2 travellers",
     themes: ["Land of Fire", "Caucasian Mountain Resorts", "Ancient Silk Road", "Modern Architecture"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&q=85&w=1800", caption: "Baku's Caspian waterfront and Flame Towers" },
-      { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=85&w=1800", caption: "The Greater Caucasus above Gabala" },
-      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Shahdag Mountain Resort alpine scenery" },
+      { image: "https://images.unsplash.com/photo-1607207685777-0986a1eede0e?auto=format&fit=crop&q=85&w=1800", caption: "Government House, Baku" },
+      { image: "https://images.unsplash.com/photo-1621856291403-44d6647bf12c?auto=format&fit=crop&q=85&w=1800", caption: "The Greater Caucasus, Azerbaijan" },
     ],
     itinerary: [
       {
@@ -5092,7 +5094,7 @@ const packageCatalogue: TourPackage[] = [
   {
     id: "almaty-bliss",
     title: "Almaty Bliss - 6 Nights & 7 Days (6N Almaty)",
-    image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800",
+    image: "https://images.unsplash.com/photo-1572940734104-684309ed7ac9?auto=format&fit=crop&q=85&w=1800",
     duration: "6 Nights / 7 Days",
     price: "₹74,999",
     highlights: [
@@ -5111,15 +5113,14 @@ const packageCatalogue: TourPackage[] = [
     tagline: "Kazakhstan's mountain city — cable cars, canyons, alpine lakes and Green Bazaar shopping.",
     overview:
       "Experience the enchanting beauty of Kazakhstan with 6 nights based in Almaty beneath the snow-capped Zailiyskiy Alatau mountains. Enjoy panoramic cable car rides at Kok-Tobe and Shymbulak, visit the world-famous Medeu skating rink, witness an authentic Kazakh nomadic eagle hunting show in Alma-Arasan Gorge, relax at Oi-Qaragai Mountain Resort, and embark on a breathtaking full-day expedition to the grand red formations of Charyn Canyon and the pristine turquoise waters of Kolsai Lakes.",
-    heroImage: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=90&w=3200",
+    heroImage: "https://images.unsplash.com/photo-1572940734104-684309ed7ac9?auto=format&fit=crop&q=90&w=3200",
     bestTime: "May to October & Winter for Shymbulak Skiing",
     startingPoint: "Almaty International Airport (ALA)",
     groupSize: "Min 2 travellers",
     themes: ["Tien Shan Mountains", "Canyons & Lakes", "Nomadic Traditions", "Alpine Resorts"],
     gallery: [
-      { image: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=85&w=1800", caption: "Pristine alpine waters of Kolsai Lake" },
-      { image: "https://images.unsplash.com/photo-1605540436563-5bca919ae766?auto=format&fit=crop&q=85&w=1800", caption: "Snow-covered peaks at Shymbulak Mountain Resort" },
-      { image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=85&w=1800", caption: "Dramatic red rock formations of Charyn Canyon" },
+      { image: "https://images.unsplash.com/photo-1677475191981-653bcfcc3cd2?auto=format&fit=crop&q=85&w=1800", caption: "Charyn Canyon" },
+      { image: "https://images.unsplash.com/photo-1777058590996-da3052085799?auto=format&fit=crop&q=85&w=1800", caption: "Kok-Tobe TV tower, Almaty" },
     ],
     itinerary: [
       {
