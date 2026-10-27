@@ -13,7 +13,6 @@ import { useCollection } from "@/lib/admin/store";
 import type { BlogPost } from "@/lib/admin/types";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
 import { fuzzySearch } from "@/lib/fuzzySearch";
-import { placeholderImage } from "@/lib/placeholderImages";
 
 const ALL = "All";
 
@@ -124,7 +123,7 @@ export const BlogListClient: React.FC = () => {
                   >
                     <div className="relative h-56 overflow-hidden">
                       <Image
-                        src={post.coverImage || placeholderImage(post.id)}
+                        src={post.coverImage}
                         alt={post.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

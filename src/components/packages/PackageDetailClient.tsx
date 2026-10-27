@@ -75,6 +75,21 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
   </svg>
 );
 
+/**
+ * The gallery shows only the photos saved in the admin panel, so its length
+ * varies. The first photo is a 2x2 feature tile; the last one stretches so
+ * the grid never ends with an empty gap (2 columns on phones, 3 on larger screens).
+ */
+function galleryTileClass(index: number, count: number): string {
+  if (index === 0) return count === 1 ? "col-span-2 row-span-2 sm:col-span-3" : "col-span-2 row-span-2";
+  if (index !== count - 1) return "";
+  const mobile = (count - 1) % 2 === 1 ? "col-span-2" : "";
+  if (count === 2) return `${mobile} sm:col-span-1 sm:row-span-2`;
+  if (count >= 4 && count % 3 === 1) return `${mobile} sm:col-span-3`;
+  if (count >= 4 && count % 3 === 2) return `${mobile} sm:col-span-2`;
+  return mobile ? `${mobile} sm:col-span-1` : "";
+}
+
 export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   pkg,
   relatedPackages,
@@ -354,9 +369,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
                       type="button"
                       onClick={() => setGalleryIndex(index)}
                       aria-label={`View ${item.caption}, enlarged`}
-                      className={`group relative block cursor-zoom-in overflow-hidden bg-sand-dark transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
-                        index === 0 ? "col-span-2 row-span-2" : ""
-                      }`}
+                      className={`group relative block cursor-zoom-in overflow-hidden bg-sand-dark transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${galleryTileClass(index, pkg.gallery.length)}`}
                     >
                       <Image
                         src={item.image}

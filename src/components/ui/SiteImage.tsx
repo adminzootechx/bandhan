@@ -3,31 +3,45 @@
 import { useState } from "react";
 import Image, { type ImageProps } from "next/image";
 import { canOptimizeImage, isImagePageLink } from "@/lib/imageHosts";
-import { placeholderImage } from "@/lib/placeholderImages";
+
+type SiteImageProps = Omit<ImageProps, "src"> & { src?: ImageProps["src"] | null };
 
 /**
  * Drop-in replacement for `next/image`. Images on hosts the optimizer doesn't
  * know (links pasted into the admin Image Manager) are rendered `unoptimized`
  * — loaded directly from their host — instead of crashing the page.
  *
- * A link that can't be shown — a photo's web page such as unsplash.com/photos/…,
- * or a file that fails to load — falls back to stand-in travel photography
- * rather than leaving an empty grey box.
+ * The site only shows photos saved in the admin panel. A missing image, a link
+ * that can't be shown (a photo's web page such as unsplash.com/photos/…), or a
+ * file that fails to load renders as a plain sand-coloured block instead.
  */
-export default function SiteImage({ src, alt, unoptimized, onError, ...props }: ImageProps) {
-  const [failedSrc, setFailedSrc] = useState<ImageProps["src"] | null>(null);
-  const unusable = (typeof src === "string" && isImagePageLink(src)) || failedSrc === src;
-  const shown = unusable ? placeholderImage(typeof src === "string" ? src : alt || "image") : src;
-  const remoteUnknown = typeof shown === "string" && !canOptimizeImage(shown);
+export default function SiteImage({ src, alt, unoptimized, onError, fill, width, height, className, style, ...props }: SiteImageProps) {
+  const [failedSrc, setFailedSrc] = useState<SiteImageProps["src"]>(null);
+  const unusable = !src || (typeof src === "string" && isImagePageLink(src)) || failedSrc === src;
+  if (unusable) {
+    return (
+      <span
+        aria-hidden="true"
+        className={`${fill ? "absolute inset-0" : "inline-block"} bg-sand ${className ?? ""}`}
+        style={fill ? style : { width, height, ...style }}
+      />
+    );
+  }
+  const remoteUnknown = typeof src === "string" && !canOptimizeImage(src);
   return (
     <Image
-      src={shown}
+      src={src}
       alt={alt}
       unoptimized={unoptimized || remoteUnknown}
       onError={(event) => {
-        if (!unusable) setFailedSrc(src);
+        setFailedSrc(src);
         onError?.(event);
       }}
+      fill={fill}
+      width={width}
+      height={height}
+      className={className}
+      style={style}
       {...props}
     />
   );
