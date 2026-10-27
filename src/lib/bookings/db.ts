@@ -1,5 +1,6 @@
 import { getSql } from "@/lib/db";
 import { getDepartureById } from "@/lib/departures/db";
+import { invalidatePublicDepartures } from "@/lib/departures/cache";
 import type {
   Booking,
   BookingDetail,
@@ -246,6 +247,8 @@ export async function updateStatus(
     )
     SELECT * FROM updated
   `) as Booking[];
+  // Cancelling or rejecting a confirmed booking can hand its seats back to the departure.
+  if (rows[0]?.departure_id) invalidatePublicDepartures();
   return rows[0] ?? null;
 }
 
@@ -385,6 +388,7 @@ export async function setPaymentStatus(
         throw new SoldOutError();
       }
     }
+    if (rows[0]?.departure_id) invalidatePublicDepartures();
     return rows[0] ?? null;
   }
 

@@ -38,6 +38,8 @@ async function seedCollection(key: CollectionKey) {
   if (seeds.length === 0) return;
   const sql = getSql();
   const payload = JSON.stringify(seeds);
+  // Seeds only fill an empty collection. Re-inserting them on every cold start
+  // resent the whole catalogue and brought back items an admin had deleted.
   await sql`
     INSERT INTO site_content (collection_key, item_id, data, sort_order)
     SELECT
@@ -46,12 +48,12 @@ async function seedCollection(key: CollectionKey) {
       item,
       (ordinality - 1)::int
     FROM jsonb_array_elements(${payload}::jsonb) WITH ORDINALITY AS seed(item, ordinality)
+    WHERE NOT EXISTS (SELECT 1 FROM site_content WHERE collection_key = ${key})
     ON CONFLICT (collection_key, item_id) DO NOTHING
   `;
 }
 
-export async function listContent<T extends WithId = WithId>(key: CollectionKey): Promise<T[]> {
-  await ensureSeeded(key);
+async function readContent<T extends WithId>(key: CollectionKey): Promise<T[]> {
   const sql = getSql();
   const rows = (await sql`
     SELECT data, created_at, updated_at
@@ -64,8 +66,28 @@ export async function listContent<T extends WithId = WithId>(key: CollectionKey)
     : row.data);
 }
 
+export async function listContent<T extends WithId = WithId>(key: CollectionKey): Promise<T[]> {
+  // A populated collection is read in one query; seeding is only attempted when it's empty.
+  const items = await readContent<T>(key);
+  if (items.length || seedForCollection(key).length === 0) return items;
+  await ensureSeeded(key);
+  return readContent<T>(key);
+}
+
+/** True while an announcement's optional start/end window includes `now`. */
+export function isWithinSchedule<T extends WithId>(item: T, now = Date.now()): boolean {
+  const data = item as unknown as Record<string, unknown>;
+  const startsAt = typeof data.startsAt === "string" && data.startsAt ? Date.parse(data.startsAt) : null;
+  const endsAt = typeof data.endsAt === "string" && data.endsAt ? Date.parse(data.endsAt) : null;
+  if (startsAt && startsAt > now) return false;
+  if (endsAt && endsAt < now) return false;
+  return true;
+}
+
+/** Published items. `schedule: false` skips the announcement time window so a cached list can apply it per request. */
 export async function listPublicContent<T extends WithId = WithId>(
-  key: Exclude<CollectionKey, "enquiries">
+  key: Exclude<CollectionKey, "enquiries">,
+  { schedule = true }: { schedule?: boolean } = {}
 ): Promise<T[]> {
   const items = await listContent<T>(key);
   return items.filter((item) => {
@@ -73,13 +95,7 @@ export async function listPublicContent<T extends WithId = WithId>(
     if (data.status === "draft") return false;
     if (key === "blog" && data.isPublished === false) return false;
     if ((key === "banners" || key === "announcements") && data.isActive === false) return false;
-    if (key === "announcements") {
-      const now = Date.now();
-      const startsAt = typeof data.startsAt === "string" && data.startsAt ? Date.parse(data.startsAt) : null;
-      const endsAt = typeof data.endsAt === "string" && data.endsAt ? Date.parse(data.endsAt) : null;
-      if (startsAt && startsAt > now) return false;
-      if (endsAt && endsAt < now) return false;
-    }
+    if (key === "announcements" && schedule) return isWithinSchedule(item);
     return true;
   });
 }

@@ -396,28 +396,34 @@ test("public reads share a cache, admin reads bypass it, and publish/unpublish/d
   assert.equal((await route.GET(request(), { params: Promise.resolve({ collection: "enquiries" }) })).status, 401);
 });
 
-test("collection seeding runs once per warm process and retries failed initialization", async () => {
+test("collection seeding fills only an empty collection, once per warm process, and retries failed initialization", async () => {
   let seeds = 0;
   let reads = 0;
   let failSeed = true;
+  let seeded = false;
   const database = load("src/lib/content/db.ts", {
     "server-only": {}, "./seeds": { seedForCollection: () => [trip] },
     "@/lib/db": { getSql: () => async (parts) => {
-      if (parts.join("").includes("INSERT INTO")) {
+      const query = parts.join("");
+      if (query.includes("INSERT INTO")) {
         seeds += 1;
+        assert.match(query, /WHERE NOT EXISTS/, "seeds must never refill a populated collection");
         if (failSeed) throw new Error("offline");
+        seeded = true;
         return [];
       }
       reads += 1;
-      return [{ data: trip, created_at: "2026-01-01", updated_at: "2026-01-01" }];
+      return seeded ? [{ data: trip, created_at: "2026-01-01", updated_at: "2026-01-01" }] : [];
     } },
   });
   await assert.rejects(database.listContent("packages"));
   failSeed = false;
-  await Promise.all([database.listContent("packages"), database.listContent("packages")]);
+  const [first, second] = await Promise.all([database.listContent("packages"), database.listContent("packages")]);
+  assert.equal(first.length, 1);
+  assert.equal(second.length, 1);
   await database.listContent("packages");
   assert.equal(seeds, 2, "one failed attempt plus one successful initialization");
-  assert.equal(reads, 3);
+  assert.equal(reads, 6, "an empty read before each seed attempt, a re-read after it, and one read once populated");
 });
 
 test("the admin renders group-tour creation, draft publishing and category-moving controls", () => {

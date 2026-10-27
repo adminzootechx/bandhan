@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin/auth";
-import { deleteDeparture, updateDeparture } from "@/lib/departures/db";
+import { deleteDeparture, getDepartureById, updateDeparture } from "@/lib/departures/db";
+import { invalidatePublicDepartures } from "@/lib/departures/cache";
 import type { DepartureStatus } from "@/lib/departures/types";
 
 const STATUSES: DepartureStatus[] = ["filling-fast", "limited-seats", "guaranteed", "sold-out"];
@@ -48,11 +49,26 @@ export async function PATCH(request: Request, { params }: RouteParams) {
   if (body.status !== undefined && !STATUSES.includes(body.status as DepartureStatus)) {
     return NextResponse.json({ ok: false, error: "Invalid status." }, { status: 400 });
   }
+  const destination = body.destination?.trim();
+  if (destination !== undefined && destination.length < 2) {
+    return NextResponse.json({ ok: false, error: "Please enter a destination." }, { status: 400 });
+  }
+  const date = body.date?.trim();
+  if (date !== undefined && !date) {
+    return NextResponse.json({ ok: false, error: "Please enter a departure date." }, { status: 400 });
+  }
 
   try {
+    if (totalSeats !== undefined || seatsLeft !== undefined) {
+      const current = await getDepartureById(id);
+      if (!current) return NextResponse.json({ ok: false, error: "Departure not found." }, { status: 404 });
+      if ((seatsLeft ?? current.seats_left) > (totalSeats ?? current.total_seats)) {
+        return NextResponse.json({ ok: false, error: "Seats left must be between 0 and the total seat count." }, { status: 400 });
+      }
+    }
     const departure = await updateDeparture(id, {
-      destination: body.destination?.trim(),
-      date: body.date?.trim(),
+      destination,
+      date,
       duration: body.duration?.trim(),
       price: body.price?.trim(),
       totalSeats,
@@ -61,6 +77,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       isActive: body.isActive,
     });
     if (!departure) return NextResponse.json({ ok: false, error: "Departure not found." }, { status: 404 });
+    invalidatePublicDepartures();
     return NextResponse.json({ ok: true, departure });
   } catch (error) {
     console.error("update departure error:", error);
@@ -79,6 +96,7 @@ export async function DELETE(request: Request, { params }: RouteParams) {
   const { id } = await params;
   try {
     await deleteDeparture(id);
+    invalidatePublicDepartures();
     return NextResponse.json({ ok: true });
   } catch (error) {
     // Postgres foreign-key violation: a booking still points at this departure.

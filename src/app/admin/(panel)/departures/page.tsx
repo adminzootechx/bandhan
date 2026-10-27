@@ -28,6 +28,10 @@ export default function AdminDeparturesPage() {
   const [departures, setDepartures] = useState<GroupDeparture[]>([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState(emptyForm);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
+  const [rowError, setRowError] = useState<{ id: string; message: string } | null>(null);
+  const [workingId, setWorkingId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [listError, setListError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -54,41 +58,71 @@ export default function AdminDeparturesPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const fallbackError = editingId ? "Could not save the departure." : "Could not create the departure.";
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setBusy(true);
     try {
-      const res = await adminFetch("/api/admin/departures", {
-        method: "POST",
+      const res = await adminFetch(editingId ? `/api/admin/departures/${editingId}` : "/api/admin/departures", {
+        method: editingId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) {
-        setError(data.error || "Could not create the departure.");
+        setError(data.error || fallbackError);
         return;
       }
       setForm(emptyForm);
+      setEditingId(null);
       refresh();
-    } catch (createError) {
-      setError(createError instanceof Error ? createError.message : "Could not create the departure.");
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : fallbackError);
     } finally {
       setBusy(false);
     }
   };
 
-  /** Sends a change for one departure, then reloads the list; failures are shown above the table. */
+  /** Loads a departure into the form above so its date, seats and details can be changed. */
+  const startEdit = (departure: GroupDeparture) => {
+    setError("");
+    setEditingId(departure.id);
+    setForm({
+      destination: departure.destination,
+      date: departure.date,
+      duration: departure.duration || "",
+      price: departure.price || "",
+      totalSeats: String(departure.total_seats),
+      seatsLeft: String(departure.seats_left),
+      status: departure.status,
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const cancelEdit = () => {
+    setError("");
+    setEditingId(null);
+    setForm(emptyForm);
+  };
+
+  /** Sends a change for one departure, then reloads the list; a failure is shown on that departure's row. */
   const send = async (id: string, init: RequestInit, fallback: string) => {
-    setListError("");
+    setRowError(null);
+    setWorkingId(id);
+    let ok = false;
     try {
       const res = await adminFetch(`/api/admin/departures/${id}`, init);
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.ok === false) setListError(data.error || fallback);
+      ok = res.ok && data.ok !== false;
+      if (!ok) setRowError({ id, message: data.error || fallback });
     } catch (sendError) {
-      setListError(sendError instanceof Error ? sendError.message : fallback);
+      setRowError({ id, message: sendError instanceof Error ? sendError.message : fallback });
     }
+    setWorkingId(null);
     refresh();
+    return ok;
   };
 
   const toggleActive = (departure: GroupDeparture) =>
@@ -98,9 +132,11 @@ export default function AdminDeparturesPage() {
       "Could not update the departure."
     );
 
+  // Confirmed inline rather than with window.confirm, which the browser can silently suppress.
   const remove = async (id: string) => {
-    if (!confirm("Delete this departure? This cannot be undone.")) return;
-    await send(id, { method: "DELETE" }, "Could not delete the departure.");
+    setConfirmingId(null);
+    const removed = await send(id, { method: "DELETE" }, "Could not delete the departure.");
+    if (removed && editingId === id) cancelEdit();
   };
 
   return (
@@ -111,7 +147,7 @@ export default function AdminDeparturesPage() {
       />
 
       <div className="bg-white rounded-2xl border border-slate-100 p-6">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-primary mb-4">New Departure</h2>
+        <h2 className="text-sm font-bold uppercase tracking-wider text-primary mb-4">{editingId ? "Edit Departure" : "New Departure"}</h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             name="destination"
@@ -175,10 +211,15 @@ export default function AdminDeparturesPage() {
             className="px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
           />
           {error && <p className="sm:col-span-2 text-sm text-red-600">{error}</p>}
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-2 flex flex-wrap items-center gap-3">
             <PrimaryButton type="submit" variant="navy" size="md" isLoading={busy}>
-              Create Departure
+              {editingId ? "Save Changes" : "Create Departure"}
             </PrimaryButton>
+            {editingId && (
+              <SecondaryButton type="button" size="md" variant="ghost" onClick={cancelEdit}>
+                Cancel
+              </SecondaryButton>
+            )}
           </div>
         </form>
       </div>
@@ -206,7 +247,7 @@ export default function AdminDeparturesPage() {
             </thead>
             <tbody>
               {departures.map((d) => (
-                <tr key={d.id} className="border-t border-slate-100">
+                <tr key={d.id} className={`border-t border-slate-100 ${editingId === d.id ? "bg-accent/5" : ""}`}>
                   <td className="px-4 py-3 font-semibold text-primary">{d.destination}</td>
                   <td className="px-4 py-3">{d.date}</td>
                   <td className="px-4 py-3">
@@ -218,10 +259,32 @@ export default function AdminDeparturesPage() {
                       {d.is_active ? "Visible" : "Hidden"}
                     </SecondaryButton>
                   </td>
-                  <td className="px-4 py-3 text-right">
-                    <SecondaryButton size="sm" variant="outline-coral" onClick={() => remove(d.id)}>
-                      Delete
-                    </SecondaryButton>
+                  <td className="px-4 py-3">
+                    <div className="flex justify-end gap-2">
+                      {confirmingId === d.id ? (
+                        <>
+                          <span className="self-center whitespace-nowrap text-xs font-semibold text-red-600">Delete permanently?</span>
+                          <SecondaryButton size="sm" variant="outline-coral" onClick={() => remove(d.id)}>
+                            Yes, delete
+                          </SecondaryButton>
+                          <SecondaryButton size="sm" variant="ghost" onClick={() => setConfirmingId(null)}>
+                            Keep
+                          </SecondaryButton>
+                        </>
+                      ) : (
+                        <>
+                          <SecondaryButton size="sm" variant="ghost" onClick={() => startEdit(d)} disabled={workingId === d.id}>
+                            Edit
+                          </SecondaryButton>
+                          <SecondaryButton size="sm" variant="outline-coral" onClick={() => { setRowError(null); setConfirmingId(d.id); }} isLoading={workingId === d.id} disabled={workingId === d.id}>
+                            Delete
+                          </SecondaryButton>
+                        </>
+                      )}
+                    </div>
+                    {rowError?.id === d.id && (
+                      <p role="alert" className="mt-2 max-w-xs ml-auto text-right text-xs font-medium text-red-600">{rowError.message}</p>
+                    )}
                   </td>
                 </tr>
               ))}

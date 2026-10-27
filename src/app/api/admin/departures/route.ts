@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { isDbConfigured } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin/auth";
 import { createDeparture, listAllDepartures } from "@/lib/departures/db";
+import { invalidatePublicDepartures } from "@/lib/departures/cache";
 import type { DepartureStatus } from "@/lib/departures/types";
 
 const STATUSES: DepartureStatus[] = ["filling-fast", "limited-seats", "guaranteed", "sold-out"];
@@ -75,6 +76,7 @@ export async function POST(request: Request) {
       seatsLeft,
       status,
     });
+    invalidatePublicDepartures();
     return NextResponse.json({ ok: true, departure });
   } catch (error) {
     console.error("create departure error:", error);
