@@ -14,7 +14,7 @@ const pillars = ["Meetings", "Incentives", "Conferences", "Exhibitions"];
 export default function MiceHero() {
   return (
     <header className="relative bg-[#f5f5f2] pt-24 sm:pt-28">
-      <div className="absolute inset-x-0 top-0 h-24 bg-primary sm:h-28" aria-hidden="true" />
+      <div className="absolute inset-x-0 top-0 h-24 bg-primary dark:bg-transparent sm:h-28" aria-hidden="true" />
       <Container className="relative py-12 sm:py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-16">
           <div>

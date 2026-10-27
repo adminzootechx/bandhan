@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* `:is` rather than `:where` so a hand-written `dark:` utility outranks the
+   automatic dark mapping further down. */
+@custom-variant dark (&:is(:root[data-theme="dark"]:not(:has([data-theme-lock])) *));
 
 html { color-scheme: light; }
-html[data-theme="dark"] { color-scheme: dark; }
 
 html {
   scroll-behavior: smooth;
@@ -184,63 +185,109 @@ textarea {
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Public pages share their theme; brand buttons, photography and dark bands
-   retain their own colors. Admin tools keep their existing palette. */
+/* ---------------------------------------------------------------------------
+   Dark theme
+   Applies to the whole public site, including popups and portalled modals.
+   Admin and agent consoles render a `data-theme-lock` element and keep the
+   light palette.
+
+   The ink colors (`primary`, `navy`) are used as text, border, ring and
+   tint colors almost everywhere, so they flip to light ink at the token level:
+   every `text-primary/NN`, `border-primary/NN`, `bg-primary/10` tint,
+   placeholder and divide follows automatically, with no class list to keep
+   in sync. What can't follow a token is handled below: solid navy fills,
+   white surfaces (`white` is also the text color on photos and dark bands),
+   and the slate/status utilities.
+   ------------------------------------------------------------------------ */
+:root[data-theme="dark"]:not(:has([data-theme-lock])) {
+  color-scheme: dark;
+  scrollbar-color: rgba(231, 237, 245, 0.22) transparent;
+
+  --color-primary: #e7edf5;
+  --color-primary-dark: #ffffff;
+  --color-navy: #c9d8ec;
+
+  --color-sand: #111d2c;
+  --color-sand-light: #0c1624;
+  --color-sand-dark: #223044;
+  --color-sand-bg: #101b2a;
+
+  --color-foreground: #e7edf5;
+  --color-foreground-muted: #b1bfd0;
+  --color-foreground-light: #8a9bb2;
+
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px -8px rgba(0, 0, 0, 0.45);
+  --shadow-premium: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 28px -10px rgba(0, 0, 0, 0.5);
+  --shadow-glass: 0 2px 6px rgba(0, 0, 0, 0.3), 0 12px 40px -12px rgba(0, 0, 0, 0.5);
+  --shadow-lifted: 0 2px 4px rgba(0, 0, 0, 0.35), 0 20px 40px -14px rgba(0, 0, 0, 0.55);
+}
+
+/* Scope wrapped in :where() so each rule weighs exactly what the utility it
+   replaces does: hover/focus variants still win, and this layer's later
+   position beats the base utility. */
 @layer utilities {
-  html[data-theme="dark"] body {
-    background-color: #080f1b;
+  :where(:root[data-theme="dark"]:not(:has([data-theme-lock]))) {
+    & body.bg-white { background-color: var(--color-sand-light); }
+
+    /* Surfaces */
+    & :is(.bg-white, .focus\:bg-white:focus) { background-color: #121f30; }
+    & .bg-white\/95 { background-color: rgb(18 31 48 / 0.95); }
+    & .bg-white\/90 { background-color: rgb(18 31 48 / 0.9); }
+    & :is(.bg-white\/60, .bg-white\/55) { background-color: rgb(18 31 48 / 0.6); }
+    & :is(.hover\:bg-white:hover, .hover\:bg-white\/60:hover) { background-color: #1a2a3f; }
+    & :is(.bg-slate-50, .bg-gray-50) { background-color: #142235; }
+    & .bg-slate-50\/70 { background-color: rgb(20 34 53 / 0.7); }
+    & .bg-slate-50\/50 { background-color: rgb(20 34 53 / 0.5); }
+    & :is(.bg-slate-100, .bg-gray-100) { background-color: #1a2a3f; }
+    & :is(.bg-slate-200, .bg-slate-300) { background-color: #26384f; }
+    /* One-off warm off-whites used as page sections. */
+    & :is(.bg-\[\#fbfaf7\], .bg-\[\#f5f5f2\], .bg-\[\#f7f5ef\]) { background-color: var(--color-sand-light); }
+    & .bg-\[\#fbfaf7\]\/95 { background-color: rgb(12 22 36 / 0.95); }
+
+    /* Solid navy fills (buttons, badges, bands). Lifted off the page so a
+       navy button doesn't disappear into the navy background. */
+    & :is(.bg-primary, .bg-navy, .bg-navy-light) { background-color: var(--color-navy-light); }
+    & :is(.hover\:bg-primary:hover, .hover\:bg-primary-light:hover) { background-color: #24497a; }
+    & .bg-primary\/98 { background-color: rgb(7 32 60 / 0.98); }
+    & :is(.bg-primary\/95, .bg-navy\/95) { background-color: rgb(7 32 60 / 0.95); }
+    & .bg-primary\/90 { background-color: rgb(7 32 60 / 0.9); }
+    & .bg-primary\/85 { background-color: rgb(7 32 60 / 0.85); }
+    & .bg-primary\/70 { background-color: rgb(7 32 60 / 0.7); }
+    & .bg-primary\/45 { background-color: rgb(7 32 60 / 0.45); }
+    & .from-primary\/45 { --tw-gradient-from: rgb(7 32 60 / 0.45); }
+    & .to-primary\/60 { --tw-gradient-to: rgb(7 32 60 / 0.6); }
+
+    /* Gold surfaces keep navy ink in both themes. */
+    & :is(.bg-gold, .bg-gold-light, .bg-gold-dark, .hover\:bg-gold:hover, .hover\:bg-gold-light:hover, .hover\:bg-gold-dark:hover) {
+      --color-primary: #07203c;
+      --color-navy: #102544;
+    }
+
+    /* Neutral borders and text */
+    & :is(.border-slate-100, .divide-slate-100 > :not(:last-child)) { border-color: #223249; }
+    & .border-slate-100\/50 { border-color: rgb(34 50 73 / 0.5); }
+    & :is(.border-slate-200, .border-slate-300, .divide-slate-200 > :not(:last-child)) { border-color: #2c3f58; }
+    & .text-slate-600 { color: var(--color-foreground-muted); }
+
+    /* Status tints: pale fills become translucent, dark ink becomes light. */
+    & :is(.bg-emerald-50, .bg-emerald-100) { background-color: rgb(16 185 129 / 0.14); }
+    & .bg-red-50 { background-color: rgb(239 68 68 / 0.14); }
+    & .bg-amber-50 { background-color: rgb(245 158 11 / 0.14); }
+    & .bg-blue-50 { background-color: rgb(59 130 246 / 0.14); }
+    & :is(.text-emerald-600, .text-emerald-700, .text-emerald-800) { color: #6ee7b7; }
+    & :is(.text-red-600, .text-red-700) { color: #fca5a5; }
+    & .text-amber-700 { color: #fcd34d; }
+    & .border-red-200 { border-color: rgb(239 68 68 / 0.35); }
+    & .border-amber-200 { border-color: rgb(245 158 11 / 0.35); }
+    & .border-emerald-200 { border-color: rgb(16 185 129 / 0.35); }
+    & .border-blue-200 { border-color: rgb(59 130 246 / 0.35); }
   }
+}
 
-  html[data-theme="dark"] .site-shell {
-    --color-sand: #111d2c;
-    --color-sand-light: #0c1624;
-    --color-sand-dark: #223044;
-    --color-sand-bg: #101b2a;
-    --color-foreground: #e7edf5;
-    --color-foreground-muted: #b1bfd0;
-    --color-foreground-light: #95a6bd;
-    background-color: #0c1624;
-    color: var(--color-foreground);
+@media (min-width: 768px) {
+  :root[data-theme="dark"]:not(:has([data-theme-lock])) ::-webkit-scrollbar-thumb {
+    background-color: rgba(231, 237, 245, 0.2);
   }
-
-  html[data-theme="dark"] .site-shell :where(.bg-white, .bg-slate-50, .bg-gray-50) {
-    background-color: #142133;
-  }
-
-  html[data-theme="dark"] .site-shell :where(.bg-slate-100, .bg-gray-100) {
-    background-color: #1b2b40;
-  }
-
-  html[data-theme="dark"] .site-shell :where(.text-primary, .text-slate-900, .text-slate-800, .text-gray-900) {
-    color: #e7edf5;
-  }
-
-  html[data-theme="dark"] .site-shell :where(.text-slate-700, .text-slate-600, .text-gray-700, .text-gray-600) {
-    color: #b1bfd0;
-  }
-
-  html[data-theme="dark"] .site-shell :where(.text-primary\/75, .text-primary\/70) { color: #bdc9da; }
-  html[data-theme="dark"] .site-shell :where(.text-primary\/60, .text-primary\/55, .text-primary\/50, .text-primary\/45) { color: #a0b0c5; }
-  html[data-theme="dark"] .site-shell .placeholder\:text-primary\/45::placeholder { color: #a0b0c5; }
-
-  html[data-theme="dark"] .site-shell :where(.border-primary, .border-primary\/10, .border-primary\/15, .border-primary\/20, .border-primary\/25, .border-slate-100, .border-slate-200) {
-    border-color: #33445c;
-  }
-
-  html[data-theme="dark"] .site-shell :where(.bg-primary\/10, .bg-primary\/25) {
-    background-color: #647a98;
-  }
-
-  /* Gold pills and badges need navy text in either theme. */
-  html[data-theme="dark"] .site-shell :where(.bg-gold, .bg-gold-light, .bg-gold-dark, .bg-accent) .text-primary,
-  html[data-theme="dark"] .site-shell :where(.bg-gold, .bg-gold-light, .bg-gold-dark, .bg-accent).text-primary {
-    color: #07203c;
-  }
-
-  html[data-theme="dark"] .site-shell .hover\:text-primary:hover { color: #e7edf5; }
-  html[data-theme="dark"] .site-shell .hover\:bg-gold:hover { color: #07203c; }
-  html[data-theme="dark"] .site-shell .hover\:text-navy:hover { color: #cfdbeb; }
-  html[data-theme="dark"] .site-shell .hover\:bg-navy\/5:hover { background-color: #20324a; }
 }
 
 /* The assistant enters as a bottom sheet on touch-sized screens and as a

@@ -115,7 +115,7 @@ export const Hero: React.FC<HeroProps> = ({ onSearchSubmit, onPlanTripClick }) =
           variant={isJapanBanner ? "navy" : "coral"}
           size="md"
           className={isJapanBanner
-            ? "h-12 shrink-0 !rounded-xl !bg-navy !px-4 !shadow-none hover:!bg-navy-light hover:!shadow-none focus:!ring-navy dark:!border-white/20 sm:h-14 sm:!px-7"
+            ? "h-12 shrink-0 !rounded-xl !bg-navy !px-4 !shadow-none hover:!bg-navy-light hover:!shadow-none focus:!ring-navy dark:!border-white/20 dark:!bg-navy-light dark:hover:!bg-[#24497a] sm:h-14 sm:!px-7"
             : "h-12 shrink-0 whitespace-nowrap !rounded-lg px-6"}
           leftIcon={<Search size={17} aria-hidden="true" />}
         >

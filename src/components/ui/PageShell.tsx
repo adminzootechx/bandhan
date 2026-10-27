@@ -44,7 +44,7 @@ export const PageShell: React.FC<PageShellProps> = ({
 }) => (
   // `overflow-x-clip`, not `hidden`: hidden makes this a scroll container and
   // breaks `position: sticky` for every descendant.
-  <div className={`site-shell flex min-h-screen flex-col overflow-x-clip ${TONES[tone]} ${className}`}>
+  <div className={`flex min-h-screen flex-col overflow-x-clip ${TONES[tone]} ${className}`}>
     <Navbar onEnquiryClick={onEnquiryClick} solidAtTop={offsetTop} campaignNavigation={campaignNavigation} />
     <main className={`flex-1 ${offsetTop ? "pt-28 sm:pt-32" : ""} ${mainClassName}`}>
       {children}
