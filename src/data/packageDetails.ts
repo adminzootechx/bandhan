@@ -9,7 +9,6 @@ import {
   type TourPackage,
 } from "./mockData";
 import { packageDestinationLabel, packageGroupSize } from "@/lib/packageCategory";
-import { padGallery, placeholderImage } from "@/lib/placeholderImages";
 
 export type { ItineraryDay, PackageFaq, PackageServiceDetails, PackageServiceKey } from "./mockData";
 
@@ -125,14 +124,9 @@ export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
     ...pkg,
     tagline: pkg.tagline ?? `${pkg.title} — thoughtfully planned by Bandhan Tours.`,
     overview: pkg.overview ?? "",
-    heroImage: pkg.heroImage || pkg.image || placeholderImage(pkg.id),
-    // Most catalogue entries ship one or two photographs. The gallery grid
-    // lays its first tile out 2x2 in a 3-column track, so anything that isn't
-    // a multiple of three leaves a visible hole — pad with stand-ins.
-    gallery: padGallery(
-      pkg.gallery?.length ? pkg.gallery : [{ image: pkg.image || placeholderImage(pkg.id), caption: pkg.title }],
-      pkg.id
-    ),
+    heroImage: pkg.heroImage || pkg.image || "",
+    // Only photos uploaded in the admin panel — no stand-ins.
+    gallery: (pkg.gallery ?? []).filter((slide) => slide?.image && !slide.placeholder),
     itinerary: pkg.itinerary?.length ? pkg.itinerary : [],
     inclusions: pkg.inclusions?.length ? pkg.inclusions : [],
     exclusions: pkg.exclusions?.length ? pkg.exclusions : [],
@@ -147,13 +141,10 @@ export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
 
 /** Makes a destination record render through the same full itinerary page. */
 export const getFullPackageForDestination = (destination: Destination): FullPackage => {
-  const image = destination.image || placeholderImage(destination.id);
-  const gallery = padGallery(
-    destination.gallery?.length
-      ? destination.gallery.map((galleryImage, index) => ({ image: galleryImage, caption: `${destination.name} — view ${index + 1}` }))
-      : [{ image, caption: destination.name }],
-    destination.id
-  );
+  const image = destination.image || "";
+  const gallery = (destination.gallery ?? [])
+    .filter(Boolean)
+    .map((galleryImage, index) => ({ image: galleryImage, caption: `${destination.name} — view ${index + 1}` }));
   const itinerary = destination.itinerary?.length
     ? destination.itinerary
     : [{ day: 1, title: `Discover ${destination.name}`, description: destination.overview || destination.description, meals: "To be confirmed", stay: destination.name }];

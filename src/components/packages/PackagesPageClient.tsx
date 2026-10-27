@@ -347,7 +347,7 @@ export const PackagesPageClient: React.FC = () => {
                         alt={pkg.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="bg-sand object-contain"
+                        className="bg-sand object-cover"
                       />
                       <div className="absolute inset-0 bg-ink-deep/45" />
 

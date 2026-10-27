@@ -396,7 +396,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                   {guide.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </div>
                 <figure className="relative mt-8 h-[260px] w-full overflow-hidden bg-sand-dark sm:h-[420px]">
-                  <Image src={guide.gallery[0]} alt={`${destination.name} landscape`} fill sizes="(max-width: 1023px) 100vw, 70vw" className="object-contain" />
+                  <Image src={guide.gallery[0]} alt={`${destination.name} landscape`} fill sizes="(max-width: 1023px) 100vw, 70vw" className="object-cover" />
                   <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-deep/85 to-transparent px-5 pb-5 pt-16 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80">{destination.name}</figcaption>
                 </figure>
                 {guide.themes.length > 0 ? (
@@ -469,7 +469,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
                 <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {guide.gallery.slice(0, 6).map((image, index) => (
                     <button key={`${image}-${index}`} type="button" onClick={() => setGalleryIndex(index)} className={`group relative overflow-hidden bg-sand-dark text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold ${index === 0 ? "col-span-2 min-h-[240px] sm:min-h-[400px]" : "min-h-40 sm:min-h-[200px]"}`} aria-label={`View ${destination.name} image ${index + 1}, enlarged`}>
-                      <Image src={image} alt={`${destination.name} travel moment ${index + 1}`} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-contain" />
+                      <Image src={image} alt={`${destination.name} travel moment ${index + 1}`} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" />
                       <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center bg-white/90 text-primary"><Expand size={15} /></span>
                     </button>
                   ))}

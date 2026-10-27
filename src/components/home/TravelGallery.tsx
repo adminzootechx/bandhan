@@ -46,7 +46,7 @@ export const TravelGallery: React.FC = () => {
                   alt={item.title}
                   fill
                   sizes="(max-width: 640px) 50vw, 33vw"
-                  className="object-contain"
+                  className="object-cover"
                 />
 
                 <div className="absolute inset-0 bg-ink-deep/35 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100" />

@@ -11,7 +11,6 @@ import { useCollection } from "@/lib/admin/store";
 import NotFoundView from "@/components/notFound/NotFoundView";
 import type { BlogPost } from "@/lib/admin/types";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
-import { placeholderImage } from "@/lib/placeholderImages";
 
 export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
   const router = useRouter();
@@ -81,7 +80,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
           {/* Cover */}
           {post?.coverImage && (
             <div className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden shadow-soft -mt-24 sm:-mt-28 mb-10 border-4 border-white">
-              <Image src={post.coverImage} alt={post.title} fill sizes="(max-width: 768px) 100vw, 768px" className="bg-sand object-contain" priority />
+              <Image src={post.coverImage} alt={post.title} fill sizes="(max-width: 768px) 100vw, 768px" className="bg-sand object-cover" priority />
             </div>
           )}
 
@@ -126,7 +125,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
                   className="group bg-white overflow-hidden shadow-soft hover:shadow-lg transition-all border border-slate-100/50"
                 >
                   <div className="relative h-40 overflow-hidden">
-                    <Image src={p.coverImage || placeholderImage(p.id)} alt={p.title} fill sizes="(max-width: 640px) 100vw, 33vw" className="bg-sand object-contain" />
+                    <Image src={p.coverImage} alt={p.title} fill sizes="(max-width: 640px) 100vw, 33vw" className="bg-sand object-cover" />
                   </div>
                   <div className="p-4">
                     <h3 className="text-sm font-heading font-bold text-primary leading-snug group-hover:text-accent transition-colors line-clamp-2">
