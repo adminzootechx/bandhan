@@ -5,6 +5,7 @@ import PageHeader from "@/components/admin/PageHeader";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryButton } from "@/components/ui/SecondaryButton";
 import type { GroupDeparture, DepartureStatus } from "@/lib/departures/types";
+import { adminFetch } from "@/lib/admin/session";
 
 const emptyForm = {
   destination: "",
@@ -28,12 +29,17 @@ export default function AdminDeparturesPage() {
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState("");
+  const [listError, setListError] = useState("");
   const [busy, setBusy] = useState(false);
 
   const refresh = () => {
-    fetch("/api/admin/departures", { cache: "no-store" })
-      .then((res) => res.json())
-      .then((data) => setDepartures(data.departures || []))
+    adminFetch("/api/admin/departures", { cache: "no-store" })
+      .then(async (res) => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || "Could not load departures.");
+        setDepartures(data.departures || []);
+      })
+      .catch((loadError) => setListError(loadError instanceof Error ? loadError.message : "Could not load departures."))
       .finally(() => setLoading(false));
   };
 
@@ -53,39 +59,48 @@ export default function AdminDeparturesPage() {
     setError("");
     setBusy(true);
     try {
-      const res = await fetch("/api/admin/departures", {
+      const res = await adminFetch("/api/admin/departures", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) {
         setError(data.error || "Could not create the departure.");
         return;
       }
       setForm(emptyForm);
       refresh();
+    } catch (createError) {
+      setError(createError instanceof Error ? createError.message : "Could not create the departure.");
     } finally {
       setBusy(false);
     }
   };
 
-  const patch = async (id: string, body: Record<string, unknown>) => {
-    await fetch(`/api/admin/departures/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+  /** Sends a change for one departure, then reloads the list; failures are shown above the table. */
+  const send = async (id: string, init: RequestInit, fallback: string) => {
+    setListError("");
+    try {
+      const res = await adminFetch(`/api/admin/departures/${id}`, init);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.ok === false) setListError(data.error || fallback);
+    } catch (sendError) {
+      setListError(sendError instanceof Error ? sendError.message : fallback);
+    }
     refresh();
   };
 
   const toggleActive = (departure: GroupDeparture) =>
-    patch(departure.id, { isActive: !departure.is_active });
+    send(
+      departure.id,
+      { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isActive: !departure.is_active }) },
+      "Could not update the departure."
+    );
 
   const remove = async (id: string) => {
     if (!confirm("Delete this departure? This cannot be undone.")) return;
-    await fetch(`/api/admin/departures/${id}`, { method: "DELETE" });
-    refresh();
+    await send(id, { method: "DELETE" }, "Could not delete the departure.");
   };
 
   return (
@@ -167,6 +182,10 @@ export default function AdminDeparturesPage() {
           </div>
         </form>
       </div>
+
+      {listError && (
+        <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{listError}</p>
+      )}
 
       <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden overflow-x-auto">
         {loading ? (

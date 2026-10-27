@@ -81,6 +81,13 @@ export async function DELETE(request: Request, { params }: RouteParams) {
     await deleteDeparture(id);
     return NextResponse.json({ ok: true });
   } catch (error) {
+    // Postgres foreign-key violation: a booking still points at this departure.
+    if ((error as { code?: string })?.code === "23503") {
+      return NextResponse.json(
+        { ok: false, error: "This departure has bookings linked to it, so it can't be deleted. Click “Visible” to hide it from the website instead." },
+        { status: 409 }
+      );
+    }
     console.error("delete departure error:", error);
     return NextResponse.json({ ok: false, error: "Could not delete the departure." }, { status: 500 });
   }
