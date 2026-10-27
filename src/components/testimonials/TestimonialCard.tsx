@@ -45,7 +45,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
             alt={`${tour} trip memory`}
             fill
             sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-            className="object-contain"
+            className="object-cover"
             priority={false}
           />
         ) : (

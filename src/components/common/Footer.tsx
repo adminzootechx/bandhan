@@ -95,7 +95,7 @@ export const Footer: React.FC = () => {
                 <a href="#international-tours" className="hover:text-gold transition-colors duration-300">International Holidays</a>
               </li>
               <li>
-                <a href="#group-departures" className="hover:text-gold transition-colors duration-300">Group Departures</a>
+                <Link href="/departures" className="hover:text-gold transition-colors duration-300">Group Departures</Link>
               </li>
               <li>
                 <Link href="/mice" className="hover:text-gold transition-colors duration-300">Corporate &amp; MICE</Link>

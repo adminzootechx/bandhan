@@ -39,7 +39,6 @@ import {
   type TravellerBreakdown,
 } from "@/lib/bookings/pricing";
 import { EMAIL_RE } from "@/lib/bookings/party";
-import { placeholderImage } from "@/lib/placeholderImages";
 import Counter from "@/components/booking/Counter";
 import InlineAuthModal from "@/components/booking/InlineAuthModal";
 import TravellerDetailsStep, {
@@ -173,7 +172,7 @@ function SummaryCard({
     <div className="overflow-hidden border border-primary/12 bg-white shadow-premium">
       <div className="relative h-40 bg-primary sm:h-44">
         <Image
-          src={image || placeholderImage(snapshot.title || "custom-trip")}
+          src={image}
           alt=""
           fill
           loading="eager"

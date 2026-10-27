@@ -16,7 +16,7 @@ export function PackageCard({ pkg, layout = "standard" }: { pkg: TourPackage; la
   return (
     <Link href={`/packages/${pkg.id}`} className={`group flex h-full flex-col overflow-hidden rounded-lg border border-primary/10 bg-white transition-colors hover:border-primary/25 ${isGroupLayout ? "sm:flex-row" : ""}`}>
       <div className={`relative aspect-[16/10] overflow-hidden bg-sand ${isGroupLayout ? "sm:aspect-auto sm:min-h-64 sm:w-2/5 sm:shrink-0" : ""}`}>
-        <Image src={pkg.image} alt={pkg.title} fill sizes={isGroupLayout ? "(max-width: 640px) 100vw, (max-width: 1024px) 40vw, 20vw" : "(max-width: 768px) 100vw, 33vw"} className="object-contain" />
+        <Image src={pkg.image} alt={pkg.title} fill sizes={isGroupLayout ? "(max-width: 640px) 100vw, (max-width: 1024px) 40vw, 20vw" : "(max-width: 768px) 100vw, 33vw"} className="object-cover" />
         {isGroupLayout ? <span className="absolute left-3 top-3 rounded-md bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">{packageGroupSize(pkg)}</span> : pkg.isPopular && <span className="absolute left-3 top-3 rounded-md bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">Popular</span>}
       </div>
       <div className="flex min-w-0 flex-1 flex-col p-5 sm:p-6">

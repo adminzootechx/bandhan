@@ -8,7 +8,6 @@ import PageShell from "@/components/ui/PageShell";
 import PageHero from "@/components/ui/PageHero";
 import type { Destination } from "@/data/mockData";
 import { useCollection } from "@/lib/admin/store";
-import { placeholderImage } from "@/lib/placeholderImages";
 import { withTaxMark } from "@/lib/priceLabel";
 
 export default function DestinationsPageClient() {
@@ -38,11 +37,11 @@ export default function DestinationsPageClient() {
                 className="group relative h-[340px] overflow-hidden rounded-3xl border border-slate-100/50 bg-primary shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-xl sm:h-[380px]"
               >
                 <Image
-                  src={dest.image || placeholderImage(dest.id)}
+                  src={dest.image}
                   alt={dest.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-contain"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-ink-deep/50 opacity-85 transition-opacity duration-300 group-hover:opacity-95" />
                 {dest.tag && (
