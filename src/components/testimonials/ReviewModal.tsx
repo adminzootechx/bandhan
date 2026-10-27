@@ -84,7 +84,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                     alt={`${tour} memory`}
                     fill
                     sizes="(min-width: 1024px) 55vw, 100vw"
-                    className="object-contain"
+                    className="object-cover"
                     priority
                   />
                 ) : (
@@ -140,7 +140,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({
                         className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 transition-colors hover:border-gold/70"
                         aria-label={`Open ${tour} photo ${index + 1}`}
                       >
-                        <Image src={image} alt={`${tour} photo ${index + 1}`} fill sizes="140px" className="object-contain" />
+                        <Image src={image} alt={`${tour} photo ${index + 1}`} fill sizes="140px" className="object-cover" />
                         <span className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-transparent" />
                       </button>
                     ))}
