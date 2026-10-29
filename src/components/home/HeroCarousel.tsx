@@ -51,7 +51,7 @@ export default function HeroCarousel() {
       if (document.visibilityState === "visible") {
         setActiveIndex((index) => (index + 1) % slides.length);
       }
-    }, 4000);
+    }, 2000);
     return () => window.clearInterval(timer);
   }, [activeIndex, isPaused]);
 
