@@ -563,7 +563,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
               <ul className="space-y-3 text-xs text-foreground-muted">
                 {[
                   "15+ years crafting group & custom tours",
-                  "5,000+ happy travellers and counting",
+                  "25K+ happy travellers and counting",
                   "24×7 on-tour support in every destination",
                 ].map((point) => (
                   <li key={point} className="flex items-start gap-2.5">

@@ -5304,9 +5304,9 @@ export const whyChooseUs: WhyChooseItem[] = [
   },
   {
     id: "w2",
-    title: "5000+ Happy Travellers",
+    title: "25K+ Happy Travellers",
     description: "Creating a loyal community of travelers who choose us year after year for their holidays.",
-    stat: "5,000+",
+    stat: "25K+",
     iconName: "happy",
   },
   {

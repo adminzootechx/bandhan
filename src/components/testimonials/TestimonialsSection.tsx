@@ -115,7 +115,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ classN
               </div>
               <div className="mt-5 flex items-end justify-between gap-4">
                 <div>
-                  <p className="font-heading text-4xl font-semibold text-white">15,000+</p>
+                  <p className="font-heading text-4xl font-semibold text-white">25K+</p>
                   <p className="mt-1 text-sm text-white/55">happy travellers</p>
                 </div>
                 <div className="border-l border-white/15 pl-5">

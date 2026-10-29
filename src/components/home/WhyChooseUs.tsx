@@ -81,7 +81,13 @@ export const WhyChooseUs: React.FC = () => {
                   <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-lg bg-sand text-primary">
                     {renderIcon(item.iconName)}
                   </div>
-                  <h3 className="font-heading text-lg font-bold text-primary">{item.title}</h3>
+                  <h3 className="font-heading text-lg font-bold text-primary">
+                    {item.iconName === "happy"
+                      ? "25K+ Happy Travellers"
+                      : item.iconName === "experience"
+                        ? "15+ Years Experience"
+                        : item.title}
+                  </h3>
                   <p className="mt-2 text-sm leading-6 text-foreground-muted">{item.description}</p>
                 </div>
               </StaggerItem>

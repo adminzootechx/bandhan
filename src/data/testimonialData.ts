@@ -30,7 +30,7 @@ export const trustStats: TrustStat[] = [
   {
     id: "happy-travellers",
     label: "Happy Travellers",
-    value: 15,
+    value: 25,
     suffix: "K+",
     icon: "users",
     description: "Delighted guests across India & abroad",
@@ -46,7 +46,7 @@ export const trustStats: TrustStat[] = [
   {
     id: "years-experience",
     label: "Years of Experience",
-    value: 14,
+    value: 15,
     suffix: "+",
     icon: "calendar",
     description: "Crafting memorable journeys since 2012",

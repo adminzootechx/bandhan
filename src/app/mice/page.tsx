@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 const companyFacts = [
-  { value: "13+ years", label: "Corporate travel experience" },
+  { value: "15+ years", label: "Corporate travel experience" },
   { value: "3 offices", label: "Thane, Pune and Guwahati" },
   { value: "India + global", label: "Domestic and international programmes" },
   { value: "One team", label: "From proposal to reconciliation" },
@@ -306,7 +306,7 @@ export default function MicePage() {
                 </h2>
                 <p className="mt-5 text-base leading-8 text-foreground-muted">
                   Bandhan Tours has served corporate clients across India for over
-                  13 years, planning every business trip with efficiency,
+                  15 years, planning every business trip with efficiency,
                   professionalism and personalised support. MICE programmes sit
                   inside that wider service, so the event and the everyday travel
                   around it are handled by the same desk.
