@@ -10,9 +10,10 @@ interface MediaPickerProps {
   onChange: (value: string | string[]) => void;
   multiple?: boolean;
   label?: string;
+  onUploadingChange?: (uploading: boolean) => void;
 }
 
-export default function MediaPicker({ value, onChange, multiple = false, label }: MediaPickerProps) {
+export default function MediaPicker({ value, onChange, multiple = false, label, onUploadingChange }: MediaPickerProps) {
   const { items: gallery } = useCollection<GalleryItem>("gallery");
   const inputRef = useRef<HTMLInputElement>(null);
   const [showLibrary, setShowLibrary] = useState(false);
@@ -34,9 +35,10 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
   };
 
   const upload = async (files: FileList | null) => {
-    if (!files?.length) return;
+    if (!files?.length || uploading) return;
     setError("");
     setUploading(true);
+    onUploadingChange?.(true);
     try {
       const urls = await uploadImages(files, multiple ? MAX_IMAGES_PER_UPLOAD : 1);
       if (!urls.length) setError("Choose a JPG, PNG, WEBP or GIF photo.");
@@ -45,6 +47,7 @@ export default function MediaPicker({ value, onChange, multiple = false, label }
       setError(uploadError instanceof Error ? uploadError.message : "Upload failed. Try again.");
     } finally {
       setUploading(false);
+      onUploadingChange?.(false);
       if (inputRef.current) inputRef.current.value = "";
     }
   };

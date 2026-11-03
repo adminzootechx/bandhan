@@ -7,6 +7,7 @@ import type { FieldConfig, ResourceConfig, WithId } from "@/lib/admin/types";
 import PageHeader from "./PageHeader";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import MediaPicker from "./MediaPicker";
+import BlogContentEditor from "./BlogContentEditor";
 import DestinationPreview from "./DestinationPreview";
 import type { DestinationExperience, DestinationRouteStop, DestinationSeason, ItineraryDay, PackageFaq } from "@/data/mockData";
 
@@ -59,9 +60,14 @@ const FormField: React.FC<{
   field: FieldConfig;
   value: unknown;
   onChange: (name: string, value: unknown) => void;
-}> = ({ field, value, onChange }) => {
+  onUploadingChange: (name: string, uploading: boolean) => void;
+}> = ({ field, value, onChange, onUploadingChange }) => {
   const base =
     "w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-accent font-medium text-sm transition-colors text-primary bg-slate-50/50";
+
+  if (field.type === "blogContent") {
+    return <BlogContentEditor value={typeof value === "string" ? value : ""} onChange={(next) => onChange(field.name, next)} required={field.required} />;
+  }
 
   if (field.type === "textarea") {
     return (
@@ -112,6 +118,7 @@ const FormField: React.FC<{
         value={value as string | string[] | undefined}
         onChange={(next) => onChange(field.name, next)}
         multiple={field.multiple}
+        onUploadingChange={(uploading) => onUploadingChange(field.name, uploading)}
       />
     );
   }
@@ -193,6 +200,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   const [previewOpen, setPreviewOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [uploadingFields, setUploadingFields] = useState<string[]>([]);
   const formFields = config.visibleFields
     ? config.fields.filter((field) => config.visibleFields?.includes(field.name))
     : config.fields;
@@ -225,6 +233,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   };
 
   const close = () => {
+    if (uploadingFields.length) return;
     setEditing(null);
     setDraft(null);
     setPreviewOpen(false);
@@ -233,9 +242,12 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
   const setField = (name: string, value: unknown) =>
     setDraft((d) => (d ? { ...d, [name]: value } : d));
 
+  const setUploading = (name: string, uploading: boolean) =>
+    setUploadingFields((current) => uploading ? [...current.filter((field) => field !== name), name] : current.filter((field) => field !== name));
+
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!draft) return;
+    if (!draft || uploadingFields.length) return;
     setSaving(true);
     setSaveError("");
     try {
@@ -265,7 +277,7 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
         {field.label}
         {field.required && <span className="text-accent"> *</span>}
       </label>
-      <FormField field={field} value={draft?.[field.name]} onChange={setField} />
+      <FormField field={field} value={draft?.[field.name]} onChange={setField} onUploadingChange={setUploading} />
     </div>
   );
 
@@ -404,12 +416,13 @@ export function ResourceManager<T extends WithId>({ config }: { config: Resource
                 <button
                   type="button"
                   onClick={close}
+                  disabled={uploadingFields.length > 0}
                   className="px-5 py-2.5 rounded-full text-sm font-semibold text-primary border border-slate-200 hover:bg-slate-50 transition-colors"
                 >
                   Cancel
                 </button>
-                <PrimaryButton type="submit" variant="navy" size="md" isLoading={saving}>
-                  {editing ? "Save Changes" : `Create ${config.singular}`}
+                <PrimaryButton type="submit" variant="navy" size="md" isLoading={saving} disabled={uploadingFields.length > 0}>
+                  {uploadingFields.length ? "Uploading image…" : editing ? "Save Changes" : `Create ${config.singular}`}
                 </PrimaryButton>
               </div>
             </form>

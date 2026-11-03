@@ -91,6 +91,7 @@ export interface WithId {
 export type FieldType =
   | "text"
   | "textarea"
+  | "blogContent"
   | "number"
   | "image"
   | "media"

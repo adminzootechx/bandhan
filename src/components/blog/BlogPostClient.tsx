@@ -11,6 +11,7 @@ import { useCollection } from "@/lib/admin/store";
 import NotFoundView from "@/components/notFound/NotFoundView";
 import type { BlogPost } from "@/lib/admin/types";
 import { contactEnquiryHref } from "@/lib/enquiryLink";
+import BlogContent from "./BlogContent";
 
 export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
   const router = useRouter();
@@ -30,11 +31,6 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
             .slice(0, 3)
         : [],
     [items, post]
-  );
-
-  const paragraphs = useMemo(
-    () => (post?.content || "").split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean),
-    [post]
   );
 
   if (ready && (!post || !post.isPublished)) {
@@ -91,11 +87,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
           )}
 
           <article className="space-y-5">
-            {paragraphs.map((para, i) => (
-              <p key={i} className="text-base text-foreground leading-8">
-                {para}
-              </p>
-            ))}
+            <BlogContent content={post?.content || ""} />
           </article>
 
           {/* CTA */}

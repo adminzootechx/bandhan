@@ -197,9 +197,9 @@ export const blogResource: ResourceConfig<BlogPost> = {
     { name: "date", label: "Date", type: "text", placeholder: "e.g. 20 Jul 2026" },
     { name: "readTime", label: "Read Time", type: "text", placeholder: "e.g. 5 min read" },
     { name: "isPublished", label: "Published", type: "boolean", help: "Show this post on the public blog" },
-    { name: "coverImage", label: "Cover Image URL", type: "image", fullWidth: true, placeholder: "https://…" },
+    { name: "coverImage", label: "Cover Image", type: "media", fullWidth: true },
     { name: "excerpt", label: "Excerpt", type: "textarea", fullWidth: true, placeholder: "A short summary shown on cards and previews." },
-    { name: "content", label: "Content", type: "textarea", fullWidth: true, required: true, help: "Separate paragraphs with a blank line." },
+    { name: "content", label: "Content", type: "blogContent", fullWidth: true, required: true },
   ],
   empty: {
     title: "",
