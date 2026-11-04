@@ -117,7 +117,7 @@ export const PackageDetailClient: React.FC<PackageDetailClientProps> = ({
   const enquire = () => router.push(contactEnquiryHref(pkg.title));
   // The catalogue brochure for this trip — no booking required. A brochure
   // personalised with traveller names comes out of the booking engine instead.
-  const brochureHref = `/api/packages/${encodeURIComponent(pkg.id)}/brochure?v=1`;
+  const brochureHref = `/api/packages/${encodeURIComponent(pkg.id)}/brochure?v=2`;
 
   const quickFacts = [
     { label: "Duration", value: pkg.duration, icon: Clock3 },

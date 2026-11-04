@@ -1,6 +1,8 @@
 import type { FullPackage } from "@/data/packageDetails";
 import { COMPANY } from "@/lib/email/company";
 import { TAX_NOTE, formatPriceText, withTaxMark } from "@/lib/priceLabel";
+import { isGroupTour } from "@/lib/packageCategory";
+import { renderGroupTourBrochurePdf } from "./groupTourBrochurePdf";
 import { CONTENT_WIDTH, MARGIN, PdfDoc } from "./pdf/layout";
 import { drawImageCover, loadProposalImage } from "./pdf/images";
 import {
@@ -52,6 +54,7 @@ function attachChrome(doc: PdfDoc, pkg: FullPackage) {
 }
 
 export async function renderPackageBrochurePdf(pkg: FullPackage): Promise<Uint8Array> {
+  if (isGroupTour(pkg)) return renderGroupTourBrochurePdf(pkg);
   const doc = await PdfDoc.create();
   attachChrome(doc, pkg);
 

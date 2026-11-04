@@ -25,6 +25,20 @@ test("Group Tours accepts a category and overlapping group membership", () => {
   assert.equal(category.matchesPackageCategory({ ...trip, travelStyles: ["group"] }, "group-tours"), true);
 });
 
+test("group membership survives the detail model's current guest-size label", () => {
+  const { getFullPackageForPackage } = load("src/data/packageDetails.ts", {
+    "./mockData": { featuredPackages: [] },
+    "@/lib/packageCategory": category,
+  });
+  const legacy = { ...trip, travelStyles: undefined, groupSize: "Min 25 pax for quoted rate" };
+  const detail = getFullPackageForPackage(legacy);
+  assert.equal(detail.groupSize, "24 guests");
+  assert.equal(category.isGroupTour(detail), true);
+  assert.equal(category.isGroupTour(getFullPackageForPackage(trip)), false);
+  assert.equal(detail.itinerary, legacy.itinerary);
+  assert.equal(detail.price, legacy.price);
+});
+
 test("adding an existing tour to Group Tours preserves its location, itinerary, prices and photos", () => {
   const patch = category.packageCategoryPatch(trip, "Group Tours", "add-group");
   const updated = { ...trip, ...patch };
@@ -115,6 +129,7 @@ test("homepage journey filters change cards in place, filter before the cutoff, 
     "@/lib/departures/types": load("src/lib/departures/types.ts"),
     "@/lib/priceLabel": load("src/lib/priceLabel.ts"),
     "@/components/home/FeaturedPackages": { PackageCard },
+    "@/components/departures/DepartureCards": () => null,
     "@/components/ui/SiteImage": () => null,
     "@/components/ui/Container": { Container: passthrough },
     "@/components/ui/SectionTitle": { SectionTitle: () => null },

@@ -8,7 +8,7 @@ import {
   type PackageServiceKey,
   type TourPackage,
 } from "./mockData";
-import { packageDestinationLabel, packageGroupSize } from "@/lib/packageCategory";
+import { packageDestinationLabel, packageGroupSize, packageTravelStyles } from "@/lib/packageCategory";
 
 export type { ItineraryDay, PackageFaq, PackageServiceDetails, PackageServiceKey } from "./mockData";
 
@@ -122,6 +122,9 @@ export const getFullPackageForPackage = (pkg: TourPackage): FullPackage => {
   const groupSize = packageGroupSize(pkg);
   return {
     ...pkg,
+    // Preserve inferred group membership before replacing legacy group-size
+    // wording (for example, "Min 25 pax") with the current 24-guest policy.
+    travelStyles: packageTravelStyles(pkg),
     tagline: pkg.tagline ?? `${pkg.title} — thoughtfully planned by Bandhan Tours.`,
     overview: pkg.overview ?? "",
     heroImage: pkg.heroImage || pkg.image || "",

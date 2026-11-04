@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   // the request — the brochures just come out unbranded in production while
   // still looking correct locally.
   outputFileTracingIncludes: {
-    "/api/**": ["src/lib/documents/pdf/fonts/**", "public/pdf-assets/**"],
+    "/api/**": ["src/lib/documents/pdf/fonts/**", "public/pdf-assets/**", "public/images/**"],
   },
   images: {
     // AVIF first: roughly 20–30% smaller than WebP at the same visual quality,

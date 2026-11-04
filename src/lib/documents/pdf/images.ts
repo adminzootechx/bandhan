@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { PDFImage } from "pdf-lib";
+import sharp from "sharp";
+import { clip, endPath, popGraphicsState, pushGraphicsState, rectangle, type PDFImage } from "pdf-lib";
 import { PAGE_HEIGHT, PdfDoc } from "./layout";
 
 /** Loads snapshot images from either the web or /public, with graceful fallback. */
@@ -13,7 +14,7 @@ export async function loadProposalImage(
     let bytes: Uint8Array;
     let isPng = /\.png(?:$|\?)/i.test(source);
     if (/^https?:\/\//i.test(source)) {
-      const response = await fetch(source, { cache: "no-store" });
+      const response = await fetch(source, { cache: "no-store", signal: AbortSignal.timeout(10000) });
       if (!response.ok) return null;
       bytes = new Uint8Array(await response.arrayBuffer());
       isPng = (response.headers.get("content-type") || "").includes("png") || isPng;
@@ -21,7 +22,11 @@ export async function loadProposalImage(
       const publicPath = source.replace(/^\/+/, "");
       bytes = new Uint8Array(await fs.readFile(path.join(process.cwd(), "public", publicPath)));
     }
-    return isPng ? await doc.doc.embedPng(bytes) : await doc.doc.embedJpg(bytes);
+    // Admin uploads and the site hero library also contain WebP/AVIF. Normalize
+    // those formats, and bound photo resolution for a shareable brochure.
+    if (isPng) return await doc.doc.embedPng(bytes);
+    const jpeg = await sharp(bytes).rotate().resize({ width: 1800, height: 1800, fit: "inside", withoutEnlargement: true }).jpeg({ quality: 86 }).toBuffer();
+    return await doc.doc.embedJpg(jpeg);
   } catch {
     return null;
   }
@@ -38,10 +43,10 @@ export function drawImageCover(
   opacity = 1
 ) {
   const bottom = PAGE_HEIGHT - top - height;
-  const fullPage = x === 0 && top === 0 && width >= 595 && height >= PAGE_HEIGHT - 1;
-  const scale = fullPage ? Math.max(width / image.width, height / image.height) : 1;
-  const drawWidth = fullPage ? image.width * scale : width;
-  const drawHeight = fullPage ? image.height * scale : height;
+  const scale = Math.max(width / image.width, height / image.height);
+  const drawWidth = image.width * scale;
+  const drawHeight = image.height * scale;
+  doc.page.pushOperators(pushGraphicsState(), rectangle(x, bottom, width, height), clip(), endPath());
   doc.page.drawImage(image, {
     x: x + (width - drawWidth) / 2,
     y: bottom + (height - drawHeight) / 2,
@@ -49,4 +54,5 @@ export function drawImageCover(
     height: drawHeight,
     opacity,
   });
+  doc.page.pushOperators(popGraphicsState());
 }

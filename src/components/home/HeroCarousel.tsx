@@ -34,12 +34,11 @@ const slides = [
 
 export default function HeroCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [touching, setTouching] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const reducedMotion = useReducedMotion();
-  const isPaused = hovered || focused || touching || Boolean(reducedMotion);
+  const isPaused = focused || touching || Boolean(reducedMotion);
 
   const move = (direction: number) => {
     setActiveIndex((index) => (index + direction + slides.length) % slides.length);
@@ -60,15 +59,17 @@ export default function HeroCarousel() {
       role="region"
       aria-roledescription="carousel"
       aria-label="Featured holidays"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocusCapture={() => setFocused(true)}
+      // Pointer interactions should not leave autoplay paused. Keep the
+      // current banner still while someone navigates its links by keyboard.
+      onPointerDownCapture={() => setFocused(false)}
+      onFocusCapture={(event) => setFocused(event.target.matches(":focus-visible"))}
       onBlurCapture={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
       }}
       onKeyDown={(event) => {
         if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
           event.preventDefault();
+          setFocused(true);
           move(event.key === "ArrowLeft" ? -1 : 1);
         }
       }}
