@@ -514,7 +514,7 @@ export default function DepartureCalendarClient() {
             <li className="border-l-2 border-gold pl-4">
               <strong className="block text-primary">Your own dates</strong>
               Want to travel outside these dates? We can plan the same journey privately for your family or group.
-              <Link href="/plan-trip" className="mt-3 flex min-h-11 w-fit items-center gap-1.5 font-bold text-primary hover:text-navy">
+              <Link href="/plan-a-custom-trip" className="mt-3 flex min-h-11 w-fit items-center gap-1.5 font-bold text-primary hover:text-navy">
                 Plan a custom trip <ArrowRight size={15} aria-hidden="true" />
               </Link>
             </li>

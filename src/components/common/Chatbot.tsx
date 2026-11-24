@@ -233,7 +233,7 @@ function faqResponse(faq: Faq, ctx: KnowledgeContext): BotResponse {
       { label: "Send an enquiry", href: contactEnquiryHref() },
     ];
   } else if (faq.id === "custom") {
-    response.actions = [{ label: "Plan a custom trip", href: "/plan-trip" }];
+    response.actions = [{ label: "Plan a custom trip", href: "/plan-a-custom-trip" }];
   } else if (faq.id === "reviews") {
     response.actions = [{ label: "Read guest reviews", href: "/testimonials" }];
   } else if (faq.id === "about") {
@@ -2192,7 +2192,7 @@ export const Chatbot: React.FC = () => {
               Browse tours
             </Link>
             <Link
-              href="/plan-trip"
+              href="/plan-a-custom-trip"
               onClick={() => setOpen(false)}
               className="flex min-h-11 items-center justify-center px-3 py-2 text-center text-[11px] font-bold text-primary transition hover:bg-gold/20 lg:px-4 lg:py-3 lg:text-[10px] lg:uppercase lg:tracking-[0.14em]"
             >

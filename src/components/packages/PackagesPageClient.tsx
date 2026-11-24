@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "@/components/ui/SiteImage";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowUpRight, CalendarClock, MapPin, Search, Star, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -48,8 +48,9 @@ const TRAVEL_MONTHS = travelMonthOptions();
 export const PackagesPageClient: React.FC = () => {
   const { items: packages } = useCollection<TourPackage>("packages");
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category");
+  const initialCategory = pathname === "/group-tours" ? "group-tours" : searchParams.get("category");
 
   const [activeTab, setActiveTab] = useState<CategoryTab>(() => parseCategoryParam(initialCategory));
   const [categoryParam, setCategoryParam] = useState(initialCategory);
@@ -89,7 +90,7 @@ export const PackagesPageClient: React.FC = () => {
   const filterQuery = React.useMemo(() => {
     const params = new URLSearchParams();
     if (query.trim()) params.set("search", query.trim());
-    if (activeTab !== "all") params.set("category", activeTab);
+    if (activeTab !== "all" && activeTab !== "group-tours") params.set("category", activeTab);
     if (month) params.set("month", month);
     if (duration !== "all") params.set("duration", duration);
     if (budget !== "all") params.set("budget", budget);
@@ -100,8 +101,12 @@ export const PackagesPageClient: React.FC = () => {
   }, [query, activeTab, month, duration, budget, destination, travelStyle, featuredOnly]);
 
   React.useEffect(() => {
-    router.replace(`/packages${filterQuery ? `?${filterQuery}` : ""}`, { scroll: false });
-  }, [filterQuery, router]);
+    const path = activeTab === "group-tours" ? "/group-tours" : "/packages";
+    const href = `${path}${filterQuery ? `?${filterQuery}` : ""}`;
+    if (href !== `${window.location.pathname}${window.location.search}`) {
+      router.replace(href, { scroll: false });
+    }
+  }, [activeTab, filterQuery, router]);
 
   const handleEnquire = (destination: string = "") => {
     router.push(contactEnquiryHref(destination));
@@ -427,7 +432,7 @@ export const PackagesPageClient: React.FC = () => {
                   in mind.
                 </p>
                 <button
-                  onClick={() => router.push("/book?type=destination")}
+                  onClick={() => router.push("/plan-a-custom-trip")}
                   className="mt-6 inline-flex items-center gap-2 rounded-[5px] bg-accent px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-accent-dark hover:shadow-lg hover:shadow-accent/20"
                 >
                   Build a Custom Trip

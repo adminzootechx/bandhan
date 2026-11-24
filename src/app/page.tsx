@@ -35,7 +35,7 @@ export default function Home() {
       */}
       <Hero
         onSearchSubmit={handleSearch}
-        onPlanTripClick={() => router.push("/book?type=destination")}
+        onPlanTripClick={() => router.push("/plan-a-custom-trip")}
       />
       <PopularDestinations />
       <FeaturedPackages />
@@ -43,7 +43,7 @@ export default function Home() {
       <GroupDepartures />
       <Testimonials />
       <TravelGallery />
-      <CTA onStartPlanningClick={() => router.push("/book?type=destination")} />
+      <CTA onStartPlanningClick={() => router.push("/plan-a-custom-trip")} />
     </PageShell>
   );
 }

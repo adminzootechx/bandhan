@@ -327,7 +327,7 @@ export default function DestinationGuideClient({ id }: { id: string }) {
   }
 
   const guide = prepareGuide(destination);
-  const bookingHref = `/book?type=destination&id=${encodeURIComponent(destination.id)}`;
+  const bookingHref = `/plan-a-custom-trip?id=${encodeURIComponent(destination.id)}`;
   const guideSections = destination.faqs?.length ? [...sectionLinks, { id: "faqs", label: "FAQs" }] : sectionLinks;
   const heroLabels = [...new Set([destination.country || destination.region || "India", destination.tag, ...guide.themes].filter(Boolean))];
   const facts = [

@@ -4,10 +4,11 @@ import { featuredPackages, blogPosts } from "@/data/mockData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
+    { url: `${siteUrl}/group-tours`, changeFrequency: "weekly", priority: 0.9 },
     { url: siteUrl, changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/packages`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/departures`, changeFrequency: "daily", priority: 0.8 },
-    { url: `${siteUrl}/plan-trip`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${siteUrl}/plan-a-custom-trip`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/mice`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/blog`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteUrl}/about`, changeFrequency: "monthly", priority: 0.7 },

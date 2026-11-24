@@ -11,8 +11,8 @@ const previews = [
     file: "bandhan-group-sikkim-darjeeling.pdf",
     hero: "/pdf-assets/kanchenjunga-darjeeling.jpg",
     gallery: [
-      { image: "/pdf-assets/yumthang-valley-sikkim.jpg", caption: "Yumthang Valley, Sikkim - Soumyajit Pramanick / CC BY-SA" },
-      { image: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Kangchenjunga from Darjeeling - EJH / public domain" },
+      { image: "/pdf-assets/tsomgo-lake.jpg", caption: "Tsomgo Lake, Sikkim" },
+      { image: "/pdf-assets/darjeeling-railway.jpg", caption: "Darjeeling Himalayan Railway" },
     ],
   },
   {
@@ -21,6 +21,8 @@ const previews = [
     hero: "/pdf-assets/singapore-marina-bay.jpg",
     gallery: [
       { image: "/pdf-assets/singapore-marina-bay.jpg", caption: "Marina Bay, Singapore" },
+      { image: "/pdf-assets/kuala-lumpur-skyline.jpg", caption: "Kuala Lumpur, Malaysia" },
+      { image: "/pdf-assets/bangkok-chinatown.jpg", caption: "Bangkok, Thailand" },
     ],
   },
 ];

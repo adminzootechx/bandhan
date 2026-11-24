@@ -140,7 +140,7 @@ export default function TourPackageManager({ initialCategory = "all" }: { initia
         updated += 1;
       }
       setSelectedIds(new Set());
-      setNotice({ message: `${updated} tour${updated === 1 ? "" : "s"} ${mode === "add-group" ? "added to Group Tours" : `moved to ${target}`}. Published tours are visible immediately; drafts stay hidden.`, href: mode === "add-group" || target === "Group Tours" ? "/packages?category=group-tours" : undefined });
+      setNotice({ message: `${updated} tour${updated === 1 ? "" : "s"} ${mode === "add-group" ? "added to Group Tours" : `moved to ${target}`}. Published tours are visible immediately; drafts stay hidden.`, href: mode === "add-group" || target === "Group Tours" ? "/group-tours" : undefined });
     } catch (error) {
       setNotice({ message: `${updated} updated. ${error instanceof Error ? error.message : "Could not update categories."}` });
     } finally { setSaving(false); }

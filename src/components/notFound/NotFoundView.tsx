@@ -11,7 +11,7 @@ const HERO_IMAGE =
 const QUICK_LINKS = [
   { href: "/packages", label: "Tour packages" },
   { href: "/destinations", label: "Destinations" },
-  { href: "/plan-trip", label: "Plan a trip" },
+  { href: "/plan-a-custom-trip", label: "Plan a trip" },
   { href: "/blog", label: "Travel blog" },
   { href: "/contact", label: "Contact us" },
 ];

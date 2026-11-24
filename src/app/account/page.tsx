@@ -94,7 +94,7 @@ export default function AccountPage() {
                   Browse packages
                 </Link>
                 <Link
-                  href="/plan-trip"
+                  href="/plan-a-custom-trip"
                   className={`${cta} border border-primary/20 text-primary hover:border-primary hover:bg-primary hover:text-white`}
                 >
                   Plan a custom trip

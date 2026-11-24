@@ -1,4 +1,4 @@
-import type { PDFImage } from "pdf-lib";
+import { PDFString, type PDFImage } from "pdf-lib";
 import type { FullPackage } from "@/data/packageDetails";
 import type { ItineraryDay } from "@/data/mockData";
 import { COMPANY } from "@/lib/email/company";
@@ -9,23 +9,39 @@ import { C, drawBrandMark } from "./pdf/chrome";
 import { drawImageCover, loadProposalImage } from "./pdf/images";
 import { CONTENT_WIDTH, hex, MARGIN, PAGE_HEIGHT, PAGE_WIDTH, PdfDoc } from "./pdf/layout";
 
-const PAPER = hex("#FAF8F3");
-const INK = hex("#142D43");
-const MUTED = hex("#596976");
-const LINE = hex("#DCDDD5");
-const GOLD = hex("#D1A43D");
-const BOTTOM = 770;
-const BODY = 9;
-const LEADING = 14;
+const PAPER = hex("#F8F5EE");
+const INK = hex("#112E32");
+const MUTED = hex("#596A68");
+const LINE = hex("#D6DBD3");
+const ACCENT = hex("#D65E3D");
+const CHAMPAGNE = hex("#DAB876");
+const BOTTOM = 762;
+const BODY = 11;
+const LEADING = 16;
 
 type Photo = { image: PDFImage; caption: string };
 
-function copy(doc: PdfDoc, value: string, options: { x?: number; width?: number; size?: number; bold?: boolean; color?: ReturnType<typeof hex>; gap?: number } = {}) {
+// Stable, destination-specific fallbacks for the two brochure sample routes.
+// Admin-uploaded imagery remains first in the source list.
+const LOCAL_PHOTOS: Record<string, { source: string; caption: string }[]> = {
+  "sikkim-darjeeling-6n": [
+    { source: "/pdf-assets/kanchenjunga-darjeeling.jpg", caption: "Kangchenjunga, seen from Darjeeling" },
+    { source: "/pdf-assets/tsomgo-lake.jpg", caption: "Tsomgo Lake, Sikkim" },
+    { source: "/pdf-assets/darjeeling-railway.jpg", caption: "Darjeeling Himalayan Railway" },
+  ],
+  "singapore-malaysia-thailand": [
+    { source: "/pdf-assets/singapore-marina-bay.jpg", caption: "Marina Bay, Singapore" },
+    { source: "/pdf-assets/kuala-lumpur-skyline.jpg", caption: "Kuala Lumpur, Malaysia" },
+    { source: "/pdf-assets/bangkok-chinatown.jpg", caption: "Bangkok, Thailand" },
+  ],
+};
+
+function copy(doc: PdfDoc, value: string, options: { x?: number; width?: number; size?: number; bold?: boolean; color?: ReturnType<typeof hex>; gap?: number; leading?: number } = {}) {
   doc.paragraph(value, {
     x: options.x ?? MARGIN,
     maxWidth: options.width ?? CONTENT_WIDTH,
     size: options.size ?? BODY,
-    lineHeight: (options.size ?? BODY) + 5,
+    lineHeight: options.leading ?? (options.size ?? BODY) + 5,
     color: options.color ?? INK,
     bold: options.bold,
     spaceAfter: options.gap ?? 10,
@@ -33,114 +49,140 @@ function copy(doc: PdfDoc, value: string, options: { x?: number; width?: number;
 }
 
 function kicker(doc: PdfDoc, value: string, x: number, y: number, color = MUTED) {
-  doc.textAt(value.toUpperCase(), { x, y, size: 7, bold: true, charSpacing: 1.3, color });
+  doc.textAt(value.toUpperCase(), { x, y, size: 8.5, bold: true, charSpacing: .65, color });
 }
 
 function chapter(doc: PdfDoc, number: string, eyebrow: string, title: string) {
-  const lines = doc.wrap(title, CONTENT_WIDTH - 65, 29, false, "serif");
-  doc.ensure(65 + lines.length * 32);
-  kicker(doc, eyebrow, MARGIN, doc.y, MUTED);
-  doc.textAt(number, { x: PAGE_WIDTH - MARGIN - 50, y: doc.y - 4, width: 50, align: "right", size: 42, family: "serif", color: GOLD });
-  doc.y += 21;
+  const lines = doc.wrap(title, CONTENT_WIDTH, 31, false, "serif");
+  doc.ensure(39 + lines.length * 36);
+  kicker(doc, `${number} / ${eyebrow}`, MARGIN, doc.y, ACCENT);
+  doc.y += 22;
   for (const line of lines) {
-    doc.textAt(line, { y: doc.y, size: 29, family: "serif", color: INK });
-    doc.y += 32;
+    doc.textAt(line, { y: doc.y, size: 31, family: "serif", color: INK });
+    doc.y += 36;
   }
-  doc.y += 13;
-  doc.rule(doc.y, LINE);
-  doc.y += 20;
+  doc.y += 17;
 }
 
-function chrome(doc: PdfDoc, destination: string, section: string) {
+function chrome(doc: PdfDoc, destination: string) {
   doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, PAPER);
-  drawBrandMark(doc, { y: 22, width: 80 });
-  const available = CONTENT_WIDTH - 120;
-  let size = 8;
+  kicker(doc, "Bandhan Tours", MARGIN, 28, INK);
+  const available = CONTENT_WIDTH - 150;
+  let size = 9;
   while (doc.measure(destination, size, true) > available && size > 5) size -= 0.25;
-  doc.textAt(destination, { x: MARGIN + 120, y: 24, width: available, align: "right", size, bold: true, color: INK });
-  doc.textAt(section, { x: MARGIN + 120, y: 40, width: available, align: "right", size: 6.5, color: MUTED });
-  doc.rule(68, LINE);
-  doc.y = 92;
+  doc.textAt(destination, { x: MARGIN + 150, y: 28, width: available, align: "right", size, color: MUTED });
+  doc.rule(51, LINE);
+  doc.y = 76;
+}
+
+function brochureLink(doc: PdfDoc, x: number, top: number, width: number, height: number, url: string) {
+  const annotation = doc.doc.context.obj({
+    Type: "Annot", Subtype: "Link", Rect: [x, PAGE_HEIGHT - top - height, x + width, PAGE_HEIGHT - top],
+    Border: [0, 0, 0], A: { Type: "Action", S: "URI", URI: PDFString.of(url) },
+  });
+  doc.page.node.addAnnot(doc.doc.context.register(annotation));
 }
 
 function cover(doc: PdfDoc, pkg: FullPackage, destination: string, photo?: Photo) {
-  let size = 48;
-  let titleLines = doc.wrap(destination, CONTENT_WIDTH, size, false, "serif");
-  while (titleLines.length > 3 && size > 28) {
-    size -= 2;
-    titleLines = doc.wrap(destination, CONTENT_WIDTH, size, false, "serif");
-  }
-  const subtitleLines = doc.wrap(pkg.title, CONTENT_WIDTH - 10, 9.5);
-  const titleHeight = 22 + titleLines.length * (size + 2) + 15 + subtitleLines.length * 14;
-  const titleTop = 686 - titleHeight;
-  const imageBottom = titleTop - 26;
   doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, PAPER);
-  doc.rect(0, 0, PAGE_WIDTH, 91, C.primary);
-  drawBrandMark(doc, { y: 21, width: 116, dark: true });
-  kicker(doc, "The group collection", PAGE_WIDTH - MARGIN - 170, 31, C.gold);
-  doc.textAt(COMPANY.tagline, { x: PAGE_WIDTH - MARGIN - 170, y: 49, size: 8, color: C.white });
-
+  doc.rect(0, 0, PAGE_WIDTH, 682, INK);
   if (photo) {
-    drawImageCover(doc, photo.image, 0, 91, PAGE_WIDTH, imageBottom - 91);
-    doc.scrim(0, imageBottom - 110, PAGE_WIDTH, 110, C.primary, 0.6);
-  } else {
-    doc.rect(0, 91, PAGE_WIDTH, imageBottom - 91, INK);
-    doc.rule(imageBottom - 65, GOLD, MARGIN, 70, 2);
-    doc.textAt("Journeys worth sharing.", { y: imageBottom - 49, size: 26, family: "serif", color: C.white });
+    drawImageCover(doc, photo.image, 0, 0, PAGE_WIDTH, 682);
+    doc.scrim(0, 0, PAGE_WIDTH, 190, INK, .74, "top");
+    doc.scrim(0, 190, PAGE_WIDTH, 492, INK, .94);
   }
-  const badge = `GROUP TOUR  /  ${packageGroupSize(pkg).toUpperCase()}`;
-  const badgeWidth = doc.measure(badge, 7, true, 0.8) + 24;
-  doc.rect(MARGIN, imageBottom - 41, badgeWidth, 24, C.gold);
-  doc.textAt(badge, { x: MARGIN + 12, y: imageBottom - 33, size: 7, bold: true, charSpacing: 0.8, color: INK });
+  drawBrandMark(doc, { y: 31, width: 116, dark: true });
+  kicker(doc, "The group collection", PAGE_WIDTH - MARGIN - 176, 40, C.white);
+  doc.textAt(COMPANY.tagline, { x: PAGE_WIDTH - MARGIN - 176, y: 58, size: 7.6, color: C.white });
+  doc.rule(104, C.white, MARGIN, CONTENT_WIDTH, .5);
 
-  let y = titleTop;
-  kicker(doc, "Travel together. Remember forever.", MARGIN, y, MUTED);
-  y += 22;
-  for (const line of titleLines) {
-    doc.textAt(line, { y, size, family: "serif", color: INK });
-    y += size + 2;
+  const title = destination.replace(/,\s*/g, "\n").replace(/\s*&\s*/g, "\n& ");
+  let size = 73;
+  let lines = doc.wrap(title, CONTENT_WIDTH, size, false, "serif");
+  while ((lines.length > 3 || lines.some(line => doc.measure(line, size, false, 0, "serif") > CONTENT_WIDTH)) && size > 22) {
+    size -= 1;
+    lines = doc.wrap(title, CONTENT_WIDTH, size, false, "serif");
   }
-  y += 15;
-  subtitleLines.forEach((line) => {
-    doc.textAt(line, { y, size: 9.5, color: MUTED });
-    y += 14;
-  });
+  const lineHeight = size * 1.02;
+  const titleTop = 562 - lines.length * lineHeight;
+  kicker(doc, `${packageGroupSize(pkg)} / one shared adventure`, MARGIN, titleTop - 28, CHAMPAGNE);
+  lines.forEach((line, index) => doc.textAt(line, { y: titleTop + index * lineHeight, size, family: "serif", color: C.white }));
+  doc.rule(580, CHAMPAGNE, MARGIN, 46, 2);
+  doc.textAt("Extraordinary places. Shared memories.", { y: 599, size: 14, color: C.white, family: "serif" });
+  kicker(doc, "Explore the journey", MARGIN, 650, C.white);
+  doc.textAt("01 / THE GROUP COLLECTION", { x: MARGIN + 280, y: 650, width: CONTENT_WIDTH - 280, align: "right", size: 6.5, color: C.white });
 
-  doc.rule(705, GOLD);
-  kicker(doc, "Your journey", MARGIN, 724);
-  doc.textAt(pkg.duration, { y: 744, size: 13, bold: true, color: INK });
-  kicker(doc, "Starting from / per person", MARGIN + 275, 724);
-  let priceSize = 23;
+  kicker(doc, "Your time away", MARGIN, 708);
+  doc.textAt(pkg.duration, { y: 731, size: 13, bold: true, color: INK });
+  kicker(doc, "From / per person", MARGIN + 282, 708);
   const price = withTaxMark(pkg.price) || "Enquire";
-  while (doc.measure(price, priceSize, true) > CONTENT_WIDTH - 275 && priceSize > 10) priceSize -= 1;
-  doc.textAt(price, { x: MARGIN + 275, y: 741, size: priceSize, bold: true, color: INK });
-  doc.textAt(TAX_NOTE, { x: MARGIN + 275, y: 774, size: 7, color: MUTED });
-  doc.rect(0, PAGE_HEIGHT - 35, PAGE_WIDTH, 35, C.primary);
-  doc.textAt(`${COMPANY.phoneLabel}    /    ${COMPANY.email}    /    bandhantours.com`, { y: PAGE_HEIGHT - 22, size: 7, color: C.white });
+  let priceSize = 27;
+  while (doc.measure(price, priceSize, true) > CONTENT_WIDTH - 282 && priceSize > 10) priceSize -= 1;
+  doc.textAt(price, { x: MARGIN + 282, y: 727, size: priceSize, bold: true, color: INK });
+  doc.textAt(TAX_NOTE, { x: MARGIN + 282, y: 761, size: 6.7, color: MUTED });
+  doc.rule(789, LINE);
+  doc.textAt("BANDHANTOURS.COM", { y: 808, size: 7, bold: true, charSpacing: 1, color: INK });
+  doc.textAt(COMPANY.phoneLabel, { y: 808, width: CONTENT_WIDTH, align: "right", size: 8, color: INK });
+  brochureLink(doc, MARGIN, 800, 180, 24, `${COMPANY.website}/packages/${encodeURIComponent(pkg.id)}`);
+  brochureLink(doc, PAGE_WIDTH - MARGIN - 180, 800, 180, 24, COMPANY.phoneHref);
+}
+
+function routeDiagram(doc: PdfDoc, pkg: FullPackage) {
+  const stops: { name: string; nights: number }[] = [];
+  for (const day of pkg.itinerary || []) {
+    const name = day.stay?.trim();
+    if (!name || /^(?:—|-)$/.test(name)) continue;
+    const previous = stops[stops.length - 1];
+    if (previous?.name === name) previous.nights += 1;
+    else stops.push({ name, nights: 1 });
+  }
+  if (!stops.length) return;
+  const columns = Math.min(stops.length, 4), width = CONTENT_WIDTH / columns;
+  doc.ensure(110);
+  kicker(doc, "The overnight route", MARGIN, doc.y, ACCENT);
+  doc.y += 26;
+  for (let i = 0; i < stops.length; i += columns) {
+    const row = stops.slice(i, i + columns);
+    const height = Math.max(...row.map(stop => doc.wrap(stop.name, width - 20, 11, true).length)) * 15 + 51;
+    doc.ensure(height);
+    const top = doc.y;
+    row.forEach((stop, offset) => {
+      const x = MARGIN + offset * width;
+      doc.rule(top, LINE, x, width);
+      doc.rect(x, top - 2, 5, 5, ACCENT);
+      doc.textAt(String(i + offset + 1).padStart(2, "0"), { x, y: top + 13, size: 7, color: ACCENT });
+      const lines = doc.wrap(stop.name, width - 20, 11, true);
+      lines.forEach((line, n) => doc.textAt(line, { x, y: top + 29 + n * 15, size: 11, bold: true, color: INK }));
+      doc.textAt(`${stop.nights} ${stop.nights === 1 ? "night" : "nights"}`, { x, y: top + 32 + lines.length * 15, size: 8, color: MUTED });
+    });
+    doc.y += height + 15;
+  }
+}
+
+function photoStrip(doc: PdfDoc, photos: Photo[], height: number) {
+  if (!photos.length) return;
+  doc.ensure(height + 25);
+  const visible = photos.slice(0, 2), gap = 10;
+  const firstWidth = visible.length === 2 ? CONTENT_WIDTH * .62 : CONTENT_WIDTH;
+  visible.forEach((photo, i) => {
+    const x = i === 0 ? MARGIN : MARGIN + firstWidth + gap;
+    const width = i === 0 ? firstWidth : CONTENT_WIDTH - firstWidth - gap;
+    drawImageCover(doc, photo.image, x, doc.y, width, height);
+    doc.scrim(x, doc.y + height - 55, width, 55, INK, .85);
+    const caption = doc.wrap(photo.caption, width - 22, 8);
+    caption.forEach((line, n) => doc.textAt(line, { x: x + 11, y: doc.y + height - 12 - (caption.length - n) * 11, size: 8, color: C.white }));
+  });
+  doc.y += height + 25;
 }
 
 function fact(doc: PdfDoc, label: string, value: string) {
-  const lines = doc.wrap(value, CONTENT_WIDTH - 125, 9, true);
-  const height = Math.max(38, lines.length * 14 + 18);
+  const lines = doc.wrap(value, CONTENT_WIDTH - 125, 10.5);
+  const height = Math.max(42, lines.length * 15 + 22);
   doc.ensure(height);
-  kicker(doc, label, MARGIN + 12, doc.y + 11);
-  lines.forEach((line, index) => doc.textAt(line, { x: MARGIN + 125, y: doc.y + 10 + index * 14, size: 9, bold: true, color: INK }));
+  doc.textAt(label, { x: MARGIN, y: doc.y + 12, size: 10.5, bold: true, color: MUTED });
+  lines.forEach((line, index) => doc.textAt(line, { x: MARGIN + 125, y: doc.y + 12 + index * 15, size: 10.5, color: INK }));
   doc.rule(doc.y + height, LINE);
   doc.y += height;
-}
-
-function pricePanel(doc: PdfDoc, pkg: FullPackage) {
-  doc.ensure(166);
-  const top = doc.y;
-  doc.rect(MARGIN, top, CONTENT_WIDTH, 99, INK);
-  kicker(doc, "Published starting price / per person", MARGIN + 20, top + 17, C.gold);
-  let size = 29;
-  const price = withTaxMark(pkg.price) || "Enquire";
-  while (doc.measure(price, size, true) > CONTENT_WIDTH - 40 && size > 10) size -= 1;
-  doc.textAt(price, { x: MARGIN + 20, y: top + 38, size, bold: true, color: C.white });
-  doc.textAt(TAX_NOTE, { x: MARGIN + 20, y: top + 79, size: 7.5, color: C.white });
-  doc.y += 114;
-  copy(doc, "Published rates are indicative. Your consultant confirms departure availability, room configuration, applicable taxes and the final price before payment.", { size: 8, color: MUTED, gap: 22 });
 }
 
 function highlights(doc: PdfDoc, values: string[]) {
@@ -148,8 +190,8 @@ function highlights(doc: PdfDoc, values: string[]) {
   const width = (CONTENT_WIDTH - gap) / 2;
   for (let index = 0; index < values.length; index += 2) {
     const pair = values.slice(index, index + 2);
-    const wrapped = pair.map((value) => doc.wrap(value, width - 32, BODY));
-    const height = Math.max(...wrapped.map((lines) => lines.length * LEADING)) + 24;
+    const wrapped = pair.map((value) => doc.wrap(value, width - 22, 10.5));
+    const height = Math.max(...wrapped.map((lines) => lines.length * 15.5)) + 22;
     // Ordinary highlights stay together; unusually long admin copy flows.
     if (height > BOTTOM - 92) {
       pair.forEach((value, offset) => copy(doc, `${String(index + offset + 1).padStart(2, "0")}  ${value}`));
@@ -159,118 +201,299 @@ function highlights(doc: PdfDoc, values: string[]) {
     pair.forEach((_value, offset) => {
       const x = MARGIN + offset * (width + gap);
       doc.rule(doc.y, LINE, x, width);
-      doc.textAt(String(index + offset + 1).padStart(2, "0"), { x, y: doc.y + 12, size: 10, family: "serif", color: GOLD });
-      wrapped[offset].forEach((line, lineIndex) => doc.textAt(line, { x: x + 32, y: doc.y + 12 + lineIndex * LEADING, size: BODY, color: INK }));
+      doc.textAt(String(index + offset + 1).padStart(2, "0"), { x, y: doc.y + 11, size: 8, bold: true, color: ACCENT });
+      wrapped[offset].forEach((line, lineIndex) => doc.textAt(line, { x: x + 22, y: doc.y + 11 + lineIndex * 15.5, size: 10.5, color: INK }));
     });
     doc.y += height;
   }
 }
 
-function itineraryDay(doc: PdfDoc, day: ItineraryDay) {
-  const x = MARGIN + 62;
-  const width = CONTENT_WIDTH - 62;
-  const title = doc.wrap(day.title, width, 17, false, "serif");
-  const paragraphs = (day.description || "").split(/\n\s*\n/).filter(Boolean);
-  const bodyHeight = paragraphs.reduce((total, value) => total + doc.wrap(value, width, BODY).length * LEADING + 9, 0);
-  const details = [
-    day.meals && !/^(?:—|-|none)$/i.test(day.meals.trim()) ? `MEALS  ${day.meals}` : "",
-    day.stay && !/^(?:—|-)$/i.test(day.stay.trim()) ? `OVERNIGHT  ${day.stay}` : "",
-  ].filter(Boolean);
-  const metaHeight = details.reduce((total, value) => total + doc.wrap(value, width - 24, 7.5, true).length * 12 + 4, 0);
-  const headingHeight = title.length * 20 + 19;
-  const fullHeight = headingHeight + bodyHeight + metaHeight + 35;
-  doc.ensure(Math.min(fullHeight, headingHeight + 3 * LEADING + 20));
-  // Keep ordinary days intact. A long day is allowed to continue, preserving
-  // the entire description rather than silently truncating it to 11 lines.
-  if (fullHeight <= BOTTOM - 92) doc.ensure(fullHeight);
-  const top = doc.y;
-  doc.rect(MARGIN, top, 43, 49, INK);
-  doc.textAt(String(day.day).padStart(2, "0"), { x: MARGIN, y: top + 8, width: 43, align: "center", size: 23, family: "serif", color: C.white });
-  doc.textAt("DAY", { x: MARGIN, y: top + 36, width: 43, align: "center", size: 6, bold: true, charSpacing: 1, color: C.gold });
-  doc.rule(top, GOLD, x, width);
-  doc.y += 12;
-  title.forEach((line) => {
-    doc.textAt(line, { x, y: doc.y, size: 17, family: "serif", color: INK });
-    doc.y += 20;
+// Measure and draw from the same line boxes. A block's reserved height is
+// exactly its drawn height, including headings, metadata and paragraph gaps.
+type LineBox = { text: string; size: number; leading: number; bold?: boolean; color?: ReturnType<typeof hex> };
+type FlowBox = LineBox | { gap: number };
+function lineBoxes(doc: PdfDoc, text: string, width: number, size: number, leading: number, bold = false, color = INK): FlowBox[] {
+  return doc.wrap(text, width, size, bold).map(text => ({ text, size, leading, bold, color }));
+}
+function blockHeight(boxes: FlowBox[]) { return boxes.reduce((sum, box) => sum + ('gap' in box ? box.gap : box.leading), 0); }
+function drawBoxes(doc: PdfDoc, boxes: FlowBox[], x: number) {
+  boxes.forEach(box => {
+    const h = 'gap' in box ? box.gap : box.leading;
+    if ('gap' in box) { doc.y = Math.min(BOTTOM, doc.y + h); return; }
+    doc.ensure(h);
+    doc.textAt(box.text, { x, y: doc.y, size: box.size, bold: box.bold, color: box.color ?? INK });
+    doc.y += h;
   });
-  doc.y += 7;
-  paragraphs.forEach((value) => copy(doc, value, { x, width, gap: 9, color: /^Travel note:/i.test(value) ? MUTED : INK }));
-  if (details.length) {
-    doc.ensure(metaHeight + 16);
-    doc.rect(x, doc.y, width, metaHeight + 12, hex("#EDEFE8"));
-    doc.y += 8;
-    details.forEach((value) => {
-      doc.wrap(value, width - 24, 7.5, true).forEach((line) => {
-        doc.textAt(line, { x: x + 12, y: doc.y, size: 7.5, bold: true, color: INK });
-        doc.y += 12;
-      });
-      doc.y += 4;
-    });
-    doc.y += 4;
-  }
-  doc.y += 23;
 }
 
-/** Independent, page-aware columns keep long inclusion lists inside the page. */
-function includedLists(doc: PdfDoc, inclusions: string[], exclusions: string[]) {
-  const width = (CONTENT_WIDTH - 26) / 2;
-  const startPage = doc.doc.getPageCount() - 1;
-  const startY = doc.y;
-  const endings: { page: number; y: number }[] = [];
-  [inclusions, exclusions].forEach((values, column) => {
-    let pageIndex = startPage;
-    let y = startY;
-    const x = MARGIN + column * (width + 26);
-    const accent = column === 0 ? C.green : C.accentDark;
-    const heading = (continued = false) => {
-      doc.rule(y, accent, x, width, 2);
-      kicker(doc, `${column === 0 ? "Included" : "Not included"}${continued ? " / continued" : ""}`, x, y + 13, accent);
-      y += 39;
-    };
-    const next = () => {
-      pageIndex += 1;
-      if (pageIndex >= doc.doc.getPageCount()) doc.addPage();
-      doc.page = doc.doc.getPage(pageIndex);
-      y = 92;
-      heading(true);
-    };
-    doc.page = doc.doc.getPage(pageIndex);
-    heading();
-    for (const value of values) {
-      const lines = doc.wrap(formatPriceText(value), width - 16, 8.5);
-      if (y + Math.min(lines.length, 3) * 13 + 9 > BOTTOM) next();
-      doc.rect(x, y + 3, 4, 4, accent);
-      for (const line of lines) {
-        if (y + 13 > BOTTOM) next();
-        doc.textAt(line, { x: x + 16, y, size: 8.5, color: INK });
-        y += 13;
-      }
-      y += 7;
+/** Prefer complete, evenly filled pages over isolated final blocks. */
+function pageGroups(heights: number[], firstCapacity: number, laterCapacity: number): number[][] {
+  const memo = new Map<string, { cost: number; groups: number[][] }>();
+  const solve = (start: number, first: boolean): { cost: number; groups: number[][] } => {
+    if (start === heights.length) return { cost: 0, groups: [] };
+    const key = `${start}/${first}`;
+    const cached = memo.get(key); if (cached) return cached;
+    const capacity = first ? firstCapacity : laterCapacity;
+    let best = { cost: Infinity, groups: [] as number[][] }, used = 0;
+    for (let end = start; end < heights.length; end++) {
+      used += heights[end];
+      if (used > capacity && end > start) break;
+      const rest = solve(end + 1, false);
+      const unused = Math.max(0, capacity - used);
+      const cost = 10000000 + unused * unused + (end === start ? 250000 : 0) + rest.cost;
+      if (cost < best.cost) best = { cost, groups: [Array.from({ length: end-start+1 }, (_, i) => start+i), ...rest.groups] };
+      if (used > capacity) break;
     }
-    endings.push({ page: pageIndex, y });
-  });
-  const lastPage = Math.max(...endings.map((ending) => ending.page));
-  doc.page = doc.doc.getPage(lastPage);
-  doc.y = Math.max(...endings.filter((ending) => ending.page === lastPage).map((ending) => ending.y)) + 15;
+    memo.set(key, best); return best;
+  };
+  return solve(0, true).groups;
 }
 
-function closing(doc: PdfDoc) {
-  doc.ensure(216);
+function dayLayout(doc: PdfDoc, day: ItineraryDay) {
+  const width = CONTENT_WIDTH - 50;
+  const distanceMatch = day.title.match(/\s*(\([^()]*\b(?:km|hrs?|hours?)\b[^()]*\))\s*$/i);
+  const title = distanceMatch ? day.title.slice(0, distanceMatch.index).trim() : day.title;
+  const boxes: FlowBox[] = [{ gap: 16 }, ...lineBoxes(doc, title, width, 15.5, 20, true)];
+  if (distanceMatch) boxes.push({ gap: 5 }, ...lineBoxes(doc, distanceMatch[1], width, 9.5, 13, false, MUTED));
+  boxes.push({ gap: 10 });
+  for (const value of (day.description || '').split(/\n\s*\n/).filter(Boolean)) {
+    const note = /^Travel note:/i.test(value);
+    boxes.push(...lineBoxes(doc, value, width, note ? 9.5 : BODY, note ? 14 : LEADING, false, note ? MUTED : INK), { gap: 9 });
+  }
+  const details = [
+    day.meals && !/^(?:—|-|none)$/i.test(day.meals.trim()) ? `Meals: ${day.meals}` : '',
+    day.stay && !/^(?:—|-)$/i.test(day.stay.trim()) ? `Stay: ${day.stay}` : '',
+  ].filter(Boolean);
+  boxes.push(...lineBoxes(doc, details.join('   |   '), width, 9.5, 14, true), { gap: 20 });
+  return boxes;
+}
+
+function itineraryDay(doc: PdfDoc, day: ItineraryDay) {
+  const x = MARGIN + 50;
+  const boxes = dayLayout(doc, day);
+  const height = blockHeight(boxes);
+  doc.ensure(height <= BOTTOM - 76 ? height : 120);
   const top = doc.y;
-  doc.rect(MARGIN, top, CONTENT_WIDTH, 172, INK);
-  doc.rect(MARGIN, top, 4, 172, C.gold);
-  kicker(doc, "Your next journey starts here", MARGIN + 22, top + 20, C.gold);
-  doc.textAt("Let's travel together.", { x: MARGIN + 22, y: top + 42, size: 29, family: "serif", color: C.white });
-  doc.textAt(COMPANY.phoneLabel, { x: MARGIN + 22, y: top + 87, size: 17, bold: true, color: C.white });
-  doc.textAt(`${COMPANY.email}    /    bandhantours.com`, { x: MARGIN + 22, y: top + 116, size: 9, color: C.white });
-  doc.textAt("Ask our reservations team about dates, rooms and availability.", { x: MARGIN + 22, y: top + 144, size: 8, color: C.white });
-  doc.y = top + 190;
-  copy(doc, COMPANY.address, { size: 8, color: MUTED, gap: 0 });
+  doc.rule(top, LINE);
+  doc.textAt('DAY', { y: top + 18, size: 8.5, bold: true, color: MUTED, charSpacing: .6 });
+  doc.textAt(String(day.day).padStart(2, '0'), { y: top + 34, size: 29, color: ACCENT, bold: true });
+  drawBoxes(doc, boxes, x);
+}
+
+/** Two reading columns, filled in order and balanced for the final page.
+ * Headings stay with an item; exceptionally long admin items continue safely. */
+function balancedIncludedLists(doc: PdfDoc, inclusions: string[], exclusions: string[]) {
+  const gap = 32;
+  const width = (CONTENT_WIDTH - gap) / 2;
+  const textWidth = width - 14;
+  const size = 10.5;
+  const leading = 15;
+  const headingHeight = 41;
+  const itemGap = 12;
+  const continuationTop = 76;
+  const groups = [
+    { title: "Included in your trip", continued: "Included / continued", values: inclusions, color: INK, marker: "+" },
+    { title: "Not included", continued: "Not included / continued", values: exclusions, color: ACCENT, marker: "-" },
+  ];
+  // Ordinary words use the document's wrapping. Split only an exceptionally
+  // long token, so arbitrary admin copy also remains inside the column edge.
+  const wrap = (value: string) => doc.wrap(formatPriceText(value), textWidth, size).flatMap(line => {
+    if (doc.measure(line, size) <= textWidth) return [line];
+    const result: string[] = [];
+    let part = "";
+    for (const char of line) {
+      if (part && doc.measure(part + char, size) > textWidth) {
+        result.push(part); part = "";
+      }
+      part += char;
+    }
+    if (part) result.push(part);
+    return result.length ? result : [""];
+  });
+  const items = groups.flatMap((group, groupIndex) => group.values.map((value, groupItem) => ({
+    groupIndex, groupItem, lines: wrap(value),
+  })));
+  if (!items.length) return;
+
+  type Cursor = { item: number; line: number };
+  type Fragment = { item: number; from: number; to: number; y: number; heading?: { text: string; y: number } };
+  type Column = { fragments: Fragment[]; end: Cursor; height: number };
+  const finished = (cursor: Cursor) => cursor.item >= items.length;
+
+  // One planner owns both measurement and drawing. It never creates pages;
+  // the caller first fills left then right, and only then advances the page.
+  const planColumn = (start: Cursor, capacity: number, fullCapacity: number): Column => {
+    const cursor = { ...start };
+    const fragments: Fragment[] = [];
+    let used = 0;
+    let activeGroup = -1;
+    while (!finished(cursor)) {
+      const item = items[cursor.item];
+      const group = groups[item.groupIndex];
+      const newHeading = activeGroup !== item.groupIndex;
+      const overhead = newHeading ? headingHeight : 0;
+      const remaining = item.lines.length - cursor.line;
+      const minimumLines = Math.min(2, remaining);
+      if (used + overhead + minimumLines * leading > capacity) break;
+      const availableLines = Math.floor((capacity - used - overhead) / leading);
+      // Keep a normal item intact. Only an item taller than an entire column
+      // may split, and every continuation receives the correct list heading.
+      if (remaining > availableLines && remaining * leading + headingHeight <= fullCapacity) break;
+      let take = Math.min(remaining, availableLines);
+      if (remaining - take === 1 && take > 2) take -= 1;
+      const heading = newHeading ? {
+        text: item.groupItem === 0 && cursor.line === 0 ? group.title : group.continued,
+        y: used,
+      } : undefined;
+      used += overhead;
+      fragments.push({ item: cursor.item, from: cursor.line, to: cursor.line + take, y: used, heading });
+      used += take * leading;
+      activeGroup = item.groupIndex;
+      cursor.line += take;
+      if (cursor.line === item.lines.length) {
+        cursor.item += 1; cursor.line = 0;
+        // Trailing whitespace is bounded and does not create a blank page.
+        used = Math.min(capacity, used + itemGap);
+      } else {
+        break;
+      }
+    }
+    return { fragments, end: cursor, height: used };
+  };
+
+  let cursor: Cursor = { item: 0, line: 0 };
+  while (!finished(cursor)) {
+    let top = doc.y;
+    let capacity = BOTTOM - top;
+    if (capacity < headingHeight + 2 * leading) {
+      doc.addPage(); doc.y = continuationTop;
+      top = continuationTop; capacity = BOTTOM - top;
+    }
+    let left = planColumn(cursor, capacity, capacity);
+    let right = planColumn(left.end, capacity, capacity);
+    if (!left.fragments.length && !right.fragments.length) {
+      // The remaining first-page space can be too shallow for a normal item;
+      // start a full page, where even an extreme item can split safely.
+      doc.addPage(); doc.y = continuationTop;
+      continue;
+    }
+    if (finished(right.end)) {
+      // Find the shortest equal-height columns which contain the remainder.
+      // This balances the final page while preserving sequential reading.
+      let low = headingHeight + leading;
+      let high = capacity;
+      for (let pass = 0; pass < 14; pass += 1) {
+        const target = (low + high) / 2;
+        const a = planColumn(cursor, target, capacity);
+        const b = planColumn(a.end, target, capacity);
+        if (finished(b.end)) high = target;
+        else low = target;
+      }
+      const target = Math.min(capacity, Math.ceil(high * 10) / 10);
+      left = planColumn(cursor, target, capacity);
+      right = planColumn(left.end, target, capacity);
+    }
+    [left, right].forEach((column, index) => {
+      const x = MARGIN + index * (width + gap);
+      for (const fragment of column.fragments) {
+        const item = items[fragment.item];
+        const group = groups[item.groupIndex];
+        if (fragment.heading) {
+          const y = top + fragment.heading.y;
+          doc.textAt(fragment.heading.text, { x, y, size: 12, bold: true, color: group.color });
+          doc.rule(y + 25, LINE, x, width);
+        }
+        if (fragment.from === 0) doc.textAt(group.marker, { x, y: top + fragment.y, size: 11, bold: true, color: group.color });
+        item.lines.slice(fragment.from, fragment.to).forEach((line, i) => {
+          doc.textAt(line, { x: x + 14, y: top + fragment.y + i * leading, size, color: INK });
+        });
+      }
+    });
+    cursor = right.end;
+    doc.y = top + Math.max(left.height, right.height);
+    if (!finished(cursor)) {
+      doc.addPage(); doc.y = continuationTop;
+    }
+  }
+}
+
+function bookingInformation(doc: PdfDoc, faqs: FullPackage['faqs']) {
+  // Keep financial labels and amounts aligned. Ordinary prose remains prose.
+  const prepared = faqs.map(faq => {
+    const question = doc.wrap(faq.question, CONTENT_WIDTH, 13, true);
+    type AnswerLine = { text?: string; label?: string; value?: string; heading?: boolean; height: number };
+    const answer: AnswerLine[] = formatPriceText(faq.answer).split('\n').map(line => {
+      if (!line.trim()) return { height: 8 };
+      const pair = line.match(/^\s*[•-]\s*(.+?:)\s*(.+)$/);
+      if (pair) {
+        const labelLines = doc.wrap(pair[1], 265, 10.5);
+        const valueLines = doc.wrap(pair[2], CONTENT_WIDTH - 305, 10.5, true);
+        return { label: pair[1], value: pair[2], height: Math.max(labelLines.length, valueLines.length) * 15 + 15 };
+      }
+      const heading = /:\s*$/.test(line) && line.length < 85;
+      return { text: line, heading, height: doc.wrap(line, CONTENT_WIDTH, 10.5, heading).length * 15 + (heading ? 10 : 8) };
+    });
+    const height = question.length * 18 + 32 + answer.reduce((sum, row) => sum + row.height, 0) + 24;
+    return { question, answer, height };
+  });
+  const groups = pageGroups(prepared.map(item => item.height), BOTTOM - doc.y, BOTTOM - 151);
+  for (let group = 0; group < groups.length; group++) {
+    if (group) {
+      doc.addPage();
+      chapter(doc, '05', 'Before you travel / continued', 'Booking information');
+    }
+    for (const index of groups[group]) {
+    const { question, answer, height } = prepared[index];
+    doc.ensure(height <= BOTTOM - 76 ? height : question.length * 18 + 90);
+    doc.rule(doc.y, LINE); doc.y += 18;
+    question.forEach(line => { doc.textAt(line, { y: doc.y, size: 13, bold: true, color: INK }); doc.y += 18; });
+    doc.y += 14;
+    for (const row of answer) {
+      if (row.label !== undefined) {
+        doc.ensure(row.height);
+        const top = doc.y;
+        doc.rect(MARGIN, top - 5, CONTENT_WIDTH, row.height - 2, hex('#EDEFE8'));
+        doc.wrap(row.label, 265, 10.5).forEach((line, i) => doc.textAt(line, { x: MARGIN + 10, y: top + i * 15, size: 10.5, color: INK }));
+        doc.wrap(row.value!, CONTENT_WIDTH - 305, 10.5, true).forEach((line, i) => doc.textAt(line, { x: MARGIN + 285, y: top + i * 15, size: 10.5, bold: true, color: INK }));
+        doc.y += row.height;
+      } else if (row.text) {
+        drawBoxes(doc, [...lineBoxes(doc, row.text, CONTENT_WIDTH, 10.5, 15, row.heading), { gap: row.heading ? 10 : 8 }], MARGIN);
+      } else doc.y += row.height;
+    }
+    doc.y += 24;
+    }
+  }
+}
+
+function closing(doc: PdfDoc, destination: string, photo?: Photo) {
+  doc.rect(0, 0, PAGE_WIDTH, PAGE_HEIGHT, INK);
+  if (photo) {
+    drawImageCover(doc, photo.image, 0, 0, PAGE_WIDTH, 426);
+    doc.scrim(0, 236, PAGE_WIDTH, 190, INK, 1);
+  }
+  drawBrandMark(doc, { y: 30, width: 112, dark: true });
+  kicker(doc, "There is a whole world to share.", MARGIN, 445, CHAMPAGNE);
+  doc.textAt("Shall we go?", { y: 476, size: 65, family: "serif", color: C.white });
+  const lines = doc.wrap(`Your ${destination} journey starts with a conversation.`, CONTENT_WIDTH - 20, 12);
+  lines.forEach((line, i) => doc.textAt(line, { y: 557 + i * 17, size: 12, color: C.white }));
+  const buttonY = 617 + Math.max(0, lines.length - 2) * 17;
+  doc.rect(MARGIN, buttonY, 220, 43, CHAMPAGNE);
+  doc.textAt("PLAN MY DEPARTURE  >", { x: MARGIN + 18, y: buttonY + 17, size: 8, bold: true, charSpacing: .5, color: INK });
+  brochureLink(doc, MARGIN, buttonY, 220, 43, COMPANY.whatsappHref);
+  const contactY = buttonY + 69;
+  doc.textAt(COMPANY.phoneLabel, { y: contactY, size: 20, bold: true, color: C.white });
+  brochureLink(doc, MARGIN, contactY - 6, 265, 30, COMPANY.phoneHref);
+  doc.textAt(`${COMPANY.email}   /   bandhantours.com`, { y: contactY + 34, size: 9, color: C.white });
+  brochureLink(doc, MARGIN, contactY + 30, 165, 20, `mailto:${COMPANY.email}`);
+  brochureLink(doc, MARGIN + 175, contactY + 30, 180, 20, COMPANY.website);
+  doc.wrap(COMPANY.address, CONTENT_WIDTH - 35, 7.5).forEach((line, i) => doc.textAt(line, { y: contactY + 68 + i * 12, size: 7.5, color: C.white }));
+  doc.rule(800, CHAMPAGNE);
+  doc.textAt(COMPANY.tagline, { y: 817, size: 8, family: "serif", color: CHAMPAGNE });
 }
 
 /** The public, reusable group-tour catalogue design. Personal quotes remain separate. */
 export async function renderGroupTourBrochurePdf(pkg: FullPackage): Promise<Uint8Array> {
-  const doc = await PdfDoc.create();
+  const doc = await PdfDoc.create({ editorial: true });
   const destination = packageDestinationLabel(pkg);
   doc.doc.setTitle(`${pkg.title} | Bandhan Tours Group Collection`);
   doc.doc.setAuthor(COMPANY.name);
@@ -281,13 +504,14 @@ export async function renderGroupTourBrochurePdf(pkg: FullPackage): Promise<Uint
   const sections: string[] = [];
   doc.onNewPage = (current, index) => {
     sections[index] = section;
-    chrome(current, destination, section);
+    chrome(current, destination);
   };
 
   const sources = [
     { source: pkg.heroImage || pkg.image, caption: destination },
     ...(pkg.gallery || []).filter((item) => !item.placeholder).map((item) => ({ source: item.image, caption: item.caption || destination })),
-  ].filter((item, index, all) => item.source && all.findIndex((other) => other.source === item.source) === index).slice(0, 4);
+    ...(LOCAL_PHOTOS[pkg.id] || []),
+  ].filter((item, index, all) => item.source && all.findIndex((other) => other.source === item.source) === index).slice(0, 7);
   const loaded = await Promise.all(sources.map(async (item) => {
     const image = await loadProposalImage(doc, item.source);
     return image ? { image, caption: item.caption } : null;
@@ -296,21 +520,13 @@ export async function renderGroupTourBrochurePdf(pkg: FullPackage): Promise<Uint
   cover(doc, pkg, destination, photos[0]);
 
   doc.addPage();
-  chapter(doc, "01", "The journey", "Good company. Great places.");
-  copy(doc, pkg.overview || pkg.tagline || pkg.title, { size: 10, gap: 20 });
-  fact(doc, "Duration", pkg.duration);
+  chapter(doc, "01", "Discover", "Your journey at a glance");
+  copy(doc, pkg.overview || pkg.tagline || pkg.title, { size: 11.5, leading: 17, gap: 24 });
   fact(doc, "Group size", packageGroupSize(pkg));
   fact(doc, "Starts from", pkg.startingPoint || "Confirm with our reservations team");
   fact(doc, "Best time", pkg.bestTime || "Confirm with our reservations team");
   doc.y += 24;
-  const route = (pkg.itinerary || []).map((day) => day.stay?.trim()).filter((stay): stay is string => Boolean(stay && !/^(?:—|-)$/.test(stay)));
-  const stops = route.filter((stay, index) => index === 0 || stay !== route[index - 1]);
-  if (stops.length) {
-    doc.ensure(70);
-    kicker(doc, "Your overnight route", MARGIN, doc.y, MUTED);
-    doc.y += 17;
-    copy(doc, stops.join("  →  "), { size: 10, bold: true, gap: 20 });
-  }
+  routeDiagram(doc, pkg);
   const dates = upcomingPackageDates(pkg.departureDates);
   if (dates.length) {
     doc.ensure(70);
@@ -319,23 +535,23 @@ export async function renderGroupTourBrochurePdf(pkg: FullPackage): Promise<Uint
     dates.forEach((date) => copy(doc, formatPackageDate(date), { size: 9, gap: 5 }));
     copy(doc, "Availability is confirmed by our reservations team before booking.", { size: 8, color: MUTED });
   }
-  pricePanel(doc, pkg);
+  if (photos.length && BOTTOM - doc.y >= 120) {
+    photoStrip(doc, [photos[1] || photos[0], photos[2]].filter((photo): photo is Photo => Boolean(photo)), Math.min(180, BOTTOM - doc.y - 25));
+  }
 
   if (pkg.highlights?.length) {
     section = "Journey highlights";
     doc.addPage();
-    chapter(doc, "02", "The experiences", "Look forward to this.");
+    chapter(doc, "02", "Explore", "Tour highlights");
     const photo = photos[1] || photos[0];
     if (photo) {
-      const columnWidth = (CONTENT_WIDTH - 26) / 2 - 32;
+      const columnWidth = (CONTENT_WIDTH - 26) / 2 - 22;
       let listHeight = 0;
       for (let index = 0; index < pkg.highlights.length; index += 2) {
-        listHeight += Math.max(...pkg.highlights.slice(index, index + 2).map((value) => doc.wrap(value, columnWidth, BODY).length * LEADING)) + 24;
+        listHeight += Math.max(...pkg.highlights.slice(index, index + 2).map((value) => doc.wrap(value, columnWidth, 10.5).length * 15.5)) + 22;
       }
-      const photoHeight = Math.min(185, Math.max(100, BOTTOM - doc.y - listHeight - 40));
-      drawImageCover(doc, photo.image, MARGIN, doc.y, CONTENT_WIDTH, photoHeight);
-      doc.y += photoHeight + 9;
-      copy(doc, photo.caption, { size: 7, color: MUTED, gap: 19 });
+      const photoHeight = Math.min(190, BOTTOM - doc.y - listHeight - 25);
+      if (photoHeight >= 90) photoStrip(doc, [photos[2] || photo], photoHeight);
     }
     highlights(doc, pkg.highlights);
   }
@@ -343,56 +559,44 @@ export async function renderGroupTourBrochurePdf(pkg: FullPackage): Promise<Uint
   if (pkg.itinerary?.length) {
     section = "Day-by-day itinerary";
     doc.addPage();
-    chapter(doc, "03", `${pkg.itinerary.length} days / the itinerary`, "Every day, a new discovery.");
-    pkg.itinerary.forEach((day) => itineraryDay(doc, day));
+    chapter(doc, "03", `${pkg.itinerary.length} days`, "Your day-by-day itinerary");
+    const heights = pkg.itinerary.map(day => blockHeight(dayLayout(doc, day)));
+    const groups = pageGroups(heights, BOTTOM - doc.y, BOTTOM - 76);
+    for (let group = 0; group < groups.length; group++) {
+      if (group) doc.addPage();
+      for (const index of groups[group]) itineraryDay(doc, pkg.itinerary[index]);
+      if (photos.length && BOTTOM - doc.y >= 150) {
+        photoStrip(doc, [photos[group % photos.length]], Math.min(220, BOTTOM - doc.y - 25));
+      }
+    }
+
   }
 
-  section = "Prices & inclusions";
+  section = "Inclusions & exclusions";
   doc.addPage();
-  chapter(doc, "04", "The details", "Know what's in your journey.");
-  includedLists(doc, pkg.inclusions?.length ? pkg.inclusions : ["Confirmed in your final written quotation."], pkg.exclusions?.length ? pkg.exclusions : ["Anything not expressly listed as included."]);
+  chapter(doc, "04", "Your package", "Inclusions & exclusions");
+  balancedIncludedLists(doc, pkg.inclusions?.length ? pkg.inclusions : ["Confirmed in your final written quotation."], pkg.exclusions?.length ? pkg.exclusions : ["Anything not expressly listed as included."]);
+  if (photos.length && BOTTOM - doc.y >= 174) {
+    doc.y += 24;
+    photoStrip(doc, [photos[0], photos[1]].filter((photo): photo is Photo => Boolean(photo)), Math.min(210, BOTTOM - doc.y - 25));
+  }
 
   if (pkg.faqs?.length) {
     section = "Travel notes & booking terms";
     doc.addPage();
-    chapter(doc, "05", "Before you book", "A little preparation goes a long way.");
-    for (const faq of pkg.faqs) {
-      const height = doc.wrap(faq.question, CONTENT_WIDTH, 11, true).length * 16;
-      const answerHeight = doc.wrap(formatPriceText(faq.answer), CONTENT_WIDTH, BODY).length * LEADING;
-      const blockHeight = height + answerHeight + 34;
-      doc.ensure(blockHeight <= BOTTOM - 92 ? blockHeight : height + 62);
-      doc.rule(doc.y, LINE);
-      doc.y += 14;
-      copy(doc, faq.question, { size: 11, bold: true, gap: 8 });
-      copy(doc, formatPriceText(faq.answer), { size: BODY, gap: 12 });
-    }
+    chapter(doc, "05", "Before you travel", "Booking information");
+    bookingInformation(doc, pkg.faqs);
   }
 
   section = "Plan your departure";
   doc.addPage();
-  chapter(doc, "06", "Travel with Bandhan", "Make room for new memories.");
-  const photo = photos[2] || photos[1] || photos[0];
-  if (photo) {
-    drawImageCover(doc, photo.image, MARGIN, doc.y, CONTENT_WIDTH, 145);
-    doc.y += 154;
-    copy(doc, photo.caption, { size: 7, color: MUTED, gap: 22 });
-  }
-  [
-    ["01", "Choose your departure", "Share your preferred dates, departure city and traveller count."],
-    ["02", "Review your trip", "Your consultant confirms availability, rooms, services and the final written quotation."],
-    ["03", "Confirm your booking", "Review the payment schedule and applicable booking terms with your consultant."],
-  ].forEach(([number, title, description]) => {
-    doc.ensure(66);
-    doc.textAt(number, { y: doc.y, size: 20, family: "serif", color: GOLD });
-    copy(doc, title, { x: MARGIN + 40, width: CONTENT_WIDTH - 40, size: 10, bold: true, gap: 4 });
-    copy(doc, description, { x: MARGIN + 40, width: CONTENT_WIDTH - 40, size: 8.5, color: MUTED, gap: 15 });
-  });
-  closing(doc);
+  const backCoverIndex = doc.doc.getPageCount() - 1;
+  closing(doc, destination, photos[2] || photos[1] || photos[0]);
 
   // Paint footers last, after the final page count is known.
   const count = doc.doc.getPageCount();
   doc.doc.getPages().forEach((page, index) => {
-    if (index === 0) return;
+    if (index === 0 || index === backCoverIndex) return;
     doc.page = page;
     doc.rule(792, LINE);
     doc.textAt("BANDHAN TOURS  /  GROUP COLLECTION", { y: 807, size: 6, bold: true, charSpacing: 0.8, color: MUTED });

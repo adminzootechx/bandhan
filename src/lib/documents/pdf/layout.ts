@@ -57,7 +57,7 @@ export interface TextOptions {
   y?: number;
   size?: number;
   bold?: boolean;
-  /** Editorial headings use a restrained serif; body copy stays in DejaVu Sans. */
+  /** Serif headings pair with the document's chosen body font. */
   family?: "sans" | "serif";
   color?: RGB;
   /** Extra tracking between characters, for uppercase labels. */
@@ -99,15 +99,23 @@ export class PdfDoc {
     this.page = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
   }
 
-  static async create(): Promise<PdfDoc> {
+  static async create(options: { editorial?: boolean } = {}): Promise<PdfDoc> {
     const doc = await PDFDocument.create();
     doc.registerFontkit(fontkit);
-    const bytes = await loadFontBytes();
+    const bytes = options.editorial
+      ? await Promise.all([
+        fs.readFile(path.join(FONT_DIR, "Lato-Regular.ttf")),
+        fs.readFile(path.join(FONT_DIR, "Lato-Bold.ttf")),
+      ]).then(([regular, bold]) => ({ regular, bold }))
+      : await loadFontBytes();
+    const displayBytes = options.editorial
+      ? await fs.readFile(path.join(FONT_DIR, "DMSerifDisplay-Regular.ttf"))
+      : null;
     const [regular, bold, serif, serifBold, logoBytes] = await Promise.all([
       doc.embedFont(bytes.regular, { subset: true }),
       doc.embedFont(bytes.bold, { subset: true }),
-      doc.embedFont(StandardFonts.TimesRoman),
-      doc.embedFont(StandardFonts.TimesRomanBold),
+      displayBytes ? doc.embedFont(displayBytes, { subset: true }) : doc.embedFont(StandardFonts.TimesRoman),
+      displayBytes ? doc.embedFont(displayBytes, { subset: true }) : doc.embedFont(StandardFonts.TimesRomanBold),
       fs.readFile(path.join(process.cwd(), "public", "pdf-assets", "bandhan-logo.png")).catch(() => null),
     ]);
     const brandLogo = logoBytes ? await doc.embedPng(new Uint8Array(logoBytes)) : null;

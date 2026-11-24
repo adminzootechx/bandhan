@@ -97,7 +97,7 @@ export const BlogPostClient: React.FC<{ slug: string }> = ({ slug }) => {
               Tell us where you dream of going and our designers will craft an itinerary around you.
             </p>
             <Link
-              href="/plan-trip"
+              href="/plan-a-custom-trip"
               className="inline-block mt-5 px-6 py-2.5 rounded-full bg-gold text-primary text-sm font-bold hover:brightness-105 transition-all"
             >
               Plan a Custom Trip

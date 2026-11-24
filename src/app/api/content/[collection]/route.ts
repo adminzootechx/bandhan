@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { normalizeBlogSlug } from "@/lib/blogSlug";
 import { isDbConfigured } from "@/lib/db";
 import { requireAdmin } from "@/lib/admin/auth";
 import { normalizePackageDates, PackageDateError } from "@/lib/packageDates";
@@ -39,7 +40,9 @@ export async function GET(request: Request, { params }: RouteParams) {
     const items = requireAdmin(request)
       ? await listContent(collection)
       : await listCachedPublicContent(collection as Exclude<typeof collection, "enquiries">);
-    return NextResponse.json({ ok: true, items }, { headers: noStore });
+    // Normalize older saved posts too, including records already in the cache.
+    const normalizedItems = collection === "blog" ? items.map(normalizeBlogSlug) : items;
+    return NextResponse.json({ ok: true, items: normalizedItems }, { headers: noStore });
   } catch (error) {
     console.error("list content error:", error);
     return NextResponse.json({ ok: false, error: "Could not load content." }, { status: 500 });
@@ -63,7 +66,7 @@ export async function POST(request: Request, { params }: RouteParams) {
   try {
     const fields = collection === "packages" && Object.hasOwn(body, "departureDates")
       ? { ...body, departureDates: normalizePackageDates(body.departureDates) }
-      : body;
+      : collection === "blog" ? normalizeBlogSlug(body) : body;
     const item = await createContentItem(collection, { ...fields, id });
     invalidatePublicContent(collection);
     return NextResponse.json({ ok: true, item }, { status: 201 });
@@ -92,7 +95,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
   try {
     const patch = collection === "packages" && Object.hasOwn(body.patch, "departureDates")
       ? { ...body.patch, departureDates: normalizePackageDates(body.patch.departureDates) }
-      : body.patch;
+      : collection === "blog" ? normalizeBlogSlug(body.patch) : body.patch;
     const item = await updateContentItem(collection, body.id, patch);
     if (!item) return NextResponse.json({ ok: false, error: "Item not found." }, { status: 404 });
     invalidatePublicContent(collection);

@@ -25,7 +25,14 @@ export function proxy(request: NextRequest) {
   // Booking is account-only: a proposal has to belong to someone before it can
   // be quoted and followed up. Gating here rather than inside the engine keeps
   // an unauthenticated visitor from ever seeing a form they cannot submit.
-  if (pathname.startsWith("/book")) {
+  if (pathname === "/book" && ["destination", "custom"].includes(request.nextUrl.searchParams.get("type") || "")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/plan-a-custom-trip";
+    url.searchParams.delete("type");
+    return NextResponse.redirect(url, 308);
+  }
+
+  if (pathname.startsWith("/book") || pathname === "/plan-a-custom-trip") {
     return verifySession(request.cookies.get(USER_COOKIE)?.value)
       ? NextResponse.next()
       : toLogin(request, "/signin");
@@ -63,5 +70,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/agent/:path*", "/book"],
+  matcher: ["/admin/:path*", "/agent/:path*", "/book", "/plan-a-custom-trip"],
 };

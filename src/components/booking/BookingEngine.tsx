@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { initialBookingDate } from "@/lib/packageDates";
 import Image from "@/components/ui/SiteImage";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -305,6 +305,7 @@ function StepRail({
 
 export default function BookingEngine() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const requestedDestination = (searchParams.get("destination") || "").trim().toLowerCase();
   const initialTravelMonth = searchParams.get("month") || "";
   const initialDuration = searchParams.get("duration") || "";
@@ -312,7 +313,7 @@ export default function BookingEngine() {
   const { items: destinations } = useCollection<Destination>("destinations");
   const { user, refresh: refreshAuth } = useAuth();
 
-  const [source, setSource] = useState<TripSource>(() => initialTripSource(searchParams.get("type")));
+  const [source, setSource] = useState<TripSource>(() => initialTripSource(pathname === "/plan-a-custom-trip" ? "destination" : searchParams.get("type")));
   const [selectedId, setSelectedId] = useState(searchParams.get("id") || "");
   const [step, setStep] = useState(0);
   const [travelDate, setTravelDate] = useState(() => initialBookingDate(searchParams.get("date"), initialTravelMonth));
